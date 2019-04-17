@@ -8,6 +8,9 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
+a {
+  text-decoration: none;
+}
 button {
   cursor: pointer;
 }
