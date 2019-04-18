@@ -1,0 +1,77 @@
+@import 'normalize.css';
+
+* {
+  border: 0.3px solid red;
+}
+
+body {
+  display: grid;
+  grid-template-areas:
+    "aside header header"
+    "aside main main"
+    "aside main main";
+  grid-gap: 0px 10px;
+  grid-template-columns: 20% 1fr;
+  grid-template-rows: 55px 1fr;
+  height: 100vh;
+  width: 100%;
+}
+a {
+  text-decoration: none;
+}
+aside,
+header,
+main {
+  display: flex;
+  text-transform: uppercase;
+}
+
+/** Aside Menu Styles **/
+
+aside {
+  background-color: #ffa08c;
+  justify-content: center;
+  grid-area: aside;
+}
+aside nav {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10rem;
+}
+aside nav a {
+  font-weight: 400;
+  padding: 15px 30px;
+  transition: all 0.3s ease-in-out;
+}
+aside nav a .fas {
+  color: red;
+  font-size: 1.3rem;
+  margin-right: 0.8rem;
+}
+
+/** Header Menu Styles **/
+
+header {
+  background-color: #8ca0ff;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  height: 7vh;
+  display: flex;
+  align-items: center;
+  grid-area: header;
+  justify-content: flex-end;
+}
+header nav {
+  margin: 0.3rem;
+  padding: 0.5rem;
+}
+header nav a {
+  font-size: 1.08rem;
+  padding: 5px;
+}
+
+/** Main Styles **/
+
+main {
+  background-color: #ffff64;
+  grid-area: main;
+}
