@@ -1,0 +1,108 @@
+@import 'normalize.css';
+
+* {
+  border: 0.1px solid red;
+}
+body {
+  display: grid;
+  grid-template-areas:
+    "aside header header"
+    "aside main main"
+    "aside main main";
+  grid-gap: 0px 10px;
+  grid-template-columns: 20% 1fr;
+  grid-template-rows: 55px 1fr;
+  min-height: 100vh;
+  width: 100%;
+}
+a {
+  text-decoration: none;
+}
+ul {
+  list-style: none;
+}
+aside,
+header,
+main {
+  display: flex;
+  text-transform: uppercase;
+}
+
+/** *** Aside Menu Styles *** **/
+
+aside {
+  grid-area: aside;
+  justify-content: center;
+}
+aside nav {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10rem;
+  width: 100%;
+}
+aside nav a {
+  font-weight: 400;
+  padding: 15px 30px;
+  transition: all 0.3s ease-in-out;
+}
+aside nav a .fas {
+  color: red;
+  font-size: 1.3rem;
+  margin-right: 0.8rem;
+}
+
+/** *** Header Menu Styles *** **/
+
+header {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  height: 7vh;
+  display: flex;
+  align-items: center;
+  grid-area: header;
+  justify-content: flex-end;
+}
+header nav {
+  margin: 0.3rem;
+  padding: 0.5rem;
+}
+header nav a {
+  font-size: 1.08rem;
+  padding: 5px;
+}
+
+/** *** Main Styles *** **/
+
+main {
+  flex-direction: column;
+  flex-wrap: wrap;
+  grid-area: main;
+}
+.container {
+  background: #dfe0e2;
+  padding: 50px 40px 130px;
+  position: relative;
+  min-height: 80vh;
+}
+.form-container > .section-title,
+.form-card {
+  align-self: center;
+}
+.form-element {
+  margin-bottom: 15px;
+}
+label {
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+label span {
+  color: #ef271b;
+  font-size: 18px;
+}
+.form-card {
+  width: 45%;
+  background: #fffffa;
+  display: flex;
+  flex-direction: column;
+  padding: 50px 40px;
+  margin-top: 25px;
+}
