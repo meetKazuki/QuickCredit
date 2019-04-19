@@ -3,7 +3,6 @@
 * {
   border: 0.3px solid red;
 }
-
 body {
   display: grid;
   grid-template-areas:
@@ -13,11 +12,14 @@ body {
   grid-gap: 0px 10px;
   grid-template-columns: 20% 1fr;
   grid-template-rows: 55px 1fr;
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
 }
 a {
   text-decoration: none;
+}
+ul {
+  list-style: none;
 }
 aside,
 header,
@@ -25,18 +27,25 @@ main {
   display: flex;
   text-transform: uppercase;
 }
+table {
+  background: transparent;
+  border-spacing: 0;
+  border-collapse: collapse;
+  /* border-top: 1px solid #dddddd;
+  border-right: 1px solid #dddddd; */
+}
 
-/** Aside Menu Styles **/
+/** *** Aside Menu Styles *** **/
 
 aside {
-  background-color: #ffa08c;
-  justify-content: center;
   grid-area: aside;
+  justify-content: center;
 }
 aside nav {
   display: flex;
   flex-direction: column;
   padding-top: 10rem;
+  width: 100%;
 }
 aside nav a {
   font-weight: 400;
@@ -49,10 +58,9 @@ aside nav a .fas {
   margin-right: 0.8rem;
 }
 
-/** Header Menu Styles **/
+/** *** Header Menu Styles *** **/
 
 header {
-  background-color: #8ca0ff;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   height: 7vh;
   display: flex;
@@ -69,9 +77,26 @@ header nav a {
   padding: 5px;
 }
 
-/** Main Styles **/
+/** *** Main Styles *** **/
 
 main {
-  background-color: #ffff64;
+  flex-direction: column;
   grid-area: main;
+  padding: 1.5rem;
 }
+/** profile section **/
+.profile-card {
+  display: flex;
+}
+.profile-image {
+  margin-right: 2.7rem;
+  height: 200px;
+  width: 200px;
+}
+.profile-image img {
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+}
+/** loan records section **/
+
