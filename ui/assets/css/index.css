@@ -46,14 +46,14 @@ button {
 .icon-circle {
   width: 60px;
   height: 60px;
-  border-radius: 60px;
   background: greenyellow;
+  border-radius: 60px;
   color: #fffffa;
   display: block;
-  line-height: 60px;
-  text-align: center;
   font-size: 1.5em;
   font-weight: 600;
+  line-height: 60px;
+  text-align: center;
 }
 
 /** Header Styles **/
@@ -62,6 +62,14 @@ header {
 }
 .navbar {
   display: flex;
+}
+.navbar-menu > li:last-child a {
+  border-left: 2px solid green;
+  color: red;
+  margin-left: 0.2rem;
+}
+.navbar-menu > li:last-child a:hover {
+  color: aqua;
 }
 .navbar-logo {
   padding: 12px 40px;
@@ -76,7 +84,10 @@ header {
 }
 .navbar-link a {
   display: block;
-  padding: 26px 15px;
+  padding: 0.1rem 0.5rem;
+}
+.navbar-link a:hover {
+  color: #f4511e;
 }
 
 /** Hero Styles **/
@@ -88,21 +99,20 @@ header {
   color: aliceblue;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 74px);
+  height: calc(90vh - 74px);
   justify-content: center;
   padding: 40px 80px;
   transition: all 0.7s ease-in-out;
 }
-.hero-title,
-.hero-paragraph {
-  margin-bottom: 40px;
-}
 .hero-title {
   font-size: 2.3em;
+  margin-bottom: 30px;
   text-transform: uppercase;
 }
 .hero-paragraph {
   font-size: 1.1em;
+  margin-bottom: 40px;
+  width: 75%;
 }
 .btn-home span {
   cursor: pointer;
@@ -182,32 +192,6 @@ section > .btn {
 
 /** Footer Styles **/
 footer {
-  justify-content: start;
   background-color: #f4511e;
-  display: flex;
-}
-.footer-callout {
-  padding: 5px;
-  margin-right: 35px;
-}
-.footer-logo {
-  width: 150px;
-}
-.footer-img {
-  height: 100%;
-  width: 100%;
-  object-fit: contain;
-}
-.footer-links {
-  padding: 5px;
-}
-.footer-links > ul {
-  margin: 2px;
-}
-.social-list {
   text-align: center;
-}
-.social-list > li {
-  display: inline-block;
-  margin: 0 0.5em;
 }
