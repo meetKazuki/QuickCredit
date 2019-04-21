@@ -8,3 +8,4 @@ helps solve problems of financial inclusion as a way to alleviate poverty and em
 ## Inspiration/Resources
 - [Github Sign In/Sign Up pages](https://github.com/login?return_to=%2Fjoin)
 - [A quick guide to styling buttons using CSS](https://medium.freecodecamp.org/a-quick-guide-to-styling-buttons-using-css-f64d4f96337f) by Ashwini Sheshagiri
+- [Button Hover Effects](https://twitter.com/Dave_Conner) by Dave Conner

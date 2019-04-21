@@ -9,8 +9,8 @@ body {
     "aside header header"
     "aside main main"
     "aside main main";
-  grid-gap: 0px 10px;
-  grid-template-columns: 20% 1fr;
+  grid-gap: 0px 25px;
+  grid-template-columns: 25% 1fr;
   grid-template-rows: 55px 1fr;
   min-height: 100vh;
   width: 100%;
@@ -29,10 +29,18 @@ main {
 }
 table {
   background: transparent;
-  border-spacing: 0;
   border-collapse: collapse;
-  /* border-top: 1px solid #dddddd;
-  border-right: 1px solid #dddddd; */
+  border-right: 1px solid #111;
+  border-spacing: 0;
+  border-top: 1px solid #111;
+}
+tr {
+  border-left: 3px solid #222222;
+}
+td,
+th {
+  border-bottom: 1px solid #333333;
+  padding: 20px 10px;
 }
 
 /** *** Aside Menu Styles *** **/
@@ -61,11 +69,10 @@ aside nav a .fas {
 /** *** Header Menu Styles *** **/
 
 header {
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  height: 7vh;
-  display: flex;
   align-items: center;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   grid-area: header;
+  height: 7vh;
   justify-content: flex-end;
 }
 header nav {
@@ -82,21 +89,45 @@ header nav a {
 main {
   flex-direction: column;
   grid-area: main;
-  padding: 1.5rem;
 }
-/** profile section **/
-.profile-card {
+.container {
+  background: #dfe0e2;
+  min-height: 80vh;
+  padding: 0px 15px 130px;
+  position: relative;
+}
+.section-title {
+  display: inline-block;
+  margin-bottom: 15px;
+  position: relative;
+}
+.section-title:after {
+  border: 1.5px solid #0facf3;
+  bottom: -3px;
+  content: "";
+  left: 0;
+  position: absolute;
+  width: 60px;
+}
+/** Profile Styles **/
+.profile {
   display: flex;
+  justify-content: center;
+}
+.profile-card {
+  background: #fffffa;
+  display: flex;
+  flex-basis: 25%;
+  flex-direction: column;
+  padding: 20px;
+}
+.profile-card p {
+  font-size: 1.3rem;
+  font-weight: 600;
 }
 .profile-image {
-  margin-right: 2.7rem;
+  border-radius: 50%;
+  margin-bottom: 20px;
   height: 200px;
   width: 200px;
 }
-.profile-image img {
-  border-radius: 50%;
-  height: 100%;
-  width: 100%;
-}
-/** loan records section **/
-
