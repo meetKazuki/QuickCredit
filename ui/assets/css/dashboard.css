@@ -1,19 +1,28 @@
 @import 'normalize.css';
+@import url('https://fonts.googleapis.com/css?family=Biryani|Carter+One|Hind+Siliguri|Nunito');
 
-* {
+/* * {
   border: 0.3px solid red;
-}
+} */
 body {
+  background-color: #ebf2fa;
   display: grid;
+  font-family: 'Nunito', sans-serif;
   grid-template-areas:
-    "aside header header"
+    "aside .... header"
     "aside main main"
     "aside main main";
-  grid-gap: 0px 10px;
-  grid-template-columns: 20% 1fr;
+  grid-gap: 0px 25px;
+  grid-template-columns: 25% 1fr;
   grid-template-rows: 55px 1fr;
   min-height: 100vh;
   width: 100%;
+}
+h1 {
+  font-family: 'Carter One', cursive;
+}
+h2 {
+  font-family: 'Hind Siliguri', sans-serif;  
 }
 a {
   text-decoration: none;
@@ -25,19 +34,28 @@ aside,
 header,
 main {
   display: flex;
-  text-transform: uppercase;
 }
 table {
   background: transparent;
-  border-spacing: 0;
   border-collapse: collapse;
-  /* border-top: 1px solid #dddddd;
-  border-right: 1px solid #dddddd; */
+  border-right: 1px solid #111;
+  border-spacing: 0;
+  border-top: 1px solid #111;
+  width: 100%;
+}
+tr {
+  border-left: 3px solid #427AA1;
+}
+td,
+th {
+  border-bottom: 1px solid #333333;
+  padding: 20px 10px;
 }
 
 /** *** Aside Menu Styles *** **/
 
 aside {
+  background-color: #0A122A;
   grid-area: aside;
   justify-content: center;
 }
@@ -48,12 +66,23 @@ aside nav {
   width: 100%;
 }
 aside nav a {
+  color: #fffffa;
   font-weight: 400;
   padding: 15px 30px;
+  text-transform: uppercase;
   transition: all 0.3s ease-in-out;
 }
+aside nav a.active {
+  background: #1D3461;
+  border-left: 4px solid #fffffa;
+  padding: 15px 30px 15px 25px;
+}
+aside nav a:hover {
+  background: #427AA1;
+  padding: 15px 30px 15px 25px;
+}
 aside nav a .fas {
-  color: red;
+  color: #F06543;
   font-size: 1.3rem;
   margin-right: 0.8rem;
 }
@@ -61,11 +90,10 @@ aside nav a .fas {
 /** *** Header Menu Styles *** **/
 
 header {
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  height: 7vh;
-  display: flex;
   align-items: center;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   grid-area: header;
+  min-height: 7vh;
   justify-content: flex-end;
 }
 header nav {
@@ -73,8 +101,12 @@ header nav {
   padding: 0.5rem;
 }
 header nav a {
-  font-size: 1.08rem;
+  color: #427AA1;
+  font-size: 1.3rem;
   padding: 5px;
+}
+header nav a:hover {
+  color: #0A122A;
 }
 
 /** *** Main Styles *** **/
@@ -82,21 +114,57 @@ header nav a {
 main {
   flex-direction: column;
   grid-area: main;
-  padding: 1.5rem;
 }
-/** profile section **/
-.profile-card {
+.container {
+  background: #ebf2fa;
+  min-height: 80vh;
+  padding: 0px 15px 130px;
+  position: relative;
+}
+.section-title {
+  color: #1D3461;
+  display: inline-block;
+  margin-bottom: 15px;
+  position: relative;
+}
+.section-title:after {
+  border: 1.5px solid #F06543;
+  bottom: -3px;
+  content: "";
+  left: 0;
+  position: absolute;
+  width: 60px;
+}
+/** Profile Styles **/
+.profile {
   display: flex;
+  justify-content: center;
+}
+.profile-card {
+  background: #fffffa;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  display: flex;
+  flex-basis: 25%;
+  flex-direction: column;
+  padding: 20px;
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+.profile-card:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+.profile-card p {
+  margin: 0.3rem;
+  font-size: 1rem;
+  font-weight: 300;
+  text-transform: capitalize;
 }
 .profile-image {
-  margin-right: 2.7rem;
-  height: 200px;
-  width: 200px;
-}
-.profile-image img {
+  align-self: center;
   border-radius: 50%;
-  height: 100%;
-  width: 100%;
+  margin-bottom: 20px;
+  height: 100px;
+  width: 100px;
 }
-/** loan records section **/
-
+.loan-reports {
+  margin-top: 1.3rem;
+}

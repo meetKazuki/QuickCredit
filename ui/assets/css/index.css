@@ -1,13 +1,21 @@
 @import 'normalize.css';
+@import url('https://fonts.googleapis.com/css?family=Biryani|Carter+One|Hind+Siliguri|Nunito');
 
 /** Base Styles **/
 body {
-  background-color: #fffffa;
+  background-color: #ebf2fa;
   display: flex;
   flex-direction: column;
+  font-family: 'Nunito', sans-serif;
   font-size: 16px;
   line-height: 1.4;
   min-height: 100vh;
+}
+h1 {
+  font-family: 'Carter One', cursive;
+}
+h2 {
+  font-family: 'Hind Siliguri', sans-serif;
 }
 a {
   text-decoration: none;
@@ -18,48 +26,34 @@ li {
 .logo {
   width: 100px;
 }
-button {
-  cursor: pointer;
-}
-
-/** Custom Component Styles **/
 .btn {
-  background-color: #f4511e;
-  border: none;
   border-radius: 4px;
-  color: #ffffff;
-  cursor: pointer;
   display: inline-block;
-  font-size: 20px;
-  margin: 5px;
-  padding: 20px;
+  height: 45px;
+  min-width: 110px;
   text-align: center;
-  transition: all 0.5s;
-  width: 200px;
 }
-
+a.btn {
+  padding: 12px 25px;
+}
 .column {
   display: flex;
   justify-content: space-between;
 }
-
 .icon-circle {
-  width: 60px;
-  height: 60px;
+  background: #1d3461;
   border-radius: 60px;
-  background: greenyellow;
   color: #fffffa;
   display: block;
-  line-height: 60px;
-  text-align: center;
   font-size: 1.5em;
   font-weight: 600;
+  line-height: 60px;
+  text-align: center;
+  width: 60px;
+  height: 60px;
 }
 
 /** Header Styles **/
-header {
-  box-shadow: 0px 4px 4px rgba(159, 155, 155, 0.25);
-}
 .navbar {
   display: flex;
 }
@@ -71,42 +65,89 @@ header {
   margin-left: auto;
   padding: 0 40px;
 }
+.navbar-menu > li:last-child a {
+  border: none;
+  border-radius: 4px;
+  color: white;
+  display: inline-block;
+  font-weight: 600;
+  margin-left: 0.7rem;
+  text-align: center;
+  text-transform: uppercase;
+  transition-duration: 0.4s;
+}
+.navbar-menu > li:last-child a.btn-transparent {
+  background-color: #fffffa;
+  border: 2px solid #427aa1;
+  color: #111111;
+}
+.navbar-menu > li:last-child a.btn-transparent:hover {
+  background-color: #427aa1;
+  color: #ffffff;
+}
 .navbar-link {
   display: inline;
 }
 .navbar-link a {
+  color: #151B3A;
   display: block;
-  padding: 26px 15px;
+  font-weight: 600;
+  padding: 0.1rem 0.5rem;
+}
+.navbar-link a:hover {
+  color: #f4511e;
 }
 
 /** Hero Styles **/
 .hero {
   align-items: center;
-  background-image: url(../images/randy-tarampi-1323085-unsplash.jpg);
+  background-image: url(../images/duotone.jpg);
   background-position: center top;
   background-size: cover;
-  color: aliceblue;
+  color: #f9f9f9;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 74px);
+  height: calc(90vh - 74px);
   justify-content: center;
   padding: 40px 80px;
-  transition: all 0.7s ease-in-out;
 }
-.hero-title,
-.hero-paragraph {
-  margin-bottom: 40px;
+.hero:after {
+  border: 10px solid;
+  border-color: #f9f9f9 transparent transparent;
+  bottom: 2vh;
+  content: "";
+  height: 0;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, 0);
+  width: 0;
 }
 .hero-title {
   font-size: 2.3em;
+  letter-spacing: 0.3rem;
+  margin-bottom: 30px;
   text-transform: uppercase;
 }
 .hero-paragraph {
   font-size: 1.1em;
+  margin-bottom: 40px;
+  width: 75%;
+}
+.hero-callout {
+  margin-top: 10px;
+}
+.btn-home {
+  background: #EF461C;
+  color: #ebf2fa;
+  font-size: 1.5em;
+  text-align: center;
+  transition: all 0.5s;
+  width: 200px;
 }
 .btn-home span {
   cursor: pointer;
   display: inline-block;
+  padding: 0.5rem 0;
   position: relative;
   transition: 0.5s;
 }
@@ -115,7 +156,7 @@ header {
   opacity: 0;
   position: absolute;
   right: -20px;
-  top: 0;
+  top: 8px;
   transition: 0.5s;
 }
 .btn-home:hover span {
@@ -125,12 +166,11 @@ header {
   opacity: 1;
   right: 0;
 }
-
-/** Homepage Sections Styles **/
+/** Homepage Sections/Features Styles **/
 section {
-  padding: 40px;
   display: flex;
   flex-direction: column;
+  padding: 40px;
 }
 section > .btn {
   align-self: center;
@@ -140,16 +180,16 @@ section > .btn {
 }
 .section-title,
 .section-text {
-  position: relative;
   margin-bottom: 15px;
+  position: relative;
 }
-.section-title::after {
-  content: "";
-  position: absolute;
+.section-title:after {
+  border: 1.5px solid #F06543;
   bottom: -3px;
+  content: "";
   left: 0;
+  position: absolute;
   width: 60px;
-  border: 1.5px solid green;
 }
 .features {
   display: flex;
@@ -158,8 +198,8 @@ section > .btn {
 .feature-item {
   flex-basis: 50%;
   flex-direction: column;
-  padding: 20px 50px;
   justify-content: start;
+  padding: 20px 50px;
 }
 .column .icon-circle {
   align-self: center;
@@ -167,13 +207,14 @@ section > .btn {
 }
 /** Featured Reports Styles **/
 .featured-reports {
-  margin-top: -50px;
   background: #dfe0e2;
   clip-path: polygon(0 10%, 100% 35%, 100% 100%, 0% 100%);
+  margin-top: -50px;
   padding-top: 110px;
 }
 .sectioned {
-  background: sienna;
+  color: #ffffff;
+  background: #151B3A;
 }
 .sectioned .section-title,
 .sectioned .section-text {
@@ -182,32 +223,79 @@ section > .btn {
 
 /** Footer Styles **/
 footer {
-  justify-content: start;
-  background-color: #f4511e;
+  background: #0a122a;
+  color: #909293;
   display: flex;
-}
-.footer-callout {
-  padding: 5px;
-  margin-right: 35px;
-}
-.footer-logo {
-  width: 150px;
-}
-.footer-img {
-  height: 100%;
-  width: 100%;
-  object-fit: contain;
-}
-.footer-links {
-  padding: 5px;
-}
-.footer-links > ul {
-  margin: 2px;
-}
-.social-list {
+  flex-direction: column;
   text-align: center;
 }
-.social-list > li {
-  display: inline-block;
+footer h4 {
+  font-family: 'Biryani', sans-serif;
+  text-transform: uppercase;
+}
+footer nav a {
+  color: #ebf2fa;
+  font-size: 1.3em;
   margin: 0 0.5em;
+}
+footer nav a:hover {
+  color: #F06543;
+}
+
+/*** --- Media Queries --- ***/
+
+/* for smartphones < 768px */
+@media screen and (max-width: 768px) {
+  /** Navbar menu **/
+  .navbar-logo {
+    padding: 10px 12px;
+  }
+  .logo {
+    width: 130px;
+  }
+  .navbar-menu {
+    padding: 0 30px;
+  }
+
+  /** Hero section **/
+  .hero {
+    height: calc(82vh - 70px);
+    padding: 63px 17px;
+  }
+  .hero-title {
+    font-size: 2em;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+  .hero-paragraph {
+    font-size: 1em;
+    text-align: justify;
+  }
+
+  .hero-callout,
+  .features {
+    flex-direction: column;
+  }
+
+  /** section **/
+  section {
+    padding: 40px 20px;
+  }
+  .section-title {
+    display: block;
+  }
+  .featured {
+    padding-top: 150px;
+  }
+  .column.feature-item {
+    padding: 15px;
+  }
+  .features {
+    clip-path: polygon(0 8%, 100% 0, 100% 100%, 0% 100%);
+    margin-top: -40px;
+    padding-top: 60px;
+  }
+  .features.section-dark {
+    padding-top: 115px;
+  }
 }
