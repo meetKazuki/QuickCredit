@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" href="/favicon.png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -11,41 +12,44 @@
 <body>
   <aside>
     <nav>
-      <a href="#"><i class="fas fa-arrow-circle-right"></i> Overview</a>
-      <a href="#"><i class="fas fa-arrow-circle-right"></i> Request</a>
-      <a href="#"><i class="fas fa-arrow-circle-right"></i> Settings</a>
+      <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Overview</a>
+      <a href="loan.html" class="active"><i class="fas fa-landmark"></i> Request</a>
+      <a href="#"><i class="fas fa-cog"> </i>Settings</a>
     </nav>
   </aside>
 
   <header>
     <nav>
       <a href="#"><i class="fas fa-bell"></i></a>
-      <a href="signin.html"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+      <a href="signin.html"><i class="fas fa-sign-out-alt"></i></a>
     </nav>
   </header>
 
   <main>
-    <section class="container form-container">
-      <h2 class="section-title">Create Loan Request</h2>
-      <form action="" class="form-card">
+    <h2 class="section-title">Loan Request</h2>
+    <div class="container">
+      <form action="#" class="form-container">
         <label for="firstName">Enter First Name <span>*</span></label>
         <input type="text" name="firstName" class="form-element" id="firstName" placeholder="Your First Name" required>
-
+      
         <label for="lastName">Enter Last Name <span>*</span></label>
         <input type="text" name="lastName" class="form-element" id="lastName" placeholder="Your Last Name" required>
-
+      
+        <label for="username">Enter Username <span>*</span></label>
+        <input type="text" name="username" class="form-element" id="username" placeholder="Your Username" required>
+      
         <label for="email">Enter Email <span>*</span></label>
-        <input type="email" name="email" class="form-element" id="email" placeholder="Your Email Address" required>
+        <input type="email" name="email" class="form-element" id="email" placeholder="Your Email Address">
+      
+        <label for="phoneNumber">Enter Phone Number <span>*</span></label>
+        <input type="tel" name="phoneNumber" class="form-element" id="phoneNumber" placeholder="Your Phone Number">
+      
+        <label for="password">Enter Password <span>*</span></label>
+        <input type="password" name="password" class="form-element" id="password" placeholder="Your Password" required>
 
-        <label for="homeAddress">Enter Home Address <span>*</span></label>
-        <input type="text" name="homeAddress" class="form-element" id="homeAddress" placeholder="Your Home Address" required>
-
-        <label for="workAddress">Enter Work/Business Address <span>*</span></label>
-        <input type="text" name="workAddress" class="form-element" id="workAddress" placeholder="Your Work/Business Address">
-
-        <button class="btn btn-primary">Create Loan Request</button>
+        <button class="btn btn-secondary">Request Loan</button>
       </form>
-    </section>
+    </div>
   </main>
 </body>
 </html>

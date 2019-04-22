@@ -1,13 +1,21 @@
 @import 'normalize.css';
+@import url('https://fonts.googleapis.com/css?family=Biryani|Carter+One|Hind+Siliguri|Nunito');
 
 /** Base Styles **/
 body {
-  background-color: #fffffa;
+  background-color: #ebf2fa;
   display: flex;
   flex-direction: column;
+  font-family: 'Nunito', sans-serif;
   font-size: 16px;
   line-height: 1.4;
   min-height: 100vh;
+}
+h1 {
+  font-family: 'Carter One', cursive;
+}
+h2 {
+  font-family: 'Hind Siliguri', sans-serif;
 }
 a {
   text-decoration: none;
@@ -33,7 +41,7 @@ a.btn {
   justify-content: space-between;
 }
 .icon-circle {
-  background: greenyellow;
+  background: #1d3461;
   border-radius: 60px;
   color: #fffffa;
   display: block;
@@ -58,18 +66,32 @@ a.btn {
   padding: 0 40px;
 }
 .navbar-menu > li:last-child a {
-  border-left: 2px solid green;
-  color: red;
-  margin-left: 0.2rem;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  display: inline-block;
+  font-weight: 600;
+  margin-left: 0.7rem;
+  text-align: center;
+  text-transform: uppercase;
+  transition-duration: 0.4s;
 }
-.navbar-menu > li:last-child a:hover {
-  color: aqua;
+.navbar-menu > li:last-child a.btn-transparent {
+  background-color: #fffffa;
+  border: 2px solid #427aa1;
+  color: #111111;
+}
+.navbar-menu > li:last-child a.btn-transparent:hover {
+  background-color: #427aa1;
+  color: #ffffff;
 }
 .navbar-link {
   display: inline;
 }
 .navbar-link a {
+  color: #151B3A;
   display: block;
+  font-weight: 600;
   padding: 0.1rem 0.5rem;
 }
 .navbar-link a:hover {
@@ -79,16 +101,15 @@ a.btn {
 /** Hero Styles **/
 .hero {
   align-items: center;
-  background-image: url(../images/randy-tarampi-1323085-unsplash.jpg);
+  background-image: url(../images/duotone.jpg);
   background-position: center top;
   background-size: cover;
-  color: aliceblue;
+  color: #f9f9f9;
   display: flex;
   flex-direction: column;
   height: calc(90vh - 74px);
   justify-content: center;
   padding: 40px 80px;
-  transition: all 0.7s ease-in-out;
 }
 .hero:after {
   border: 10px solid;
@@ -103,6 +124,7 @@ a.btn {
 }
 .hero-title {
   font-size: 2.3em;
+  letter-spacing: 0.3rem;
   margin-bottom: 30px;
   text-transform: uppercase;
 }
@@ -115,8 +137,8 @@ a.btn {
   margin-top: 10px;
 }
 .btn-home {
-  background: #f4511e;
-  color: #fffffa;
+  background: #EF461C;
+  color: #ebf2fa;
   font-size: 1.5em;
   text-align: center;
   transition: all 0.5s;
@@ -134,7 +156,7 @@ a.btn {
   opacity: 0;
   position: absolute;
   right: -20px;
-  top: 7px;
+  top: 8px;
   transition: 0.5s;
 }
 .btn-home:hover span {
@@ -162,7 +184,7 @@ section > .btn {
   position: relative;
 }
 .section-title:after {
-  border: 1.5px solid green;
+  border: 1.5px solid #F06543;
   bottom: -3px;
   content: "";
   left: 0;
@@ -191,7 +213,8 @@ section > .btn {
   padding-top: 110px;
 }
 .sectioned {
-  background: sienna;
+  color: #ffffff;
+  background: #151B3A;
 }
 .sectioned .section-title,
 .sectioned .section-text {
@@ -200,6 +223,79 @@ section > .btn {
 
 /** Footer Styles **/
 footer {
-  background-color: #f4511e;
+  background: #0a122a;
+  color: #909293;
+  display: flex;
+  flex-direction: column;
   text-align: center;
+}
+footer h4 {
+  font-family: 'Biryani', sans-serif;
+  text-transform: uppercase;
+}
+footer nav a {
+  color: #ebf2fa;
+  font-size: 1.3em;
+  margin: 0 0.5em;
+}
+footer nav a:hover {
+  color: #F06543;
+}
+
+/*** --- Media Queries --- ***/
+
+/* for smartphones < 768px */
+@media screen and (max-width: 768px) {
+  /** Navbar menu **/
+  .navbar-logo {
+    padding: 10px 12px;
+  }
+  .logo {
+    width: 130px;
+  }
+  .navbar-menu {
+    padding: 0 30px;
+  }
+
+  /** Hero section **/
+  .hero {
+    height: calc(82vh - 70px);
+    padding: 63px 17px;
+  }
+  .hero-title {
+    font-size: 2em;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+  .hero-paragraph {
+    font-size: 1em;
+    text-align: justify;
+  }
+
+  .hero-callout,
+  .features {
+    flex-direction: column;
+  }
+
+  /** section **/
+  section {
+    padding: 40px 20px;
+  }
+  .section-title {
+    display: block;
+  }
+  .featured {
+    padding-top: 150px;
+  }
+  .column.feature-item {
+    padding: 15px;
+  }
+  .features {
+    clip-path: polygon(0 8%, 100% 0, 100% 100%, 0% 100%);
+    margin-top: -40px;
+    padding-top: 60px;
+  }
+  .features.section-dark {
+    padding-top: 115px;
+  }
 }

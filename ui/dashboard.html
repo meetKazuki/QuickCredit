@@ -12,16 +12,16 @@
 <body>
   <aside>
     <nav>
-      <a href="#"><i class="fas fa-arrow-circle-right"></i> Overview</a>
-      <a href="#"><i class="fas fa-arrow-circle-right"></i> Request</a>
-      <a href="#"><i class="fas fa-arrow-circle-right"></i> Settings</a>
+      <a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Overview</a>
+      <a href="loan.html"><i class="fas fa-landmark"></i> Request</a>
+      <a href="#"><i class="fas fa-cog"></i> Settings</a>
     </nav>
   </aside>
 
   <header>
     <nav>
       <a href="#"><i class="fas fa-bell"></i></a>
-      <a href="signin.html"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+      <a href="signin.html"><i class="fas fa-sign-out-alt"></i></a>
     </nav>
   </header>
 
@@ -38,7 +38,19 @@
         </div>
       </div>
 
-      <div class="user-reports"></div>
+      <div class="loan-reports">
+        <table>
+          <thead>
+            <tr>
+              <th>S/N</th>
+              <th>Loan ID</th>
+              <th>Date Created</th>
+              <th>Payment</th>
+              <th>Tenor</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
     </section>
   </main>
 </body>
