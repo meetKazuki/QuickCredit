@@ -52,8 +52,26 @@ a.btn {
   width: 60px;
   height: 60px;
 }
+/** Modals Styles **/
+.modal-toggle.modal-open {
+  background: rgba(50, 41, 47, 0.76);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 170;
+}
+.modal.modal-open {
+  opacity: 1;
+  position: fixed;
+  z-index: 200;
+}
 
 /** Header Styles **/
+.hamburger-menu {
+  display: none;
+}
 .navbar {
   display: flex;
 }
@@ -248,13 +266,84 @@ footer nav a:hover {
 @media screen and (max-width: 768px) {
   /** Navbar menu **/
   .navbar-logo {
-    padding: 10px 12px;
+    font-size: 1.5em;
+    padding: 15px;
   }
   .logo {
     width: 130px;
   }
   .navbar-menu {
-    padding: 0 30px;
+    background: #151B3A;
+    flex-direction: column;
+    overflow: hidden;
+    max-height: 0;
+    top: 73px;
+    left: 0;
+    right: 0;
+    padding: 0;
+    position: absolute;
+    width: 100%;
+    transition: all 250ms ease-in;
+    z-index: 1000;
+  }
+  .navbar-menu.menu-open {
+    max-height: 380px;
+  }
+  .navbar-link a {
+    color: #ffffff;
+    padding: 20px;
+  }
+  .hamburger-menu {
+    border: 0;
+    position: absolute;
+    padding: 37px;
+    right: 0;
+    background: transparent;
+    display: block;
+  }
+  .hamburger-menu.menu-open > .hamburger {
+    background: transparent;
+  }
+
+  .hamburger-menu.menu-open > .hamburger::after,
+  .hamburger-menu.menu-open > .hamburger::before {
+    top: 0;
+    width: 30px;
+  }
+  .hamburger-menu.menu-open > .hamburger::after {
+    transform: rotate(-45deg);
+  }
+  .hamburger-menu.menu-open > .hamburger::before {
+    transform: rotate(45deg);
+  }
+  .hamburger {
+    top: 36px;
+    height: 2px;
+    background: #0facf3;
+    display: block;
+    position: absolute;
+    width: 30px;
+    right: 20px;
+  }
+
+  .hamburger::before {
+    top: 7px;
+  }
+
+  .hamburger::after {
+    bottom: 7px;
+  }
+
+  .hamburger::before,
+  .hamburger::after {
+    content: "";
+    height: 2px;
+    background: #0facf3;
+    display: block;
+    position: absolute;
+    width: 30px;
+    right: 0px;
+    transition: all 250ms ease-in;
   }
 
   /** Hero section **/
