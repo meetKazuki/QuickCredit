@@ -8,6 +8,7 @@ body {
   background-color: #ebf2fa;
   display: grid;
   font-family: 'Nunito', sans-serif;
+  font-size: 14px;
   grid-template-areas:
     "aside .... header"
     "aside main main"
@@ -36,20 +37,23 @@ main {
   display: flex;
 }
 table {
-  background: transparent;
+  border: 1px solid #dddddd;
   border-collapse: collapse;
-  border-right: 1px solid #111;
   border-spacing: 0;
-  border-top: 1px solid #111;
   width: 100%;
 }
-tr {
-  border-left: 3px solid #427AA1;
+td, th {
+  padding: 1rem;
+  text-align: left;
 }
-td,
 th {
-  border-bottom: 1px solid #333333;
-  padding: 20px 10px;
+  font-weight: bold;
+}
+tr:nth-child(even) {
+  background-color: #ffffff;
+}
+td {
+  min-width: 100px;
 }
 
 /** *** Aside Menu Styles *** **/
@@ -104,6 +108,7 @@ header nav a {
   color: #427AA1;
   font-size: 1.3rem;
   padding: 5px;
+  transition: all 0.3s ease-in-out;
 }
 header nav a:hover {
   color: #0A122A;
@@ -118,7 +123,7 @@ main {
 .container {
   background: #ebf2fa;
   min-height: 80vh;
-  padding: 0px 15px 130px;
+  padding: 0px 15px;
   position: relative;
 }
 .section-title {
