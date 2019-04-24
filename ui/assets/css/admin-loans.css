@@ -1,4 +1,4 @@
-@import 'admin.css';
+@import "admin.css";
 
 /* * {
   border: 0.3px solid red;
@@ -31,4 +31,12 @@
   border: 2px solid #fffffa;
   background: #427aa1;
   color: #ffffff;
+}
+
+.responsive-table {
+  display: none;
+}
+
+#loans-all {
+  display: block;
 }
