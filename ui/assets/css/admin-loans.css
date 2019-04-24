@@ -20,6 +20,7 @@
   color: #1d3461;
   border: 2px solid #fffffa;
 }
+
 .btn {
   height: 30px;
   border-radius: 2px;
@@ -30,6 +31,13 @@
 .btn.btn-toggled {
   border: 2px solid #fffffa;
   background: #427aa1;
+  color: #ffffff;
+}
+.btn-action {
+  font-size: 0.7rem;
+}
+.btn-warning {
+  background-color: #c40b13;
   color: #ffffff;
 }
 
