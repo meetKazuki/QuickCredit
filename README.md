@@ -24,12 +24,13 @@ responsibilities.
 2. Integrate real time email notification upon approval or rejection of a loan request.
 
 ## Project Pipeline
-- [Pivotal Tracker stories]()
+- [Pivotal Tracker stories](https://www.pivotaltracker.com/n/projects/2326809)
 - [UI Templates]()
 - [Hosted API]()
 
 ## Inspiration/Resources
 - [Design for Developers](https://frontendmasters.com/courses/design-for-developers/) by Sarah Drasner
+- [Github Sign In/Sign Up page](https://github.com/login?return_to=%2Fjoin)
 - [A quick guide to styling buttons using CSS](https://medium.freecodecamp.org/a-quick-guide-to-styling-buttons-using-css-f64d4f96337f) by Ashwini Sheshagiri
 - [Button Hover Effects](https://twitter.com/Dave_Conner) by Dave Conner
-- [Github Sign In/Sign Up page](https://github.com/login?return_to=%2Fjoin)
+- [CSS Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) by CSSTricks

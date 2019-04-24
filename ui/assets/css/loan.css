@@ -143,7 +143,7 @@ main {
   align-self: center;
   background: #ebf2fa;
   min-height: 80vh;
-  padding: 0px 15px 130px;
+  padding: 0px 15px;
   position: relative;
   width: 70%;
 }

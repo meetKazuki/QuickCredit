@@ -8,6 +8,7 @@ body {
   background-color: #ebf2fa;
   display: grid;
   font-family: 'Nunito', sans-serif;
+  font-size: 14px;
   grid-template-areas:
     "aside .... header"
     "aside main main"
@@ -15,6 +16,7 @@ body {
   grid-gap: 0px 25px;
   grid-template-columns: 25% 1fr;
   grid-template-rows: 55px 1fr;
+  line-height: 1.4;
   min-height: 100vh;
   width: 100%;
 }
@@ -30,26 +32,41 @@ a {
 ul {
   list-style: none;
 }
+button {
+  border: 0;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+.btn-info {
+  background-color: #00bd56;
+  color: #f9f8eb;
+}
+.btn-verify {
+  background: #13abc4;
+  color: #f9f8eb;
+}
+.tag {
+  border: 0;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.5rem 0.7rem;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.verified {
+  background-color: #3161a3;
+}
+.unverified {
+  background-color: #9692af;
+}
+
 aside,
 header,
 main {
   display: flex;
-}
-table {
-  background: transparent;
-  border-collapse: collapse;
-  /* border-right: 1px solid #111; */
-  border-spacing: 0;
-  /* border-top: 1px solid #111; */
-  width: 100%;
-}
-/* tr {
-  border-left: 3px solid #427AA1;
-} */
-td,
-th {
-  /* border-bottom: 1px solid #333333; */
-  padding: 20px 10px;
 }
 
 /** *** Aside Menu Styles *** **/
@@ -104,6 +121,7 @@ header nav a {
   color: #427AA1;
   font-size: 1.3rem;
   padding: 5px;
+  transition: all 0.3s ease-in-out;
 }
 header nav a:hover {
   color: #0A122A;
@@ -118,7 +136,7 @@ main {
 .container {
   background: #ebf2fa;
   min-height: 80vh;
-  padding: 0px 15px 130px;
+  padding: 0px 15px;
   position: relative;
 }
 .section-title {
@@ -134,4 +152,41 @@ main {
   left: 0;
   position: absolute;
   width: 60px;
+}
+/** Users list table **/
+.responsive-table {
+  margin: 2rem 0;
+  overflow-x: auto;
+}
+table {
+  border: 1px solid #dddddd;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+td, th {
+  padding: 1rem;
+  text-align: left;
+}
+th {
+  font-weight: bold;
+}
+tr:nth-child(even) {
+  background-color: #ffffff;
+}
+td {
+  min-width: 100px;
+}
+#user-table td:last-child .wrapper {
+  justify-content: center;
+}
+td .wrapper {
+  display: flex;
+}
+.btn-action {
+  border-radius: 3px;
+  font-size: 0.85rem;
+  margin: 0 5px 5px 0;
+  padding: 5px;
+  text-transform: lowercase;
 }
