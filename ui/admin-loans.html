@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="/favicon.png" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>QuickCredit &mdash; Admin</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="assets/css/admin-loans.css"/>  
+</head>
+<body>
+  <aside>
+    <nav>
+      <a href="admin.html"><i class="fas fa-users-cog"></i> Manage Users</a>
+      <a href="admin-loans.html" class="active">
+        <i class="fas fa-money-check"></i> Manage Loans
+      </a>
+      <a href="#"><i class="fas fa-landmark"></i> Loan Repayments</a>
+    </nav>
+  </aside>
+
+  <header>
+    <nav>
+      <a href="#"><i class="fas fa-bell"></i></a>
+      <a href="signin.html"><i class="fas fa-sign-out-alt"></i></a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="container">
+      <h2 class="section-title">Displaying Loan Records</h2>
+      <div class="toggle-reports">
+        <button id="loan-all" class="btn btn-toggled">All</button>
+        <button class="btn">Repaid</button>
+        <button class="btn">Not Repaid</button>
+        <button class="btn">Pending</button>
+      </div>
+
+      <div class="responsive-table">
+        <table id="records-table">
+          <thead>
+            <tr>
+              <th>S/N</th>
+              <th>User ID</th>
+              <th>Loan ID</th>
+              <th>Date Started</th>
+              <th>Payment</th>
+              <th>Tenor</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>010</td>
+              <td>tydl0p3xj3</td>
+              <td>23-04-2019</td>
+              <td>N12,000</td>
+              <td>8 months</td>
+              <td>Repaid</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>011</td>
+              <td>4f8ao3q0ipi</td>
+              <td>23-04-2019</td>
+              <td>N1,000</td>
+              <td>1 months</td>
+              <td>Not Repaid</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>012</td>
+              <td>tydl0p3xj3</td>
+              <td>23-04-2019</td>
+              <td>N12,000</td>
+              <td>8 months</td>
+              <td>Repaid</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>013</td>
+              <td>nuyfjl9fgsb</td>
+              <td>23-04-2019</td>
+              <td>N102,000</td>
+              <td>6 months</td>
+              <td>Repaid</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>014</td>
+              <td>khnch0gnq4</td>
+              <td>23-04-2019</td>
+              <td>N120,000</td>
+              <td>12 months</td>
+              <td>Not Repaid</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

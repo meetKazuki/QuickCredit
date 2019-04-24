@@ -1,0 +1,34 @@
+@import 'admin.css';
+
+/* * {
+  border: 0.3px solid red;
+} */
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+.section-title {
+  align-self: flex-start;
+}
+
+.toggle-reports {
+  align-self: flex-end;
+}
+.toggle-reports .btn {
+  background: #fffffa;
+  color: #1d3461;
+  border: 2px solid #fffffa;
+}
+.btn {
+  height: 30px;
+  border-radius: 2px;
+  display: inline-block;
+  min-width: 75px;
+  text-align: center;
+}
+.btn.btn-toggled {
+  border: 2px solid #fffffa;
+  background: #427aa1;
+  color: #ffffff;
+}
