@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="assets/css/admin-loans.css" />
   </head>
   <body>
+    <div id="modal-toggle" class="modal-toggle closed"></div>
     <aside>
       <nav>
         <a href="admin.html"><i class="fas fa-users-cog"></i> Manage Users</a>
@@ -36,15 +37,18 @@
       <section class="container">
         <h2 class="section-title">Displaying Loan Records</h2>
         <div class="toggle-reports">
-          <button class="btn btn-toggled" onclick="openTab('loans-all', this)">
+          <button class="btn btn-toggled" onclick="toggleTab('loans-all', this)">
             All
           </button>
-          <button class="btn" onclick="openTab('loans-repaid', this)">
-            Repaid</button>
-          <button class="btn" onclick="openTab('loans-unpaid', this)">
-            Not Repaid</button>
-          <button class="btn" onclick="openTab('loans-pending', this)">
-            Pending</button>
+          <button class="btn" onclick="toggleTab('loans-repaid', this)">
+            Repaid
+          </button>
+          <button class="btn" onclick="toggleTab('loans-unpaid', this)">
+            Not Repaid
+          </button>
+          <button class="btn" onclick="toggleTab('loans-pending', this)">
+            Pending
+          </button>
         </div>
 
         <div id="loans-all" class="responsive-table">
@@ -58,6 +62,7 @@
                 <th>Payment</th>
                 <th>Tenor</th>
                 <th>Status</th>
+                <th></th>
               </tr>
             </thead>
 
@@ -70,208 +75,10 @@
                 <td>N12,000</td>
                 <td>8 months</td>
                 <td>Repaid</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>011</td>
-                <td>4f8ao3q0ipi</td>
-                <td>23-04-2019</td>
-                <td>N1,000</td>
-                <td>1 months</td>
-                <td>Not Repaid</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>012</td>
-                <td>tydl0p3xj3</td>
-                <td>23-04-2019</td>
-                <td>N12,000</td>
-                <td>8 months</td>
-                <td>Repaid</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>013</td>
-                <td>nuyfjl9fgsb</td>
-                <td>23-04-2019</td>
-                <td>N102,000</td>
-                <td>6 months</td>
-                <td>Repaid</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>014</td>
-                <td>khnch0gnq4</td>
-                <td>23-04-2019</td>
-                <td>N120,000</td>
-                <td>12 months</td>
-                <td>Not Repaid</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div id="loans-repaid" class="responsive-table">
-          <table id="records-table">
-            <thead>
-              <tr>
-                <th>S/N</th>
-                <th>User ID</th>
-                <th>Loan ID</th>
-                <th>Date Started</th>
-                <th>Payment</th>
-                <th>Tenor</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>010</td>
-                <td>tydl0p3xj3</td>
-                <td>23-04-2019</td>
-                <td>N12,000</td>
-                <td>8 months</td>
-                <td>Repaid</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>011</td>
-                <td>4f8ao3q0ipi</td>
-                <td>23-04-2019</td>
-                <td>N1,000</td>
-                <td>1 months</td>
-                <td>Repaid</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>012</td>
-                <td>tydl0p3xj3</td>
-                <td>23-04-2019</td>
-                <td>N12,000</td>
-                <td>8 months</td>
-                <td>Repaid</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>013</td>
-                <td>nuyfjl9fgsb</td>
-                <td>23-04-2019</td>
-                <td>N102,000</td>
-                <td>6 months</td>
-                <td>Repaid</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>014</td>
-                <td>khnch0gnq4</td>
-                <td>23-04-2019</td>
-                <td>N120,000</td>
-                <td>12 months</td>
-                <td>Repaid</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div id="loans-unpaid" class="responsive-table">
-          <table id="records-table">
-            <thead>
-              <tr>
-                <th>S/N</th>
-                <th>User ID</th>
-                <th>Loan ID</th>
-                <th>Date Started</th>
-                <th>Payment</th>
-                <th>Tenor</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>010</td>
-                <td>tydl0p3xj3</td>
-                <td>23-04-2019</td>
-                <td>N12,000</td>
-                <td>8 months</td>
-                <td>Not Repaid</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>011</td>
-                <td>4f8ao3q0ipi</td>
-                <td>23-04-2019</td>
-                <td>N1,000</td>
-                <td>1 months</td>
-                <td>Not Repaid</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>012</td>
-                <td>tydl0p3xj3</td>
-                <td>23-04-2019</td>
-                <td>N12,000</td>
-                <td>8 months</td>
-                <td>Not Repaid</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>013</td>
-                <td>nuyfjl9fgsb</td>
-                <td>23-04-2019</td>
-                <td>N102,000</td>
-                <td>6 months</td>
-                <td>Not Repaid</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>014</td>
-                <td>khnch0gnq4</td>
-                <td>23-04-2019</td>
-                <td>N120,000</td>
-                <td>12 months</td>
-                <td>Not Repaid</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div id="loans-pending" class="responsive-table">
-          <table id="table-records">
-            <thead>
-              <tr>
-                <th>S/N</th>
-                <th>User ID</th>
-                <th>Loan ID</th>
-                <th>Date Requested</th>
-                <th>Amount</th>
-                <th>Tenor</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-
-            <tbody id="table-list">
-              <tr>
-                <td>1</td>
-                <td>010</td>
-                <td>tydl0p3xj3</td>
-                <td>24-04-2019</td>
-                <td>N250,000</td>
-                <td>3 months</td>
-                <td>Pending</td>
                 <td>
                   <div class="wrapper">
-                    <button class="btn-action btn-info">
+                    <button id="open-btn" class="btn-action btn-info">
                       <i class="fas fa-eye"></i> <span>view</span>
-                    </button>
-                    <button class="btn-action btn-verify">
-                      <i class="fas fa-check"></i> <span>approve</span>
-                    </button>
-                    <button class="btn-action btn-warning">
-                      <i class="fas fa-minus-circle"></i> <span>reject</span>
                     </button>
                   </div>
                 </td>
@@ -279,21 +86,15 @@
               <tr>
                 <td>2</td>
                 <td>011</td>
-                <td>4f8ao3q0ipi</td>
-                <td>24-04-2019</td>
-                <td>N25,000</td>
-                <td>3 weeks</td>
-                <td>Pending</td>
+                <td>tydl0p3xj3</td>
+                <td>23-04-2019</td>
+                <td>N12,000</td>
+                <td>8 months</td>
+                <td>Repaid</td>
                 <td>
                   <div class="wrapper">
-                    <button class="btn-action btn-info">
+                    <button id="open-btn" class="btn-action btn-info">
                       <i class="fas fa-eye"></i> <span>view</span>
-                    </button>
-                    <button class="btn-action btn-verify">
-                      <i class="fas fa-check"></i> <span>approve</span>
-                    </button>
-                    <button class="btn-action btn-warning">
-                      <i class="fas fa-minus-circle"></i> <span>reject</span>
                     </button>
                   </div>
                 </td>
@@ -301,9 +102,23 @@
             </tbody>
           </table>
         </div>
-      </section>
+
+      <div id="modal" class="modal report-modal closed">
+        <div class="modal-header">
+          <p class="modal-title section-title">Loan Details</p>
+          <span id="modal-close">x</span>
+        </div>
+        <div class="modal-body">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero
+            consectetur quas obcaecati pariatur voluptatum laboriosam ab, quae
+            earum repudiandae suscipit odit commodi, enim impedit laborum ex
+            dolorum laudantium. Ea, facere.
+          </p>
+        </div>
+      </div>
     </main>
 
-    <script src="assets/js/script.js"></script>
+    <script src="assets/js/admin.js"></script>
   </body>
 </html>

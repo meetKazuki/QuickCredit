@@ -25,7 +25,7 @@ responsibilities.
 
 ## Project Pipeline
 - [Pivotal Tracker stories](https://www.pivotaltracker.com/n/projects/2326809)
-- [User UI Templates]() :construction: [Admin UI Templates]()
+- [UI Templates]()
 - [Hosted API]()
 
 ## Inspiration/Resources
