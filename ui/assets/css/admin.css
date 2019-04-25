@@ -38,6 +38,18 @@ button {
   text-align: center;
   text-decoration: none;
 }
+.btn-action {
+  align-items: center;
+  border-radius: 3px;
+  display: flex;
+  font-size: 0.85rem;
+  font-weight: normal;
+  justify-content: space-evenly;
+  margin: 0 5px 5px 0;
+  padding: 5px;
+  text-transform: lowercase;
+  width: 5rem;
+}
 .btn-info {
   background-color: #00bd56;
   color: #f9f8eb;
@@ -46,15 +58,21 @@ button {
   background: #13abc4;
   color: #f9f8eb;
 }
+.btn-verified {
+  background: gray;
+  color: #f9f8eb;
+}
 .tag {
   border: 0;
   color: white;
+  display: inline-block;
   font-size: 0.7rem;
   font-weight: 500;
-  padding: 0.5rem 0.7rem;
+  padding: 0.4rem 0.3rem;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+  width: 4rem;
 }
 .verified {
   background-color: #3161a3;
@@ -108,7 +126,7 @@ aside nav a .fas {
 
 header {
   align-items: center;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
   grid-area: header;
   min-height: 7vh;
   justify-content: flex-end;
@@ -171,7 +189,7 @@ td, th {
 th {
   font-weight: bold;
 }
-tr:nth-child(even) {
+tr:nth-child(odd) {
   background-color: #ffffff;
 }
 td {
@@ -182,11 +200,4 @@ td {
 }
 td .wrapper {
   display: flex;
-}
-.btn-action {
-  border-radius: 3px;
-  font-size: 0.85rem;
-  margin: 0 5px 5px 0;
-  padding: 5px;
-  text-transform: lowercase;
 }

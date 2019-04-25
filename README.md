@@ -35,3 +35,5 @@ responsibilities.
 - [Button Hover Effects](https://twitter.com/Dave_Conner) by Dave Conner
 - [CSS Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) by CSSTricks
 - [w3Schools](https://www.w3schools.com/howto/howto_js_tabs.asp)
+
+## License

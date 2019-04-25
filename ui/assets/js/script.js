@@ -9,14 +9,14 @@
 // });
 
 /**
- * Event handler for displaying table according to filter
+ * Handle tab switch for loans
  */
 const openTab = (tabName, getBtn) => {
-  document.querySelectorAll(".responsive-table").forEach((element) => {
-    element.style.display = "none";
+  document.querySelectorAll('.responsive-table').forEach((element) => {
+    element.style.display = 'none';
   });
 
-  document.querySelector(".btn-toggled").classList.remove("btn-toggled");
-  getBtn.classList.add("btn-toggled");
-  document.querySelector(`#${tabName}`).style.display = "block";
+  document.querySelector('.btn-toggled').classList.remove('btn-toggled');
+  getBtn.classList.add('btn-toggled');
+  document.querySelector(`#${tabName}`).style.display = 'block';
 };
