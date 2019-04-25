@@ -1,0 +1,203 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css?family=Biryani|Carter+One|Hind+Siliguri|Nunito');
+
+/* * {
+  border: 0.3px solid red;
+} */
+body {
+  background-color: #ebf2fa;
+  display: grid;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  grid-template-areas:
+    "aside .... header"
+    "aside main main"
+    "aside main main";
+  grid-gap: 0px 25px;
+  grid-template-columns: 25% 1fr;
+  grid-template-rows: 55px 1fr;
+  line-height: 1.4;
+  min-height: 100vh;
+  width: 100%;
+}
+h1 {
+  font-family: 'Carter One', cursive;
+}
+h2 {
+  font-family: 'Hind Siliguri', sans-serif;  
+}
+a {
+  text-decoration: none;
+}
+ul {
+  list-style: none;
+}
+button {
+  border: 0;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+.btn-action {
+  align-items: center;
+  border-radius: 3px;
+  display: flex;
+  font-size: 0.85rem;
+  font-weight: normal;
+  justify-content: space-evenly;
+  margin: 0 5px 5px 0;
+  padding: 5px;
+  text-transform: lowercase;
+  width: 5rem;
+}
+.btn-info {
+  background-color: #00bd56;
+  color: #f9f8eb;
+}
+.btn-verify {
+  background: #13abc4;
+  color: #f9f8eb;
+}
+.btn-verified {
+  background: gray;
+  color: #f9f8eb;
+}
+.tag {
+  border: 0;
+  color: white;
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.4rem 0.3rem;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 4rem;
+}
+.verified {
+  background-color: #3161a3;
+}
+.unverified {
+  background-color: #9692af;
+}
+
+aside,
+header,
+main {
+  display: flex;
+}
+
+/** *** Aside Menu Styles *** **/
+
+aside {
+  background-color: #0A122A;
+  grid-area: aside;
+  justify-content: center;
+}
+aside nav {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10rem;
+  width: 100%;
+}
+aside nav a {
+  color: #fffffa;
+  font-weight: 400;
+  padding: 15px 30px;
+  text-transform: uppercase;
+  transition: all 0.3s ease-in-out;
+}
+aside nav a.active {
+  background: #1D3461;
+  border-left: 4px solid #fffffa;
+  padding: 15px 30px 15px 25px;
+}
+aside nav a:hover {
+  background: #427AA1;
+  padding: 15px 30px 15px 25px;
+}
+aside nav a .fas {
+  color: #F06543;
+  font-size: 1.3rem;
+  margin-right: 0.8rem;
+}
+
+/** *** Header Menu Styles *** **/
+
+header {
+  align-items: center;
+  /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
+  grid-area: header;
+  min-height: 7vh;
+  justify-content: flex-end;
+}
+header nav {
+  margin: 0.3rem;
+  padding: 0.5rem;
+}
+header nav a {
+  color: #427AA1;
+  font-size: 1.3rem;
+  padding: 5px;
+  transition: all 0.3s ease-in-out;
+}
+header nav a:hover {
+  color: #0A122A;
+}
+
+/** *** Main Styles *** **/
+
+main {
+  flex-direction: column;
+  grid-area: main;
+}
+.container {
+  background: #ebf2fa;
+  min-height: 80vh;
+  padding: 0px 15px;
+  position: relative;
+}
+.section-title {
+  color: #1D3461;
+  display: inline-block;
+  margin-bottom: 15px;
+  position: relative;
+}
+.section-title:after {
+  border: 1.5px solid #F06543;
+  bottom: -3px;
+  content: "";
+  left: 0;
+  position: absolute;
+  width: 60px;
+}
+/** Users list table **/
+.responsive-table {
+  margin: 2rem 0;
+  overflow-x: auto;
+}
+table {
+  border: 1px solid #dddddd;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+td, th {
+  padding: 1rem;
+  text-align: left;
+}
+th {
+  font-weight: bold;
+}
+tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+td {
+  min-width: 100px;
+}
+#user-table td:last-child .wrapper {
+  justify-content: center;
+}
+td .wrapper {
+  display: flex;
+}
