@@ -25,7 +25,7 @@ responsibilities.
 
 ## Project Pipeline
 - [Pivotal Tracker stories](https://www.pivotaltracker.com/n/projects/2326809)
-- [UI Templates]()
+- [UI Templates](https://meetkazuki.github.io/QuickCredit/ui)
 - [Hosted API]()
 
 ## Inspiration/Resources
