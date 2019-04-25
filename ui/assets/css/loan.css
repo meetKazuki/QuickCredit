@@ -8,6 +8,7 @@ body {
   background-color: #ebf2fa;
   display: grid;
   font-family: 'Nunito', sans-serif;
+  font-size: 14px;
   grid-template-areas:
     "aside .... header"
     "aside main main"
@@ -101,7 +102,7 @@ aside nav a .fas {
 
 header {
   align-items: center;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
   grid-area: header;
   min-height: 7vh;
   justify-content: flex-end;
@@ -114,6 +115,7 @@ header nav a {
   color: #427AA1;
   font-size: 1.3rem;
   padding: 5px;
+  transition: all 0.3s ease-in-out;
 }
 header nav a:hover {
   color: #0A122A;

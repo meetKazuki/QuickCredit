@@ -19,15 +19,15 @@
   <main>
     <h2 class="section-title">Create your Account</h2>
     <section class="container">
-      <form action="#" class="form-container">
+      <form class="form-container">
         <label for="firstName">Enter First Name <span>*</span></label>
-        <input type="text" name="firstName" class="form-element" id="firstName" placeholder="Your First Name" required>
+        <input type="text" name="firstName" class="form-element" id="firstName" placeholder="Your First Name">
 
         <label for="lastName">Enter Last Name <span>*</span></label>
-        <input type="text" name="lastName" class="form-element" id="lastName" placeholder="Your Last Name" required>
+        <input type="text" name="lastName" class="form-element" id="lastName" placeholder="Your Last Name">
 
         <label for="username">Enter Username <span>*</span></label>
-        <input type="text" name="username" class="form-element" id="username" placeholder="Your Username" required>
+        <input type="text" name="username" class="form-element" id="username" placeholder="Your Username">
 
         <label for="email">Enter Email <span>*</span></label>
         <input type="email" name="email" class="form-element" id="email" placeholder="Your Email Address">
@@ -36,9 +36,14 @@
         <input type="tel" name="phoneNumber" class="form-element" id="phoneNumber" placeholder="Your Phone Number">
 
         <label for="password">Enter Password <span>*</span></label>
-        <input type="password" name="password" class="form-element" id="password" placeholder="Your Password" required>
+        <input type="password" name="password" class="form-element" id="password" placeholder="Your Password">
 
-        <button class="btn btn-primary" type="submit"><span>Sign Up for Free</span></button>
+        <!-- <button class="btn btn-primary">
+          <span>Sign Up for Free <a href="dashboard.html"></a></span>
+        </button> -->
+        <button class="btn btn-primary">
+          <a href="dashboard.html">Sign Up for Free</a>
+        </button>
       </form>
       
       <p>Already a User? <span><a href="signin.html">Log in instead</a></span></p>

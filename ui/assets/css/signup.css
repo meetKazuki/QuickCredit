@@ -77,7 +77,6 @@ main {
 section > p {
   color: #fff;
   margin: 0;
-  /* padding: 15px 20px; */
   text-align: center;
 }
 section > p a {
@@ -113,6 +112,9 @@ section > p a:hover {
 }
 .form-element {
   margin-bottom: 15px;
+}
+.btn a {
+  color: #fff;
 }
 .btn {
   border-radius: 4px;
