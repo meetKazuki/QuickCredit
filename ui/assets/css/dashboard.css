@@ -49,7 +49,7 @@ td, th {
 th {
   font-weight: bold;
 }
-tr:nth-child(even) {
+tr:nth-child(odd) {
   background-color: #ffffff;
 }
 td {

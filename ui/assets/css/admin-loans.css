@@ -12,6 +12,7 @@
 }
 .section-title {
   align-self: flex-start;
+  border-bottom: none;
 }
 .toggle-reports {
   align-self: flex-end;
@@ -61,8 +62,8 @@
 }
 .modal.report-modal {
   overflow-y: scroll;
-  width: 45vw;
-  height: 500px;
+  width: 55vw;
+  height: 300px;
 }
 .modal-toggle {
   background: rgba(50, 41, 47, 0.76);
@@ -81,6 +82,7 @@
   padding: 10px 25px;
 }
 .modal-title {
+  color: #1d3461;
   display: inline-block;
   font-size: 1.7em;
 }

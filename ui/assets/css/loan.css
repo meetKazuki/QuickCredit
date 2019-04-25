@@ -32,16 +32,17 @@ ul {
   list-style: none;
 }
 input,
+select,
 button {
   background: transparent;
   border: 1px solid #427AA1;
-  border-radius: 4px;
-  color: #fffffa;
+  border-radius: 3px;
+  /* color: #fffffa; */
   font-size: 1em;
   height: 40px;
   margin: 0;
   outline: none;
-  padding: 0 10px;
+  /* padding: 0 10px; */
   text-align: left;
   text-decoration: none;
 }
@@ -128,6 +129,7 @@ main {
   grid-area: main;
 }
 .section-title {
+  align-self: flex-start;
   color: #1D3461;
   display: inline-block;
   margin-bottom: 15px;
@@ -152,10 +154,17 @@ main {
 .form-container {
   display: flex;
   flex-direction: column;
+  margin-top: 1rem;
   padding: 30px 20px;
 }
+.form-element-wrapper {
+  display: flex;
+  justify-content: space-evenly;
+}
 .form-element {
-  margin-bottom: 15px;
+  flex-basis: 45%;
+  margin: 0.5rem;
+  padding-left: 0.2rem;
 }
 .btn {
   border-radius: 4px;
