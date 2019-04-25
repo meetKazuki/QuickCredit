@@ -28,17 +28,3 @@ openBtn.addEventListener('click', function() {
   modal.classList.toggle('closed');
   modalToggle.classList.toggle('closed');
 });
-
-/* function toggleLoanModal(event) {
-  event.preventDefault();
-  const modalToggle = document.querySelector('modal-overlay');
-  const modal = document.querySelector('.loan-modal');
-  document.body.classList.toggle('modal-open');
-  modalToggle.classList.toggle('modal-open');
-  modal.classList.toggle('modal-open');
-}
-
-document.querySelector('.loan-modal .modal-close')
-  .addEventListener('click', (event) => {
-    toggleLoanModal(event);
-  }); */
