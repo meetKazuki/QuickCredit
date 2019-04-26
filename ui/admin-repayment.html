@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="https://user-images.githubusercontent.com/12225152/56736847-1860da80-6761-11e9-88ad-438900d86a9e.png"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>QuickCredit &mdash; Admin</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="assets/css/admin-repayment.css">
+</head>
+<body>
+  <aside>
+    <nav>
+      <a href="admin.html"><i class="fas fa-users-cog"></i> Manage Users</a>
+      <a href="admin-loans.html">
+        <i class="fas fa-money-check"></i> Manage Loans
+      </a>
+      <a href="admin-repayment.html" class="active"><i class="fas fa-landmark"></i> Loan Repayments</a>
+    </nav>
+  </aside>
+
+  <header>
+    <nav>
+      <a href="#"><i class="fas fa-bell"></i></a>
+      <a href="signin.html"><i class="fas fa-sign-out-alt"></i></a>
+    </nav>
+  </header>
+
+  <main>
+    <h2 class="section-title">Post Loan Repayment</h2>
+    <section class="container">
+      <form action="#" class="form-container">
+        <label for="loanID">Enter Loan ID<span>*</span></label>
+        <input type="text" name="loanID" class="form-element" placeholder="Loan ID" required>
+
+        <label for="dateCreated">Enter Date of Payment<span>*</span></label>
+        <input type="datetime" name="dateCreated" class="form-element" placeholder="Date of Payment" required>
+
+        <label for="amount">Enter amount<span>*</span></label>
+        <input type="text" name="amount" class="form-element" placeholder="Amount paid" required>
+
+        <button class="btn btn-secondary">Post Repayment</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
