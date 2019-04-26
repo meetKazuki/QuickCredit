@@ -14,10 +14,10 @@ const toggleTab = (tabName, getBtn) => {
 /**
  * Handle modals
  */
-var modal = document.querySelector('#modal');
-var modalToggle = document.querySelector('#modal-toggle');
-var closeBtn = document.querySelector('#modal-close');
-var openBtn = document.querySelector('#open-btn');
+let modal = document.querySelector('#modal');
+let modalToggle = document.querySelector('#modal-toggle');
+let closeBtn = document.querySelector('#modal-close');
+let openBtn = document.querySelector('.open-btn');
 
 closeBtn.addEventListener('click', function() {
   modal.classList.toggle('closed');

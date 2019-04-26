@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Biryani|Carter+One|Hind+Siliguri|Nunito');
 
 /* * {
-  border: 0.3px solid red;
+  border: 0.1px solid red;
 } */
 body {
   background-color: #ebf2fa;
@@ -16,6 +16,7 @@ body {
   grid-gap: 0px 25px;
   grid-template-columns: 25% 1fr;
   grid-template-rows: 55px 1fr;
+  line-height: 1.4;
   min-height: 100vh;
   width: 100%;
 }
@@ -31,29 +32,44 @@ a {
 ul {
   list-style: none;
 }
+button {
+  border: 0;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+input,
+select,
+button {
+  background: transparent;
+  border: 1px solid #427AA1;
+  border-radius: 3px;
+  /* color: #fffffa; */
+  font-size: 1em;
+  height: 40px;
+  margin: 0;
+  outline: none;
+  padding: 0 10px;
+  text-align: left;
+  text-decoration: none;
+}
+label {
+  align-self: flex-start;
+  color: #1667A0;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+label span {
+  color: #f06543;
+  font-size: 18px;
+}
+button {
+  cursor: pointer;
+}
 aside,
 header,
 main {
   display: flex;
-}
-table {
-  border: 1px solid #dddddd;
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 100%;
-}
-td, th {
-  padding: 1rem;
-  text-align: left;
-}
-th {
-  font-weight: bold;
-}
-tr:nth-child(odd) {
-  background-color: #ffffff;
-}
-td {
-  min-width: 100px;
 }
 
 /** *** Aside Menu Styles *** **/
@@ -120,13 +136,8 @@ main {
   flex-direction: column;
   grid-area: main;
 }
-.container {
-  background: #ebf2fa;
-  min-height: 80vh;
-  padding: 0px 15px;
-  position: relative;
-}
 .section-title {
+  align-self: flex-start;
   color: #1D3461;
   display: inline-block;
   margin-bottom: 15px;
@@ -140,36 +151,38 @@ main {
   position: absolute;
   width: 60px;
 }
-/** Profile Styles **/
-.profile {
-  display: flex;
-  justify-content: center;
-}
-.profile-card {
-  background: #fffffa;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  display: flex;
-  flex-basis: 25%;
-  flex-direction: column;
-  padding: 20px;
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-}
-.profile-card:hover {
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-}
-.profile-card p {
-  margin: 0.3rem;
-  font-size: 1rem;
-  font-weight: 300;
-  text-transform: capitalize;
-}
-.profile-image {
+.container {
   align-self: center;
-  border-radius: 50%;
-  margin-bottom: 20px;
-  height: 100px;
-  width: 100px;
+  background: #ebf2fa;
+  min-height: 50vh;
+  padding: 5px 15px;
+  position: relative;
+  width: 50%;
 }
-.loan-reports {
-  margin-top: 1.3rem;
+.form-container {
+  display: flex;
+  flex-direction: column;
+  padding: 30px 20px;
+}
+.form-element {
+  margin-bottom: 15px;
+}
+.btn {
+  border-radius: 4px;
+  color: #fffffa;
+  font-size: 14px;
+  font-weight: 400;
+  height: 45px;
+  line-height: 45px;
+  min-width: 85px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 35%;
+}
+.btn-secondary {
+  background-color: #2ebc4f;
+  border-color: #2ebc4f;
+  align-self: flex-end;
 }

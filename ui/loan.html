@@ -30,24 +30,44 @@
     <h2 class="section-title">Loan Request</h2>
     <div class="container">
       <form action="#" class="form-container">
-        <label for="firstName">Enter First Name <span>*</span></label>
-        <input type="text" name="firstName" class="form-element" id="firstName" placeholder="Your First Name" required>
-      
-        <label for="lastName">Enter Last Name <span>*</span></label>
-        <input type="text" name="lastName" class="form-element" id="lastName" placeholder="Your Last Name" required>
-      
-        <label for="username">Enter Username <span>*</span></label>
-        <input type="text" name="username" class="form-element" id="username" placeholder="Your Username" required>
-      
-        <label for="email">Enter Email <span>*</span></label>
-        <input type="email" name="email" class="form-element" id="email" placeholder="Your Email Address">
-      
-        <label for="phoneNumber">Enter Phone Number <span>*</span></label>
-        <input type="tel" name="phoneNumber" class="form-element" id="phoneNumber" placeholder="Your Phone Number">
-      
-        <label for="password">Enter Password <span>*</span></label>
-        <input type="password" name="password" class="form-element" id="password" placeholder="Your Password" required>
+        <div class="form-element-wrapper">
+          <!-- <label for="firstName">Enter First Name <span>*</span></label> -->
+          <input type="text" name="firstName" class="form-element" id="firstName" placeholder="Your First Name" required>
+        
+          <!-- <label for="lastName">Enter Last Name <span>*</span></label> -->
+          <input type="text" name="lastName" class="form-element" id="lastName" placeholder="Your Last Name" required>
+        </div>
 
+        <div class="form-element-wrapper">
+          <!-- <label for="username">Enter Username <span>*</span></label> -->
+          <input type="text" name="home-address" class="form-element" id="home-address" placeholder="Your Home Address" required>
+        
+          <!-- <label for="email">Enter Email <span>*</span></label> -->
+          <input type="text" name="work-address" class="form-element" id="work-address" placeholder="Your Work Address">
+        </div>
+
+        <div class="form-element-wrapper">
+          <!-- <label for="phoneNumber">Enter Phone Number <span>*</span></label> -->
+          <input type="number" name="amount" class="form-element" id="amount" placeholder="Enter Loan Amount">
+        
+          <!-- <label for="password">Enter Password <span>*</span></label> -->
+          <select name="tenor" id="tenor" class="form-element" required>
+            <option default>-- Select loan duration --</option>
+            <option value="3-months">3 months</option>
+            <option value="6-months">6 months</option>
+            <option value="12-months">12 months</option>
+          </select>
+        </div>
+
+        <div class="form-element-wrapper">
+          <input type="number" class="form-element" id="accountNumber" placeholder="Your Account Number" required>
+
+          <select name="accountType" id="accountType" class="form-element" required>
+            <option default>-- Select account type --</option>
+            <option value="current">Current</option>
+            <option value="savings">Savings</option>
+          </select>
+        </div>
         <button class="btn btn-secondary">Request For Loan</button>
       </form>
     </div>
