@@ -54,21 +54,6 @@ a.btn {
   width: 60px;
   height: 60px;
 }
-/** Modals Styles **/
-.modal-toggle.modal-open {
-  background: rgba(50, 41, 47, 0.76);
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  z-index: 170;
-}
-.modal.modal-open {
-  opacity: 1;
-  position: fixed;
-  z-index: 200;
-}
 
 /** Header Styles **/
 
