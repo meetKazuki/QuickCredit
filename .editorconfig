@@ -13,9 +13,14 @@ charset = utf-8
 indent_style = space
 indent_size = 2
 
+[**.min.js]
+indent_style = ignore
+insert_final_newline = ignore
+
 [{package.json,.travis.yml}]
 indent_style = space
 indent_size = 2
+insert_final_newline = ignore
 
 [vcbuild.bat]
 end_of_line = crlf
