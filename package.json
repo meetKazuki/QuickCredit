@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "clean": "rm -rf build .nyc_output coverage && mkdir build",
+    "coverage": "nyc report --reporter=text-lcov | coveralls && nyc report --reporter=lcov",
     "dev-start": "babel-watch ./src/app.js",
     "test": "nyc mocha --require @babel/register --require @babel/polyfill --timeout 1000 --exit"
   },
