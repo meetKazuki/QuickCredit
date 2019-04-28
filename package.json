@@ -1,0 +1,41 @@
+{
+  "name": "quickcredit",
+  "version": "1.0.0",
+  "description": "An online lending platform that provides short term soft loans to individuals",
+  "main": "app.js",
+  "scripts": {
+    "clean": "rm -rf build .nyc_output coverage && mkdir build",
+    "dev-start": "babel-watch ./src/app.js",
+    "test": "nyc mocha --require @babel/register --require @babel/polyfill --timeout 1000 --exit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meetKazuki/QuickCredit.git"
+  },
+  "author": "Desmond Edem",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/meetKazuki/QuickCredit/issues"
+  },
+  "homepage": "https://github.com/meetKazuki/QuickCredit#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/register": "^7.4.4",
+    "babel-watch": "^7.0.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "mocha": "^6.1.4",
+    "nyc": "^14.0.0"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1"
+  }
+}

@@ -1,5 +1,10 @@
 # Quick Credit
 
+[![Build Status](https://travis-ci.org/meetKazuki/QuickCredit.svg?branch=develop)](https://travis-ci.org/meetKazuki/QuickCredit)
+[![Coverage Status](https://coveralls.io/repos/github/meetKazuki/QuickCredit/badge.svg?branch=develop)](https://coveralls.io/github/meetKazuki/QuickCredit?branch=develop)
+[![Maintainability](https://api.codeclimate.com/v1/badges/fc538b4791bc2acdedba/maintainability)](https://codeclimate.com/github/meetKazuki/QuickCredit/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/fc538b4791bc2acdedba/test_coverage)](https://codeclimate.com/github/meetKazuki/QuickCredit/test_coverage)
+
 ## Project Overview
 
 Quick Credit is an online lending platform that provides short term soft loans to individuals. This
@@ -37,3 +42,4 @@ responsibilities.
 - [w3Schools](https://www.w3schools.com/howto/howto_js_tabs.asp)
 
 ## License
+The QuickCredit API is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
