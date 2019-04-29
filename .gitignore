@@ -64,3 +64,4 @@ typings/
 *.png
 *.jpg
 .vscode/
+apiary.apib
