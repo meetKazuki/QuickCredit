@@ -10,13 +10,20 @@ router.get('/', (req, res) => {
 });
 
 /**
- * POST requests
+ * POST /auth requests
  */
 router.post(
   '/auth/signup',
+  // ValidateUser.validateLoginDetails,
   ValidateUser.validateProfileDetails,
   AuthenticateUser.generateToken,
   UserController.createUser,
+);
+router.post(
+  '/auth/signin',
+  ValidateUser.validateLoginDetails,
+  AuthenticateUser.generateToken,
+  UserController.loginUser,
 );
 
 export default router;

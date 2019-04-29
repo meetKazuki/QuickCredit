@@ -20,7 +20,7 @@ class AuthenticateUser {
    */
   static generateToken(req, res, next) {
     jwt.sign(req.body, secretKey, { expiresIn: '5 minutes' }, (err, token) => {
-      req.token = token;
+      req.token = `Bearer ${token}`;
       return next();
     });
   }
@@ -46,7 +46,7 @@ class AuthenticateUser {
       if (err) {
         return res.status(401).json({
           status: 401,
-          error: 'Token provided cannot be authenticated',
+          error: 'Token provided cannot be authenticated.',
         });
       }
       return next();
