@@ -63,18 +63,18 @@ describe('routes: /auth', () => {
         });
     });
 
-    specify.skip('error for already existing user with email', (done) => {
-      chai
-        .request(app)
-        .post('/api/v1/auth/signup')
-        .send(userData)
-        .end((err, res) => {
-          expect(res).to.have.status(409);
-          expect(res.body.status).to.be.equal(409);
-          expect(res.body.data).to.have.property('error');
-          done(err);
-        });
-    });
+    // specify.skip('error for already existing user with email', (done) => {
+    //   chai
+    //     .request(app)
+    //     .post('/api/v1/auth/signup')
+    //     .send(userData)
+    //     .end((err, res) => {
+    //       expect(res).to.have.status(409);
+    //       expect(res.body.status).to.be.equal(409);
+    //       expect(res.body.data).to.have.property('error');
+    //       done(err);
+    //     });
+    // });
 
     specify('error when user signs up with empty last name', (done) => {
       userData.lastName = '';
