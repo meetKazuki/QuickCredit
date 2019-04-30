@@ -4,9 +4,12 @@
   "description": "An online lending platform that provides short term soft loans to individuals",
   "main": "app.js",
   "scripts": {
+    "build": "npm run clean && npm run build-babel",
+    "build-babel": "babel src -d build",
     "clean": "rm -rf build .nyc_output coverage && mkdir build",
     "coverage": "nyc report --reporter=text-lcov | coveralls && nyc report --reporter=lcov",
     "dev-start": "babel-watch ./src/app.js",
+    "start": "npm run build && node ./build/app.js",
     "test": "nyc mocha --require @babel/register --require @babel/polyfill --timeout 1000 --exit"
   },
   "repository": {
