@@ -62,6 +62,20 @@ class UserController {
       },
     });
   }
+
+  /**
+   * @method listUsers
+   * @description Lists all users in the database
+   * @param {object} req - The Request Object
+   * @param {object} res - The Response Object
+   * @returns {object} JSON API Response
+   */
+  static listUsers(req, res) {
+    res.status(200).json({
+      status: 200,
+      data: [userDB],
+    });
+  }
 }
 
 export default UserController;
