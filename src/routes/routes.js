@@ -31,7 +31,11 @@ router.post(
  */
 router.get(
   '/users',
-  UserController.listUsers,
+  UserController.getUsers,
+);
+router.get(
+  '/users/:id',
+  UserController.getUser,
 );
 
 export default router;

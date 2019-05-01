@@ -12,6 +12,10 @@ export default class User {
     this.isAdmin = false;
   }
 
+  owns(resource) {
+    return resource.createdBy === this.email;
+  }
+
   toString() {
     return {
       id: this.id,

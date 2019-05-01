@@ -7,7 +7,6 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 const baseURI = '/api/v1';
-const DBLength = userDB.length;
 
 describe('GET /, /404, /api/v1', () => {
   it('should return the index page', (done) => {
@@ -221,6 +220,34 @@ describe('routes: /auth /users', () => {
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body).to.have.property('data');
+          done(err);
+        });
+    });
+
+    it('should fetch a specific user', (done) => {
+      const user = userDB[0];
+      const { id } = user;
+
+      chai
+        .request(app)
+        .get(`${baseURI}/users/${id}`)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.property('data');
+          done(err);
+        });
+    });
+
+    it('should throw an error for non-existing resource', (done) => {
+      const id = 20;
+
+      chai
+        .request(app)
+        .get(`${baseURI}/users/${id}`)
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body.status).to.equal(404);
+          expect(res.body).to.have.property('error');
           done(err);
         });
     });
