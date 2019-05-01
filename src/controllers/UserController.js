@@ -1,4 +1,5 @@
 import userDB from '../models/mock-users';
+import User from '../models/index';
 
 /**
  * @class UserController
@@ -14,31 +15,20 @@ class UserController {
    * @returns {object} JSON API Response
    */
   static createUser(req, res) {
-    const {
-      firstName, lastName, address, email, password,
-    } = req.body;
     const { token } = req;
-    const id = userDB.length + 1;
-    const userData = {
-      id,
-      firstName,
-      lastName,
-      address,
-      email,
-      password,
-      status: 'unverified',
-    };
+    const userData = req.body;
+    const newUser = new User(userData);
 
-    userDB.concat(userData);
+    userDB.push(newUser);
     res.status(201).json({
       status: 201,
       data: {
         token,
-        id,
-        firstName,
-        lastName,
-        email,
-        message: 'registration successful',
+        id: newUser.id,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        email: newUser.email,
+        message: 'Registration successful!',
       },
     });
   }

@@ -1,12 +1,13 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../src/app';
+import userDB from '../src/models/mock-users';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
-
 const baseURI = '/api/v1';
+const DBLength = userDB.length;
 
 describe('GET /, /404, /api/v1', () => {
   it('should return the index page', (done) => {
@@ -43,7 +44,7 @@ describe('GET /, /404, /api/v1', () => {
   });
 });
 
-describe('routes: /auth', () => {
+describe('routes: /auth /users', () => {
   context('POST /auth/signup', () => {
     const userData = {
       firstName: 'Sasuke',
@@ -62,6 +63,7 @@ describe('routes: /auth', () => {
           expect(res).to.have.status(201);
           expect(res.body.status).to.be.equal(201);
           expect(res.body.data).to.have.property('token');
+          expect(res.body.data).to.have.property('id');
           done(err);
         });
     });
@@ -211,19 +213,16 @@ describe('routes: /auth', () => {
     });
   });
 
-  describe('routes: /users', () => {
-    context('GET /users', () => {
-      it('should fetch all users', (done) => {
-        chai
-          .request(app)
-          .get(`${baseURI}/users`)
-          .end((err, res) => {
-            expect(res).to.have.status(200);
-            expect(res.body).to.have.property('data');
-            expect(res.body.data[0]).to.have.length(12);
-            done(err);
-          });
-      });
+  context('GET /users', () => {
+    it('should fetch a list of all users', (done) => {
+      chai
+        .request(app)
+        .get(`${baseURI}/users`)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.property('data');
+          done(err);
+        });
     });
   });
 });
