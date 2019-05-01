@@ -14,7 +14,6 @@ router.get('/', (req, res) => {
  */
 router.post(
   '/auth/signup',
-  // ValidateUser.validateLoginDetails,
   ValidateUser.validateProfileDetails,
   AuthenticateUser.generateToken,
   UserController.createUser,
@@ -35,7 +34,7 @@ router.get(
 );
 router.get(
   '/users/:id',
-  UserController.getUser,
+  UserController.getUserByID,
 );
 
 export default router;

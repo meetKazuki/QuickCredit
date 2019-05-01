@@ -8,7 +8,7 @@ chai.use(chaiHttp);
 const { expect } = chai;
 const baseURI = '/api/v1';
 
-describe('GET /, /404, /api/v1', () => {
+describe('routes /, /404, /api/v1', () => {
   it('should return the index page', (done) => {
     chai
       .request(app)

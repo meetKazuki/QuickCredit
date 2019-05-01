@@ -1,5 +1,4 @@
-import userDB from '../models/mock-users';
-import User from '../models/index';
+import User from '../models/User';
 
 /**
  * @class UserController
@@ -16,10 +15,8 @@ class UserController {
    */
   static createUser(req, res) {
     const { token } = req;
-    const userData = req.body;
-    const newUser = new User(userData);
+    const newUser = User.create(req.body);
 
-    userDB.push(newUser);
     res.status(201).json({
       status: 201,
       data: {
@@ -63,20 +60,20 @@ class UserController {
   static getUsers(req, res) {
     res.status(200).json({
       status: 200,
-      data: [userDB],
+      data: User.all(),
     });
   }
 
   /**
-   * @method getUser
-   * @description Get a specific user
+   * @method getUserByID
+   * @description Gets a specific user by ID
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  static getUser(req, res) {
+  static getUserByID(req, res) {
     const userID = parseInt(req.params.id, 10);
-    const user = userDB.find(data => data.id === userID);
+    const user = User.find(userID);
 
     if (user) {
       res.status(200).json({
@@ -90,6 +87,23 @@ class UserController {
       });
     }
   }
+
+  /* static getUserByEmail(req, res) {
+    const userEmail = req.params.email;
+    const user = User.findByEmail(userEmail);
+
+    if (user) {
+      res.status(200).json({
+        status: 200,
+        data: [user],
+      });
+    } else {
+      res.status(404).json({
+        status: 404,
+        error: 'User not found',
+      });
+    }
+  } */
 }
 
 export default UserController;

@@ -1,6 +1,6 @@
 import HelperUtils from '../utils/HelperUtils';
+import DB from '../database';
 import userDB from '../models/mock-users';
-
 /**
  * @class ValidateUser
  * @description Intercepts and validates a given for user endpoints
@@ -21,13 +21,7 @@ class ValidateUser {
     } = req.body;
     let error = '';
 
-    /* const userID = userDB.findIndex(user => user.email === email);
-    if (userID) {
-      return res.status(409).json({
-        status: 409,
-        error: 'User with that email already exists',
-      });
-    } */
+    // check user records in the DB
 
     if (!firstName || !validate.name.test(firstName)) {
       error = 'You need to include a valid first name';

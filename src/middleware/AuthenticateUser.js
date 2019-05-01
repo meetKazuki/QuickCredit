@@ -7,7 +7,7 @@ const secretKey = process.env.SECRET_KEY;
 
 /**
  * @class AuthenticateUser
- * @description Intercepts and validates a given report for user endpoints
+ * @description Intercepts and validates a given request for user endpoints
  * @exports AuthenticateUser
  */
 class AuthenticateUser {
