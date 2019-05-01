@@ -54,17 +54,41 @@ class UserController {
   }
 
   /**
-   * @method listUsers
+   * @method getUsers
    * @description Lists all users in the database
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  static listUsers(req, res) {
+  static getUsers(req, res) {
     res.status(200).json({
       status: 200,
       data: [userDB],
     });
+  }
+
+  /**
+   * @method getUser
+   * @description Get a specific user
+   * @param {object} req - The Request Object
+   * @param {object} res - The Response Object
+   * @returns {object} JSON API Response
+   */
+  static getUser(req, res) {
+    const userID = parseInt(req.params.id, 10);
+    const user = userDB.find(data => data.id === userID);
+
+    if (user) {
+      res.status(200).json({
+        status: 200,
+        data: [user],
+      });
+    } else {
+      res.status(404).json({
+        status: 404,
+        error: 'User not found',
+      });
+    }
   }
 }
 
