@@ -1,7 +1,8 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../src/app';
-import userDB from '../src/models/mock-users';
+import User from '../src/models';
+import mockUserDB from '../src/models/mock-users';
 
 chai.use(chaiHttp);
 
@@ -44,12 +45,18 @@ describe('routes /, /404, /api/v1', () => {
 });
 
 describe('routes: /auth /users', () => {
+  beforeEach((done) => {
+    User.resetTable();
+    mockUserDB.forEach(data => User.create(data));
+    done();
+  });
+
   context('POST /auth/signup', () => {
     const userData = {
-      firstName: 'Sasuke',
+      firstName: 'Madara',
       lastName: 'Uchiha',
-      address: 'Hidden-Leaf Village, Konoha',
-      email: 'uchihasasuke@anbu.org',
+      address: 'Hidden-leaf Village, Konoha',
+      email: 'uchiha.madara@anbu.org',
       password: 'secret',
     };
 
@@ -63,6 +70,9 @@ describe('routes: /auth /users', () => {
           expect(res.body.status).to.be.equal(201);
           expect(res.body.data).to.have.property('token');
           expect(res.body.data).to.have.property('id');
+          expect(res.body.data).to.have.property('firstName');
+          expect(res.body.data).to.have.property('lastName');
+          expect(res.body.data).to.have.property('email');
           done(err);
         });
     });
@@ -120,8 +130,6 @@ describe('routes: /auth /users', () => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal(400);
           expect(res.body).to.have.property('error');
-          // console.log(res.body.error);
-          // expect(res.body.error).to.equal('You need to include a valid address');
           done(err);
         });
     });
@@ -161,8 +169,8 @@ describe('routes: /auth /users', () => {
         .request(app)
         .post(`${baseURI}/auth/signin`)
         .send({
-          email: 'meetdesmond.edem@gmail.com',
-          password: 'admin',
+          email: 'etasseler0@is.gd',
+          password: '89Ts2JDxz12',
         })
         .end((err, res) => {
           expect(res).to.have.status(200);
@@ -202,7 +210,7 @@ describe('routes: /auth /users', () => {
       chai
         .request(app)
         .post(`${baseURI}/auth/signin`)
-        .send({ email: 'randomuser@email.com', password: '2232323' })
+        .send({ email: 'randomuser200@email.com', password: '2232323' })
         .end((err, res) => {
           expect(res).to.have.status(404);
           expect(res.body.status).to.be.equal(404);
@@ -225,15 +233,22 @@ describe('routes: /auth /users', () => {
     });
 
     it('should fetch a specific user', (done) => {
-      const user = userDB[0];
-      const { id } = user;
+      const user = User.table[1];
+      const { email } = user;
 
       chai
         .request(app)
-        .get(`${baseURI}/users/${id}`)
+        .get(`${baseURI}/users/${email}`)
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body).to.have.property('data');
+          expect(res.body.data).to.have.property('id');
+          expect(res.body.data).to.have.property('firstName');
+          expect(res.body.data).to.have.property('lastName');
+          expect(res.body.data).to.have.property('address');
+          expect(res.body.data).to.have.property('email');
+          expect(res.body.data).to.have.property('status');
+          expect(res.body.data).to.have.property('isAdmin');
           done(err);
         });
     });
@@ -248,6 +263,23 @@ describe('routes: /auth /users', () => {
           expect(res).to.have.status(404);
           expect(res.body.status).to.equal(404);
           expect(res.body).to.have.property('error');
+          done(err);
+        });
+    });
+  });
+
+  context.skip('PATCH /users', () => {
+    it('should mark a user as verified', (done) => {
+      const user = User.table[0];
+      const { email } = user;
+
+      chai
+        .request(app)
+        .patch(`${baseURI}/${email}/verify`)
+        .end((err, res) => {
+          expect(res).to.have.status(201);
+          expect(res.body).to.have.property('data');
+          expect(res.body.data.status).to.equal('verified');
           done(err);
         });
     });

@@ -1,4 +1,4 @@
-import User from '../models/User';
+import User from '../models';
 
 /**
  * @class UserController
@@ -51,13 +51,13 @@ class UserController {
   }
 
   /**
-   * @method getUsers
+   * @method getAllUsers
    * @description Lists all users in the database
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  static getUsers(req, res) {
+  static getAllUsers(req, res) {
     res.status(200).json({
       status: 200,
       data: User.all(),
@@ -65,20 +65,20 @@ class UserController {
   }
 
   /**
-   * @method getUserByID
+   * @method getUser
    * @description Gets a specific user by ID
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  static getUserByID(req, res) {
-    const userID = parseInt(req.params.id, 10);
-    const user = User.find(userID);
+  static getUser(req, res) {
+    const userID = req.params.email;
+    const user = User.findByEmail(userID);
 
     if (user) {
       res.status(200).json({
         status: 200,
-        data: [user],
+        data: user,
       });
     } else {
       res.status(404).json({
@@ -88,22 +88,47 @@ class UserController {
     }
   }
 
-  /* static getUserByEmail(req, res) {
-    const userEmail = req.params.email;
-    const user = User.findByEmail(userEmail);
+  /**
+   * @method verifyUser
+   * @description Verifies a user by unique ID
+   * @param {object} req - The Request Object
+   * @param {object} res - The Response Object
+   * @returns {object} JSON API Response
+   */
+  static verifyUser(req, res) {
+    const { user } = req;
+    const userID = req.params.email;
+    const userDetails = User.findByEmail(userID);
 
-    if (user) {
-      res.status(200).json({
-        status: 200,
-        data: [user],
-      });
-    } else {
-      res.status(404).json({
+    if (!userDetails) {
+      return res.status(404).json({
         status: 404,
         error: 'User not found',
       });
     }
-  } */
+
+    if (user.isAdmin === true) {
+      const data = req.body;
+      const attribute = data.status || 'verified';
+      userDetails.changeStatus(attribute);
+
+      return res.status(201).json({
+        status: 201,
+        data: {
+          email: userDetails.email,
+          firstName: userDetails.firstName,
+          lastName: userDetails.lastName,
+          address: userDetails.address,
+          password: userDetails.password,
+          status: userDetails.status,
+        },
+      });
+    }
+    return res.status(403).json({
+      status: 403,
+      error: 'Forbidden',
+    });
+  }
 }
 
 export default UserController;
