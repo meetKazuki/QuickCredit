@@ -10,7 +10,7 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls && nyc report --reporter=lcov",
     "dev-start": "babel-watch ./src/app.js",
     "start": "npm run build && node ./build/app.js",
-    "test": "nyc mocha --require @babel/register --require @babel/polyfill --timeout 1000 --exit"
+    "test": "nyc mocha --require @babel/register --timeout 1000 --exit"
   },
   "repository": {
     "type": "git",

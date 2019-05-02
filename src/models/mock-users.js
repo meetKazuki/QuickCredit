@@ -102,7 +102,7 @@ const userDB = [
   {
     id: 11,
     firstName: 'Itachi',
-    lastName: 'uchiha',
+    lastName: 'Uchiha',
     email: 'uchiha.itachi@anbu.org',
     address: 'Hidden-leaf village, Konoha',
     password: 'secret',

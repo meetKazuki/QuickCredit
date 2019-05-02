@@ -30,11 +30,19 @@ router.post(
  */
 router.get(
   '/users',
-  UserController.getUsers,
+  UserController.getAllUsers,
 );
 router.get(
-  '/users/:id',
-  UserController.getUserByID,
+  '/users/:email',
+  UserController.getUser,
+);
+
+/**
+ * PATCH / endpoints
+ */
+router.patch(
+  '/users/:email/verify',
+  UserController.verifyUser,
 );
 
 export default router;

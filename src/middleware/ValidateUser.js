@@ -1,6 +1,20 @@
+import bcrypt from 'bcryptjs';
 import HelperUtils from '../utils/HelperUtils';
-import DB from '../database';
-import userDB from '../models/mock-users';
+import User from '../models';
+
+/**
+ * Determines if the user is valid
+ * @param {User} user User object
+ * @param {string} password provided password to validate against
+ * @returns {boolean} returns truthy based on validation
+ */
+const isValidUser = (email, password) => {
+  if (!email || !bcrypt.compareSync(password, email.password)) {
+    return false;
+  }
+  return true;
+};
+
 /**
  * @class ValidateUser
  * @description Intercepts and validates a given for user endpoints
@@ -54,25 +68,34 @@ class ValidateUser {
     let error = '';
     let status;
 
-    const userID = userDB.findIndex(user => user.email === email);
+    const user = User.findByEmail(email);
     if (!email || !validate.email.test(email)) {
-      error = 'Email provided is invalid';
+      error = 'The email provided is invalid';
     } else if (!password) {
       error = 'Provide password to continue';
     }
 
     if (error) {
       status = 400;
-    } else if (userID === -1) {
+    } else if (!isValidUser(user, password)) {
       status = 404;
-      error = 'Account does not exist';
+      error = 'User does not exist';
     }
 
     if (status >= 400) {
       return res.status(status).json({ status, error });
     }
+
     return next();
   }
+
+  /**
+   * @method validateUserID
+   * @description Validates the specific ID passed in the request
+   * @param {object} req - The Request Object
+   * @param {object} res - The Response Object
+   * @returns {object} JSON API Response
+   */
 }
 
 export default ValidateUser;
