@@ -35,8 +35,6 @@ class ValidateUser {
     } = req.body;
     let error = '';
 
-    // check user records in the DB
-
     if (!firstName || !validate.name.test(firstName)) {
       error = 'You need to include a valid first name';
     } else if (!lastName || !validate.name.test(lastName)) {
@@ -88,14 +86,6 @@ class ValidateUser {
 
     return next();
   }
-
-  /**
-   * @method validateUserID
-   * @description Validates the specific ID passed in the request
-   * @param {object} req - The Request Object
-   * @param {object} res - The Response Object
-   * @returns {object} JSON API Response
-   */
 }
 
 export default ValidateUser;

@@ -42,7 +42,8 @@ router.get(
  */
 router.patch(
   '/users/:email/verify',
-  UserController.verifyUser,
+  AuthenticateUser.verifyToken,
+  UserController.updateUser,
 );
 
 export default router;
