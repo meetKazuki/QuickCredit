@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../src/app';
 import User from '../src/models';
-import mockUserDB from '../src/models/mock-users';
+import mockUserDB from './mock-users';
 
 chai.use(chaiHttp);
 
@@ -45,18 +45,32 @@ describe('routes /, /404, /api/v1', () => {
 });
 
 describe('routes: /auth /users', () => {
+  let token;
   beforeEach((done) => {
     User.resetTable();
     mockUserDB.forEach(data => User.create(data));
-    done();
+
+    const user = User.table[0];
+    chai
+      .request(app)
+      .post(`${baseURI}/auth/signin`)
+      .send({
+        email: user.email,
+        password: '89Ts2JDxz12',
+      })
+      .end((err, res) => {
+        const response = res.body.data.token;
+        token = response;
+        done();
+      });
   });
 
   context('POST /auth/signup', () => {
     const userData = {
-      firstName: 'Madara',
+      firstName: 'Itachi',
       lastName: 'Uchiha',
-      address: 'Hidden-leaf Village, Konoha',
-      email: 'uchiha.madara@anbu.org',
+      email: 'uchiha.itachi@anbu.org',
+      address: 'Hidden-leaf village, Konoha',
       password: 'secret',
     };
 
@@ -100,7 +114,9 @@ describe('routes: /auth /users', () => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal(400);
           expect(res.body).to.have.property('error');
-          expect(res.body.error).to.equal('You need to include a valid last name');
+          expect(res.body.error).to.equal(
+            'You need to include a valid last name',
+          );
           done(err);
         });
     });
@@ -115,7 +131,9 @@ describe('routes: /auth /users', () => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal(400);
           expect(res.body).to.have.property('error');
-          expect(res.body.error).to.equal('You need to include a valid first name');
+          expect(res.body.error).to.equal(
+            'You need to include a valid first name',
+          );
           done(err);
         });
     });
@@ -268,18 +286,21 @@ describe('routes: /auth /users', () => {
     });
   });
 
-  context.skip('PATCH /users', () => {
-    it('should mark a user as verified', (done) => {
-      const user = User.table[0];
-      const { email } = user;
+  context('PATCH /users', () => {
+    const data = {
+      status: 'verified',
+    };
 
+    it('should edit the status of a user (mark user as verified)', (done) => {
       chai
         .request(app)
-        .patch(`${baseURI}/${email}/verify`)
+        .patch(`${baseURI}/users/vsamsin2@statcounter.com/verify`)
+        .send(data)
+        .set('Authorization', token)
         .end((err, res) => {
           expect(res).to.have.status(201);
           expect(res.body).to.have.property('data');
-          expect(res.body.data.status).to.equal('verified');
+          expect(res.body.data).to.have.property('status');
           done(err);
         });
     });

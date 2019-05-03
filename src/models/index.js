@@ -77,8 +77,19 @@ export default class User {
     return User.table.find(user => user.email === email);
   }
 
-  static changeStatus(value) {
-    this.status = value;
+  /**
+   * Update resource attribute
+   * @param {object} data attributes to modify
+   * @returns {User} user resource
+   */
+  update(data) {
+    this.firstName = data.firstName || this.firstName;
+    this.lastName = data.lastName || this.lastName;
+    this.address = data.address || this.address;
+    this.email = data.email || this.email;
+    this.status = data.status || this.status;
+
+    return this;
   }
 
   /**

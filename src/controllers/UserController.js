@@ -25,6 +25,7 @@ class UserController {
         firstName: newUser.firstName,
         lastName: newUser.lastName,
         email: newUser.email,
+        address: newUser.address,
         message: 'Registration successful!',
       },
     });
@@ -72,8 +73,7 @@ class UserController {
    * @returns {object} JSON API Response
    */
   static getUser(req, res) {
-    const userID = req.params.email;
-    const user = User.findByEmail(userID);
+    const user = User.findByEmail(req.params.email);
 
     if (user) {
       res.status(200).json({
@@ -95,38 +95,25 @@ class UserController {
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  static verifyUser(req, res) {
-    const { user } = req;
-    const userID = req.params.email;
-    const userDetails = User.findByEmail(userID);
-
-    if (!userDetails) {
-      return res.status(404).json({
-        status: 404,
-        error: 'User not found',
-      });
+  static updateUser(req, res) {
+    const user = User.findByEmail(req.params.email);
+    if (!user) {
+      return res.status(404).json({ status: 404, error: 'No user' });
     }
 
-    if (user.isAdmin === true) {
-      const data = req.body;
-      const attribute = data.status || 'verified';
-      userDetails.changeStatus(attribute);
+    const data = req.body;
+    user.update(data);
 
-      return res.status(201).json({
-        status: 201,
-        data: {
-          email: userDetails.email,
-          firstName: userDetails.firstName,
-          lastName: userDetails.lastName,
-          address: userDetails.address,
-          password: userDetails.password,
-          status: userDetails.status,
-        },
-      });
-    }
-    return res.status(403).json({
-      status: 403,
-      error: 'Forbidden',
+    return res.status(201).json({
+      status: 201,
+      data: {
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        password: user.password,
+        address: user.address,
+        status: user.status,
+      },
     });
   }
 }
