@@ -368,4 +368,43 @@ describe('routes: loan', () => {
         });
     });
   });
+
+  context('GET /loans/:<loan-id>', () => {
+    it('should fetch a specific loan application', (done) => {
+      const loan = Loan.table[1];
+      const { id } = loan;
+
+      chai
+        .request(app)
+        .get(`${baseURI}/loans/${id}`)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.property('data');
+          expect(res.body.data).to.have.property('id');
+          expect(res.body.data).to.have.property('user');
+          expect(res.body.data).to.have.property('createdOn');
+          expect(res.body.data).to.have.property('status');
+          expect(res.body.data).to.have.property('repaid');
+          expect(res.body.data).to.have.property('tenor');
+          expect(res.body.data).to.have.property('amount');
+          expect(res.body.data).to.have.property('paymentInstallment');
+          expect(res.body.data).to.have.property('balance');
+          expect(res.body.data).to.have.property('interest');
+          done(err);
+        });
+    });
+
+    it('should throw an error for non-existing loan record', (done) => {
+      const id = 2334;
+
+      chai
+        .request(app)
+        .get(`${baseURI}/loans/${id}`)
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body).to.have.property('error');
+          done(err);
+        });
+    });
+  });
 });

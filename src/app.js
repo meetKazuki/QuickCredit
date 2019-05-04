@@ -1,6 +1,6 @@
 import express from 'express';
 import morgan from 'morgan';
-import router from './routes/routes';
+import router from './routes';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
