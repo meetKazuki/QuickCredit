@@ -1,19 +1,5 @@
-import bcrypt from 'bcryptjs';
 import HelperUtils from '../utils/HelperUtils';
-import User from '../models';
-
-/**
- * Determines if the user is valid
- * @param {User} user User object
- * @param {string} password provided password to validate against
- * @returns {boolean} returns truthy based on validation
- */
-const isValidUser = (email, password) => {
-  if (!email || !bcrypt.compareSync(password, email.password)) {
-    return false;
-  }
-  return true;
-};
+import User from '../models/User';
 
 /**
  * @class ValidateUser
@@ -66,7 +52,7 @@ class ValidateUser {
     let error = '';
     let status;
 
-    const user = User.findByEmail(email);
+    // Test validity of input
     if (!email || !validate.email.test(email)) {
       error = 'The email provided is invalid';
     } else if (!password) {
@@ -75,16 +61,60 @@ class ValidateUser {
 
     if (error) {
       status = 400;
-    } else if (!isValidUser(user, password)) {
-      status = 404;
-      error = 'User does not exist';
-    }
-
-    if (status >= 400) {
       return res.status(status).json({ status, error });
     }
 
+    // Find record with email
+    const user = User.findByEmail(email);
+    if (!user) {
+      return res.status(404).json({
+        status: 404,
+        error: 'The account provided does not exist',
+      });
+    }
+
+    // verify password in the database
+    const hashedPassword = user.password;
+    const verifyPassword = HelperUtils.verifyPassword(`${password}`, hashedPassword);
+    if (!verifyPassword) {
+      error = 'Email/password is incorrect';
+      status = 401;
+    }
+    if (error) {
+      return res.status(status).json({ status, error });
+    }
+
+    // display user fields
+    const userReq = user;
+    req.user = {
+      id: userReq.id,
+      firstName: userReq.firstName,
+      lastName: userReq.lastName,
+      email: userReq.email,
+      isAdmin: userReq.isAdmin,
+    };
     return next();
+  }
+
+  /**
+   * @method validateExistingUser
+   * @description
+   * @param {object} req - The Request Object
+   * @param {object} res - The Response Object
+   * @returns {object} JSON API Response
+   */
+  static validateExistingUser(req, res, next) {
+    const { email } = req.body;
+    const user = User.findByEmail(email);
+
+    if (!user) {
+      return next();
+    }
+
+    return res.status(409).json({
+      status: 409,
+      error: 'User with provided email already exists',
+    });
   }
 }
 

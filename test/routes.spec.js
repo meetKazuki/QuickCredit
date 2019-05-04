@@ -1,8 +1,9 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../src/app';
-import User from '../src/models';
-import mockUserDB from './mock-users';
+import User from '../src/models/User';
+import Loan from '../src/models/Loan';
+import { userDB, loanDB } from './mock';
 
 chai.use(chaiHttp);
 
@@ -44,33 +45,19 @@ describe('routes /, /404, /api/v1', () => {
   });
 });
 
-describe('routes: /auth /users', () => {
-  let token;
+describe('routes: /auth', () => {
   beforeEach((done) => {
     User.resetTable();
-    mockUserDB.forEach(data => User.create(data));
-
-    const user = User.table[0];
-    chai
-      .request(app)
-      .post(`${baseURI}/auth/signin`)
-      .send({
-        email: user.email,
-        password: '89Ts2JDxz12',
-      })
-      .end((err, res) => {
-        const response = res.body.data.token;
-        token = response;
-        done();
-      });
+    userDB.forEach(data => User.create(data));
+    done();
   });
 
   context('POST /auth/signup', () => {
     const userData = {
-      firstName: 'Itachi',
-      lastName: 'Uchiha',
-      email: 'uchiha.itachi@anbu.org',
-      address: 'Hidden-leaf village, Konoha',
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john.doe@email.com',
+      address: '12 Iyana Ipaja, CMS',
       password: 'secret',
     };
 
@@ -188,7 +175,7 @@ describe('routes: /auth /users', () => {
         .post(`${baseURI}/auth/signin`)
         .send({
           email: 'etasseler0@is.gd',
-          password: '89Ts2JDxz12',
+          password: 'secret',
         })
         .end((err, res) => {
           expect(res).to.have.status(200);
@@ -237,6 +224,28 @@ describe('routes: /auth /users', () => {
         });
     });
   });
+});
+
+describe('routes: /users', () => {
+  let token;
+  beforeEach((done) => {
+    User.resetTable();
+    userDB.forEach(data => User.create(data));
+
+    const user = User.table[0];
+    chai
+      .request(app)
+      .post(`${baseURI}/auth/signin`)
+      .send({
+        email: user.email,
+        password: 'secret',
+      })
+      .end((err, res) => {
+        const response = res.body.data.token;
+        token = response;
+        done(err);
+      });
+  });
 
   context('GET /users', () => {
     it('should fetch a list of all users', (done) => {
@@ -249,7 +258,9 @@ describe('routes: /auth /users', () => {
           done(err);
         });
     });
+  });
 
+  context('GET /users/:user-email', () => {
     it('should fetch a specific user', (done) => {
       const user = User.table[1];
       const { email } = user;
@@ -286,7 +297,7 @@ describe('routes: /auth /users', () => {
     });
   });
 
-  context('PATCH /users', () => {
+  context('PATCH /users/:user-email', () => {
     const data = {
       status: 'verified',
     };
@@ -294,13 +305,65 @@ describe('routes: /auth /users', () => {
     it('should edit the status of a user (mark user as verified)', (done) => {
       chai
         .request(app)
-        .patch(`${baseURI}/users/vsamsin2@statcounter.com/verify`)
+        .patch(`${baseURI}/users/etasseler0@is.gd/verify`)
         .send(data)
         .set('Authorization', token)
         .end((err, res) => {
           expect(res).to.have.status(201);
           expect(res.body).to.have.property('data');
           expect(res.body.data).to.have.property('status');
+          done(err);
+        });
+    });
+  });
+});
+
+describe('routes: loan', () => {
+  let token;
+  let token2;
+  beforeEach((done) => {
+    User.resetTable();
+    Loan.resetTable();
+    userDB.forEach(data => User.create(data));
+    loanDB.forEach(data => Loan.create(data));
+
+    const user = User.table[0];
+    chai
+      .request(app)
+      .post(`${baseURI}/auth/signin`)
+      .send({
+        email: user.email,
+        password: 'secret',
+      })
+      .end((err, res) => {
+        const response = res.body.data.token;
+        token = response;
+      });
+
+    const user2 = User.table[1];
+    chai
+      .request(app)
+      .post(`${baseURI}/auth/signin`)
+      .send({
+        email: user2.email,
+        password: 'secret',
+      })
+      .end((err, res) => {
+        const response = res.body.data.token;
+        token2 = response;
+        done();
+      });
+  });
+
+  context('GET /loans', () => {
+    it('should fetch all loan applications', (done) => {
+      chai
+        .request(app)
+        .get(`${baseURI}/loans`)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.property('data');
+          expect(res.body.data).to.be.an('array');
           done(err);
         });
     });

@@ -2,6 +2,7 @@ import express from 'express';
 import ValidateUser from '../middleware/ValidateUser';
 import AuthenticateUser from '../middleware/AuthenticateUser';
 import UserController from '../controllers/UserController';
+import LoanController from '../controllers/LoanController';
 
 const router = express.Router();
 
@@ -15,13 +16,12 @@ router.get('/', (req, res) => {
 router.post(
   '/auth/signup',
   ValidateUser.validateProfileDetails,
-  AuthenticateUser.generateToken,
+  ValidateUser.validateExistingUser,
   UserController.createUser,
 );
 router.post(
   '/auth/signin',
   ValidateUser.validateLoginDetails,
-  AuthenticateUser.generateToken,
   UserController.loginUser,
 );
 
@@ -36,13 +36,18 @@ router.get(
   '/users/:email',
   UserController.getUser,
 );
+router.get(
+  '/loans',
+  AuthenticateUser.verifyAdmin,
+  LoanController.getAllLoans,
+);
 
 /**
  * PATCH / endpoints
  */
 router.patch(
   '/users/:email/verify',
-  AuthenticateUser.verifyToken,
+  AuthenticateUser.verifyAdmin,
   UserController.updateUser,
 );
 
