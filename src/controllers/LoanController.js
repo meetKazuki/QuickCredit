@@ -16,7 +16,30 @@ class LoanController {
   static getAllLoans(req, res) {
     res.status(200).json({
       status: 200,
-      data: Loan.all(),
+      data: [Loan.all()],
+    });
+  }
+
+  /**
+   * @method getOneLoan
+   * @description Retrieves a specific loan record by ID
+   * @param {object} req - The Request Object
+   * @param {object} res - The Response Object
+   * @returns {object} JSON API Response
+   */
+  static getOneLoan(req, res) {
+    const loanRecord = Loan.find(parseInt(req.params.id, 10));
+
+    if (!loanRecord) {
+      return res.status(404).json({
+        status: 404,
+        error: 'Loan record not found',
+      });
+    }
+
+    return res.status(200).json({
+      status: 200,
+      data: loanRecord,
     });
   }
 }

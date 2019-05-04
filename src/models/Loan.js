@@ -48,6 +48,17 @@ export default class Loan {
     return loan;
   }
 
+  /**
+   * Find resource by given ID
+   *
+   * @param {string} id resource identity number
+   * @returns {Loan} a Loan resource
+   */
+  static find(id) {
+    return Loan.table.find(loan => loan.id === id);
+  }
+
+
   static resetTable() {
     Loan.table = [];
     Loan.count = 0;

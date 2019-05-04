@@ -39,6 +39,10 @@ router.get(
   '/loans',
   LoanController.getAllLoans,
 );
+router.get(
+  '/loans/:id',
+  LoanController.getOneLoan,
+);
 
 /**
  * PATCH / endpoints
