@@ -64,11 +64,11 @@ Ensure you have the following installed on your local machine:
 
 ### Testing
 - To test or consume the API locally, you can make use of [*Postman*](https://www.getpostman.com) to simulate a front-end client.
-- You can also run an automated by using `npm test`.
+- You can also test by running `npm test`.
 
 
 ## HTTP Requests
-All API requests are made by sending  a secure HTTPS request using one of the following methods, depending on the being taken:
+All API requests are made by sending a secure HTTPS request using one of the following methods, depending on the being taken:
 
 - `POST` Create a resource
 - `PATCH` Update a resource

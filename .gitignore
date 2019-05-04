@@ -66,3 +66,5 @@ typings/
 .vscode/
 build/
 apiary.apib
+
+todo.md
