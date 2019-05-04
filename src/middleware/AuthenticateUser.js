@@ -1,56 +1,79 @@
-import dotenv from 'dotenv';
-import jwt from 'jsonwebtoken';
-
-dotenv.config();
-
-const secretKey = process.env.SECRET_KEY;
+import HelperUtils from '../utils/HelperUtils';
 
 /**
  * @class AuthenticateUser
- * @description Intercepts and validates a given request for user endpoints
+ * @description Authenticates a given user
  * @exports AuthenticateUser
  */
 class AuthenticateUser {
   /**
-   * @method generateToken
-   * @description Generates JWT upon user registration or login
-   * @param {object} req - The Request Object
-   * @param {object} res - The Response Object
-   * @returns {string} - The token string
-   */
-  static generateToken(req, res, next) {
-    jwt.sign(req.body, secretKey, { expiresIn: '5 minutes' }, (err, token) => {
-      req.token = `Bearer ${token}`;
-      return next();
-    });
-  }
-
-  /**
-   * @method verifyToken
-   * @description Verifies token provided by the user
+   * @method verifyAuthHeader
+   * @description Verifies that authorization was set
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
    * @returns {object} - JSON response object
    */
-  static verifyToken(req, res, next) {
+  static verifyAuthHeader(req) {
     const bearer = req.headers.authorization;
     if (!bearer) {
-      return res.status(403).json({
-        status: 403,
-        error: 'Unauthorized. Provide token to make request.',
-      });
+      return { error: 'auth' };
     }
 
     const token = bearer.split(' ')[1];
-    return jwt.verify(token, secretKey, (err) => {
-      if (err) {
-        return res.status(401).json({
-          status: 401,
-          error: 'Token provided cannot be authenticated.',
-        });
-      }
-      return next();
-    });
+    const payload = HelperUtils.verifyToken(token);
+
+    if (!payload) {
+      return { error: 'token' };
+    }
+    return payload;
+  }
+
+  /**
+   * @method verifyUser
+   * @description Verifies the token provided by the user
+   * @param {object} req - The Request Object
+   * @param {object} res - The Response Object
+   * @returns {object} - JSON API Response
+   */
+  static verifyUser(req, res, next) {
+    const payload = AuthenticateUser.verifyAuthHeader(req);
+    let error;
+    let status;
+
+    if (payload && payload.error === 'auth') {
+      status = 401;
+      error = 'No authorization header was specified';
+    } else if (payload && payload.error === 'token') {
+      status = 401;
+      error = 'The provided token cannot be authenticated';
+    }
+
+    if (error) {
+      return res.status(status).json({ status, error });
+    }
+
+    req.user = payload;
+    return next();
+  }
+
+  /**
+   * @method verifyAdmin
+   * @description Verifies the token provided by the Admin
+   * @param {object} req - The Request Object
+   * @param {object} res - The Response Object
+   * @returns {object} - JSON response object
+   */
+  static verifyAdmin(req, res, next) {
+    const payload = AuthenticateUser.verifyAuthHeader(req);
+    const { isAdmin } = payload;
+
+    if (isAdmin === 'false') {
+      return res.status(401).json({
+        status: 401,
+        error: 'You are not authorized to access this endpoint',
+      });
+    }
+    return next();
   }
 }
 

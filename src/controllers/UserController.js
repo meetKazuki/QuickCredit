@@ -1,4 +1,5 @@
-import User from '../models';
+import HelperUtils from '../utils/HelperUtils';
+import User from '../models/User';
 
 /**
  * @class UserController
@@ -14,19 +15,19 @@ class UserController {
    * @returns {object} JSON API Response
    */
   static createUser(req, res) {
-    const { token } = req;
     const newUser = User.create(req.body);
+    const token = HelperUtils.generateToken({ newUser });
 
     res.status(201).json({
       status: 201,
       data: {
+        message: 'Registration successful!',
         token,
         id: newUser.id,
         firstName: newUser.firstName,
         lastName: newUser.lastName,
         email: newUser.email,
         address: newUser.address,
-        message: 'Registration successful!',
       },
     });
   }
@@ -39,14 +40,17 @@ class UserController {
    * @returns {object} JSON API Response
    */
   static loginUser(req, res) {
-    const { token } = req;
+    const token = HelperUtils.generateToken(req.user);
 
     res.status(200).json({
       status: 200,
       data: {
-        token,
-        email: req.body.email,
         message: 'login successful!',
+        token,
+        id: req.user.id,
+        firstName: req.user.firstName,
+        lastName: req.user.lastName,
+        email: req.user.email,
       },
     });
   }

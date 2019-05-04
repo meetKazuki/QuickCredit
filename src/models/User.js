@@ -4,6 +4,7 @@ import DB from '../database';
 export default class User {
   /**
    * Creates an instance of User
+   *
    * @param {Object} attributes user attributes
    */
   constructor({
@@ -41,7 +42,8 @@ export default class User {
   }
 
   /**
-   * Create a new resource
+   * Creates a new resource
+   *
    * @param {object} attributes the resource attributes
    * @returns {User} a User resource
    */
@@ -53,6 +55,7 @@ export default class User {
 
   /**
    * Returns a list of user resources
+   *
    * @returns {[User]} a list of user resources
    */
   static all() {
@@ -61,6 +64,7 @@ export default class User {
 
   /**
    * Find resource by given ID
+   *
    * @param {string} id resource identity number
    * @returns {User} a User resource
    */
@@ -70,6 +74,7 @@ export default class User {
 
   /**
    * Find resource by given email
+   *
    * @param {string} email resource email
    * @returns {User} a User resource
    */
@@ -79,6 +84,7 @@ export default class User {
 
   /**
    * Update resource attribute
+   *
    * @param {object} data attributes to modify
    * @returns {User} user resource
    */

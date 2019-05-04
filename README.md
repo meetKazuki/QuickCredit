@@ -37,6 +37,12 @@ responsibilities.
 - [Hosted API](https://quickcredit-staging.herokuapp.com/)
 
 
+## Technologies Used
+- [NodeJS](https://nodejs.org/en/download/)
+- [ExpressJS](https://expressjs.com/)
+- [PostgreSQL](https://www.postgresql.org/download/)
+
+
 ## Getting Started
 
 ### Prerequisites
