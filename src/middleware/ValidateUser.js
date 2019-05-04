@@ -3,7 +3,7 @@ import User from '../models/User';
 
 /**
  * @class ValidateUser
- * @description Intercepts and validates a given for user endpoints
+ * @description Intercepts and validates a given request for user endpoints
  * @exports ValidateUser
  */
 class ValidateUser {

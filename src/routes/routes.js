@@ -1,6 +1,5 @@
 import express from 'express';
 import ValidateUser from '../middleware/ValidateUser';
-import AuthenticateUser from '../middleware/AuthenticateUser';
 import UserController from '../controllers/UserController';
 import LoanController from '../controllers/LoanController';
 
@@ -38,7 +37,6 @@ router.get(
 );
 router.get(
   '/loans',
-  AuthenticateUser.verifyAdmin,
   LoanController.getAllLoans,
 );
 
@@ -47,7 +45,6 @@ router.get(
  */
 router.patch(
   '/users/:email/verify',
-  AuthenticateUser.verifyAdmin,
   UserController.updateUser,
 );
 
