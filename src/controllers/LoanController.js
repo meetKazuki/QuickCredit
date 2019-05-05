@@ -14,7 +14,16 @@ class LoanController {
    * @returns {object} JSON API Response
    */
   static getAllLoans(req, res) {
-    res.status(200).json({
+    const { status, repaid } = req.query;
+    if (status && repaid) {
+      const response = Loan.findQuery(status, JSON.parse(repaid));
+
+      return res.status(200).json({
+        status: 200,
+        data: [response],
+      });
+    }
+    return res.status(200).json({
       status: 200,
       data: [Loan.all()],
     });

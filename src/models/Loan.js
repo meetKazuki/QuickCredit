@@ -58,6 +58,11 @@ export default class Loan {
     return Loan.table.find(loan => loan.id === id);
   }
 
+  static findQuery(status, repaid) {
+    return Loan.table.filter(
+      result => result.status === status && result.repaid === repaid,
+    );
+  }
 
   static resetTable() {
     Loan.table = [];
