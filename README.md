@@ -4,6 +4,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/meetKazuki/QuickCredit/badge.svg?branch=develop)](https://coveralls.io/github/meetKazuki/QuickCredit?branch=develop)
 [![Maintainability](https://api.codeclimate.com/v1/badges/fc538b4791bc2acdedba/maintainability)](https://codeclimate.com/github/meetKazuki/QuickCredit/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/fc538b4791bc2acdedba/test_coverage)](https://codeclimate.com/github/meetKazuki/QuickCredit/test_coverage)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+![GitHub issues](https://img.shields.io/github/issues/meetKazuki/QuickCredit.svg)
 
 
 ## Project Overview
@@ -60,7 +62,7 @@ Ensure you have the following installed on your local machine:
     - npm install
   ```
 - Create/configure `.env` environment with your credentials
-- Run `npm run dev-start` to start the server and watch for changes
+- Run `sh npm run dev-start` to start the server and watch for changes
 
 ### Testing
 - To test or consume the API locally, you can make use of [*Postman*](https://www.getpostman.com) to simulate a front-end client.
@@ -68,7 +70,7 @@ Ensure you have the following installed on your local machine:
 
 
 ## HTTP Requests
-All API requests are made by sending a secure HTTPS request using one of the following methods, depending on the being taken:
+All API requests are made by sending a secure HTTPS request using one of the following methods, depending on the action being taken:
 
 - `POST` Create a resource
 - `PATCH` Update a resource
@@ -94,6 +96,7 @@ Each response will be returned with one of the following HTTP status codes:
 - [Button Hover Effects](https://twitter.com/Dave_Conner) by Dave Conner
 - [CSS Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) by CSSTricks
 - [w3Schools](https://www.w3schools.com/howto/howto_js_tabs.asp)
+- [Building a Simple API with NodeJS & Express](https://www.codementor.io/olawalealadeusi896/building-simple-api-with-es6-krn8xx3k6) by Olawale Aladeusi:raised_hands:
 
 ## License
 The QuickCredit API is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

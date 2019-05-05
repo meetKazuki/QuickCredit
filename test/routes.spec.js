@@ -407,4 +407,29 @@ describe('routes: loan', () => {
         });
     });
   });
+
+  context('GET /loans/?status&repaid', () => {
+    it('should return all loans that are approved and fully repaid', (done) => {
+      chai
+        .request(app)
+        .get(`${baseURI}/loans?status=approved&repaid=true`)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.property('data');
+          expect(res.body.data).to.be.an('array');
+          done(err);
+        });
+    });
+    it('should return all loans that are approved and not fully repaid', (done) => {
+      chai
+        .request(app)
+        .get(`${baseURI}/loans?status=approved&repaid=false`)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.property('data');
+          expect(res.body.data).to.be.an('array');
+          done(err);
+        });
+    });
+  });
 });
