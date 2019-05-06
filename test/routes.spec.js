@@ -432,4 +432,24 @@ describe('routes: loan', () => {
         });
     });
   });
+
+  context('PATCH /loans/<:loan-id>', () => {
+    const loan = Loan.table[0];
+    const { id } = loan;
+    const data = { status: 'approved' };
+
+    it('should update loan status successfully', (done) => {
+      chai
+        .request(app)
+        .patch(`${baseURI}/loans/${id}`)
+        .send(data)
+        .end((err, res) => {
+          expect(res).to.have.status(201);
+          expect(res.body).to.have.property('data');
+          expect(res.body.data).to.have.property('status');
+          expect(res.body.data.status).to.equal('approved');
+          done(err);
+        });
+    });
+  });
 });

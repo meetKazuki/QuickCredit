@@ -51,6 +51,38 @@ class LoanController {
       data: loanRecord,
     });
   }
+
+  /**
+   * @method updateLoan
+   * @description Edit the status of the loan record
+   * @param {object} req Request object
+   * @param {object} res Response object
+   * @returns {object} JSON API Response
+   */
+  static updateLoan(req, res) {
+    const loanRecord = Loan.find(parseInt(req.params.id, 10));
+    if (!loanRecord) {
+      return res.status(404).json({
+        status: 404,
+        error: 'Loan record not found',
+      });
+    }
+
+    const data = req.body;
+    loanRecord.update(data);
+
+    return res.status(201).json({
+      status: 201,
+      data: {
+        loanId: loanRecord.id,
+        loanAmount: loanRecord.amount,
+        tenor: loanRecord.tenor,
+        status: loanRecord.status,
+        monthlyInstallment: loanRecord.paymentInstallment,
+        interest: loanRecord.interest,
+      },
+    });
+  }
 }
 
 export default LoanController;
