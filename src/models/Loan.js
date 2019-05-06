@@ -64,6 +64,19 @@ export default class Loan {
     );
   }
 
+  /**
+   * Update resource attribues
+   *
+   * @param {object} data attributes to modify
+   * @returns {Loan} loan resource
+   */
+  update(data) {
+    if (this.status === 'pending') {
+      this.status = data.status || this.status;
+    }
+    return this;
+  }
+
   static resetTable() {
     Loan.table = [];
     Loan.count = 0;

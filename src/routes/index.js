@@ -51,5 +51,9 @@ router.patch(
   '/users/:email/verify',
   UserController.updateUser,
 );
+router.patch(
+  '/loans/:id',
+  LoanController.updateLoan,
+);
 
 export default router;
