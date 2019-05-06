@@ -355,6 +355,27 @@ describe('routes: loan', () => {
       });
   });
 
+  context('POST /loans', () => {
+    const loanData = {
+      firstName: 'Desmond',
+      lastName: 'Edem',
+      email: 'meetdesmond.edem@gmail.com',
+      tenor: 3,
+      amount: 20000,
+    };
+
+    it('should create a new loan request', (done) => {
+      chai
+        .request(app)
+        .post(`${baseURI}/loans`)
+        .send(loanData)
+        .end((err, res) => {
+          expect(res).to.have.status(201);
+          done(err);
+        });
+    });
+  });
+
   context('GET /loans', () => {
     it('should fetch all loan applications', (done) => {
       chai

@@ -23,6 +23,10 @@ router.post(
   ValidateUser.validateLoginDetails,
   UserController.loginUser,
 );
+router.post(
+  '/loans',
+  LoanController.createLoan,
+);
 
 /**
  * GET / endpoints
