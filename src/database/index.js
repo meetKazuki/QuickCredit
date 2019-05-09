@@ -1,5 +1,18 @@
+import HelperUtils from '../utils/HelperUtils';
+
 const DB = {
-  users: [],
+  users: [
+    {
+      id: 1,
+      firstName: 'Desmond',
+      lastName: 'Edem',
+      email: 'meetdesmond.edem@gmail.com',
+      password: HelperUtils.hashPassword('secret'),
+      address: '12 McNeil Street, Sabo-Yaba, Lagos',
+      status: 'verified',
+      isAdmin: true,
+    },
+  ],
   loans: [],
   repayments: [
     {
@@ -42,75 +55,3 @@ const DB = {
 };
 
 export default DB;
-
-
-/**
- * {
-      id: 1,
-      firstName: 'Shisui',
-      lastName: 'Uchiha',
-      email: 'uchiha.shisui@anbu.ops',
-      password: 'secret',
-      address: 'ANBU Black Ops HQ, Konoha',
-      status: 'verified',
-      isAdmin: false,
-    },
-    {
-      id: 2,
-      firstName: 'Fugaku',
-      lastName: 'Uchiha',
-      email: 'uchiha.fugaku@anbu.org',
-      password: 'secret',
-      address: 'Uchiha Clan Military Police Force HQ, Konoha',
-      status: 'unverified',
-      isAdmin: false,
-    },
-    {
-      id: 3,
-      firstName: 'Desmond',
-      lastName: 'Edem',
-      email: 'meetdesmond.edem@gmail.com',
-      password: 'secret',
-      address: '12 McNeil Street, Sabo-Yaba, Lagos',
-      status: 'verified',
-      isAdmin: true,
-    },
-
-
-    {
-      id: 1,
-      user: 'uchiha.fugaku@anbu.org',
-      createdOn: Date(),
-      status: 'approved',
-      repaid: false,
-      tenor: 3,
-      amount: 20000.0,
-      paymentInstallment: 7000,
-      balance: 0.0,
-      interest: 1000,
-    },
-    {
-      id: 2,
-      user: 'uchiha.itachi@anbu.org',
-      createdOn: Date(),
-      status: 'approved',
-      repaid: true,
-      tenor: 3,
-      amount: 20400.0,
-      paymentInstallment: 7000,
-      balance: 0.0,
-      interest: 1000,
-    },
-    {
-      id: 3,
-      user: 'uchiha.shisui@anbu.ops',
-      createdOn: Date(),
-      status: 'approved',
-      repaid: false,
-      tenor: 3,
-      amount: 150000.0,
-      paymentInstallment: 7000,
-      balance: 0.0,
-      interest: 1000,
-    },
- */

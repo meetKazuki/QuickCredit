@@ -16,7 +16,7 @@ const Debug = debug('test_ENV');
 let userToken;
 let adminToken;
 
-describe('routes: loan', () => {
+describe.skip('routes: loan', () => {
   beforeEach((done) => {
     // Refresh tables and seed data
     User.resetTable();

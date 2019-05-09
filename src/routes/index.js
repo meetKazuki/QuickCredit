@@ -30,7 +30,7 @@ router.post(
 router.post(
   '/auth/signin',
   ValidateUser.validateLoginDetails,
-  UserController.loginUser,
+  UserController.authenticate,
 );
 router.post(
   '/loans',
@@ -44,10 +44,12 @@ router.post(
  */
 router.get(
   '/users',
+  AuthenticateUser.verifyAdmin,
   UserController.getAllUsers,
 );
 router.get(
   '/users/:email',
+  AuthenticateUser.verifyAdmin,
   UserController.getUser,
 );
 router.get(
@@ -73,6 +75,8 @@ router.get(
  */
 router.patch(
   '/users/:email/verify',
+  ValidateUser.validateEmailParam,
+  AuthenticateUser.verifyAdmin,
   UserController.updateUser,
 );
 router.patch(

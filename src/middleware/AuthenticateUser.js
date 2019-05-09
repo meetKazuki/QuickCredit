@@ -1,7 +1,7 @@
 import debug from 'debug';
 import HelperUtils from '../utils/HelperUtils';
 
-const Debug = debug('QuickCredit');
+const Debug = debug('dev_ENV');
 
 /**
  * @class AuthenticateUser
@@ -41,8 +41,6 @@ class AuthenticateUser {
     let error;
     let status;
 
-    Debug('verifyUser:payload', payload);
-
     if (payload && payload.error === 'auth') {
       status = 401;
       error = 'No authorization header was specified';
@@ -68,16 +66,27 @@ class AuthenticateUser {
    */
   static verifyAdmin(req, res, next) {
     const payload = AuthenticateUser.verifyAuthHeader(req);
-    Debug(payload);
-    const { isAdmin } = payload;
+    let error;
+    let status;
 
-    if (isAdmin === false) {
-      return res.status(401).json({
-        status: 401,
-        error: 'You are not authorized to access this endpoint.',
-      });
+    if (payload && payload.error === 'auth') {
+      status = 401;
+      error = 'No authorization header was specified';
+      return res.status(status).json({ status, error });
     }
 
+    if (payload && payload.error === 'token') {
+      status = 401;
+      error = 'Token provided cannot be authenticated.';
+      return res.status(status).json({ status, error });
+    }
+
+    if (payload.isAdmin !== true) {
+      return res.status(403).json({
+        status: 403,
+        error: 'Only admin can access this route',
+      });
+    }
     return next();
   }
 }

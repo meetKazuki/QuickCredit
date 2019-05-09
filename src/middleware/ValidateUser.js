@@ -1,5 +1,8 @@
+import debug from 'debug';
 import HelperUtils from '../utils/HelperUtils';
 import User from '../models/User';
+
+const Debug = debug('dev_ENV');
 
 /**
  * @class ValidateUser
@@ -124,11 +127,11 @@ export default class ValidateUser {
    * @param {object} res - The Response Object
    * @returns
    */
-  static validateUserParam(req, res, next) {
+  static validateEmailParam(req, res, next) {
     const validate = HelperUtils.validate();
     const { email } = req.params;
 
-    if (!email || validate.email.test(email)) {
+    if (!email || !validate.email.test(email)) {
       return res.status(400).json({
         status: 400,
         error: 'Invalid email type entered',

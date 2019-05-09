@@ -33,13 +33,13 @@ class UserController {
   }
 
   /**
-   * @method loginUser
-   * @description Logs in a user if details are valid
+   * @method authenticate
+   * @description authenticates user
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  static loginUser(req, res) {
+  static authenticate(req, res) {
     const token = HelperUtils.generateToken(req.user);
 
     res.status(200).json({

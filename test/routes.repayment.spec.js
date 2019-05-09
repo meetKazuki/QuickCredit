@@ -16,7 +16,7 @@ const Debug = debug('test_ENV');
 
 let userToken;
 
-describe('routes: repayment', () => {
+describe.skip('routes: repayment', () => {
   beforeEach((done) => {
     // Refresh tables and seed data
     User.resetTable();

@@ -3,6 +3,7 @@ import DB from '../database';
 export default class Loan {
   /**
    * Creates an instance of Loan
+   *
    * @param {Object} attributes loan attributes
    */
   constructor({ user, tenor, amount }) {
@@ -56,6 +57,12 @@ export default class Loan {
     return Loan.table.find(loan => loan.id === id);
   }
 
+  /**
+   * Find resource by user email
+   *
+   * @param {string} user resource email address
+   * @returns {Loan} a Loan resource
+   */
   static findByUser(user) {
     return Loan.table.find(record => record.user === user);
   }

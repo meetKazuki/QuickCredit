@@ -61,12 +61,12 @@ class LoanController {
     const { status, repaid } = req.query;
     if (status && repaid) {
       const response = Loan.findQuery(status, JSON.parse(repaid));
-
       return res.status(200).json({
         status: 200,
         data: response,
       });
     }
+
     return res.status(200).json({
       status: 200,
       data: Loan.all(),
@@ -113,7 +113,6 @@ class LoanController {
 
     const data = req.body;
     loanRecord.update(data);
-
     return res.status(201).json({
       status: 201,
       data: {
