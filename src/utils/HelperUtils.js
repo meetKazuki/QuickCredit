@@ -15,7 +15,7 @@ class HelperUtils {
   }
 
   static generateToken(payload) {
-    const token = jwt.sign(payload, secretKey, { expiresIn: '1 week' });
+    const token = jwt.sign(payload, secretKey, { expiresIn: '24 hours' });
     return token;
   }
 

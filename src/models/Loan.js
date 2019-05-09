@@ -12,12 +12,13 @@ export default class Loan {
     this.createdOn = Date.now();
     this.status = 'pending';
     this.repaid = false;
-    this.tenor = Number(tenor);
-    this.amount = parseInt(amount, 10).toFixed(3);
-    this.interest = 0.05 * parseInt(amount, 10).toFixed(3);
-    this.paymentInstallment = (parseInt(amount, 10) / parseInt(tenor, 10)
-                                + this.interest).toFixed(3);
-    this.balance = parseInt(amount, 10).toFixed(3);
+    this.tenor = parseInt(tenor, 10);
+    this.amount = parseFloat(amount, 10.0);
+    this.interest = parseFloat((0.05 * amount), 10);
+    this.paymentInstallment = Math.floor(
+      parseFloat((this.amount + this.interest) / this.tenor, 10),
+    );
+    this.balance = parseFloat((this.amount + this.interest), 10.0);
   }
 
   static incrementCount() {
@@ -53,6 +54,10 @@ export default class Loan {
    */
   static find(id) {
     return Loan.table.find(loan => loan.id === id);
+  }
+
+  static findByUser(user) {
+    return Loan.table.find(record => record.user === user);
   }
 
   /**

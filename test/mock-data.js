@@ -1,6 +1,6 @@
 export const userDB = [
   {
-    id: 1,
+    // id: 1,
     firstName: 'Esteban',
     lastName: 'Tasseler',
     address: '23 Prairie Rose Road',
@@ -10,7 +10,7 @@ export const userDB = [
     isAdmin: false,
   },
   {
-    id: 2,
+    // id: 2,
     firstName: 'Itachi',
     lastName: 'Uchiha',
     email: 'uchiha.itachi@anbu.org',
@@ -20,7 +20,7 @@ export const userDB = [
     isAdmin: false,
   },
   {
-    id: 3,
+    // id: 3,
     firstName: 'Desmond',
     lastName: 'Edem',
     email: 'meetdesmond.edem@gmail.com',
@@ -33,7 +33,7 @@ export const userDB = [
 
 export const loanDB = [
   {
-    id: 1,
+    // id: 1,
     user: 'uchiha.itachi@anbu.org',
     createdOn: Date(),
     status: 'pending',
@@ -45,7 +45,7 @@ export const loanDB = [
     interest: 1000,
   },
   {
-    id: 2,
+    // id: 2,
     user: 'meetdesmond.edem@gmail.com',
     createdOn: Date(),
     status: 'approved',
@@ -55,5 +55,44 @@ export const loanDB = [
     paymentInstallment: 17500,
     balance: 105000,
     interest: 5000,
+  },
+];
+
+export const repaymentDB = [
+  {
+    // id: 1,
+    loanId: 1,
+    createdOn: 'April 25, 2019 1:32 AM',
+    amount: '200000',
+    monthlyInstallments: '26666.667',
+    paidAmount: 60000,
+    balance: 140000,
+  },
+  {
+    // id: 1,
+    loanId: 1,
+    createdOn: 'April 25, 2019 1:32 AM',
+    amount: '200000',
+    monthlyInstallments: '26666.667',
+    paidAmount: 60000,
+    balance: 140000,
+  },
+  {
+    // id: 1,
+    loanId: 1,
+    createdOn: 'April 25, 2019 1:32 AM',
+    amount: '200000',
+    monthlyInstallments: '26666.667',
+    paidAmount: 60000,
+    balance: 140000,
+  },
+  {
+    // id: 1,
+    loanId: 2,
+    createdOn: 'April 25, 2019 1:32 AM',
+    amount: '200000',
+    monthlyInstallments: '26666.667',
+    paidAmount: 60000,
+    balance: 140000,
   },
 ];

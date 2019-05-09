@@ -1,4 +1,7 @@
+import debug from 'debug';
 import Loan from '../models/Loan';
+
+const Debug = debug('dev_ENV');
 
 /**
  * @class LoanController
@@ -14,9 +17,22 @@ class LoanController {
    * @returns {object} JSON API Response
    */
   static createLoan(req, res) {
-    const newLoan = Loan.create(req.body);
+    const {
+      firstName, lastName, user, amount, tenor,
+    } = req.body;
 
-    res.status(201).json({
+    if (Loan.findByUser(user)) {
+      return res.status(409).json({
+        status: 409,
+        error: 'You already applied for a loan',
+      });
+    }
+
+    const newLoan = {
+      firstName, lastName, user, amount, tenor,
+    };
+    Loan.create(newLoan);
+    return res.status(201).json({
       status: 201,
       data: {
         message: 'Loan request received. We\'ll get back to you shortly.',
@@ -24,12 +40,12 @@ class LoanController {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: newLoan.user,
-        tenor: newLoan.tenor,
         amount: newLoan.amount,
-        monthlyInstallment: newLoan.paymentInstallment,
-        status: newLoan.status,
-        balance: newLoan.balance,
+        tenor: newLoan.tenor,
         interest: newLoan.interest,
+        monthlyInstallment: newLoan.paymentInstallment,
+        balance: newLoan.balance,
+        status: newLoan.status,
       },
     });
   }
@@ -48,12 +64,12 @@ class LoanController {
 
       return res.status(200).json({
         status: 200,
-        data: [response],
+        data: response,
       });
     }
     return res.status(200).json({
       status: 200,
-      data: [Loan.all()],
+      data: Loan.all(),
     });
   }
 
@@ -66,11 +82,10 @@ class LoanController {
    */
   static getOneLoan(req, res) {
     const loanRecord = Loan.find(parseInt(req.params.id, 10));
-
     if (!loanRecord) {
       return res.status(404).json({
         status: 404,
-        error: 'Loan record not found',
+        error: 'loan record not found',
       });
     }
 
