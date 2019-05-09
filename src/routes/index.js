@@ -61,6 +61,7 @@ router.get(
 router.get(
   '/loans/:id',
   ValidateLoan.validateLoanID,
+  AuthenticateUser.verifyAdmin,
   LoanController.getOneLoan,
 );
 router.get(
@@ -81,6 +82,8 @@ router.patch(
 );
 router.patch(
   '/loans/:id',
+  ValidateLoan.validateLoanID,
+  AuthenticateUser.verifyAdmin,
   LoanController.updateLoan,
 );
 

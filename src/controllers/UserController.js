@@ -51,6 +51,7 @@ class UserController {
         firstName: req.user.firstName,
         lastName: req.user.lastName,
         email: req.user.email,
+        isAdmin: req.user.isAdmin,
       },
     });
   }

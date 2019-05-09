@@ -1,54 +1,17 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import debug from 'debug';
+import app from '../src/app';
 
 import User from '../src/models/User';
-import app from '../src/app';
-import { userDB } from './mock-data';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
-const baseURI = '/api/v1';
 const Debug = debug('test_ENV');
+const baseURI = '/api/v1';
 
 let adminToken;
-let userToken;
-
-describe('routes /, /404, /api/v1', () => {
-  it('should return the index page', (done) => {
-    chai
-      .request(app)
-      .get('/')
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body).to.have.property('message');
-        done(err);
-      });
-  });
-
-  it('should return the API page', (done) => {
-    chai
-      .request(app)
-      .get(baseURI)
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body).to.have.property('message');
-        done(err);
-      });
-  });
-
-  it('should return an error for any invalid route', (done) => {
-    chai
-      .request(app)
-      .get('/404')
-      .end((err, res) => {
-        expect(res).to.have.status(404);
-        expect(res.body).to.have.property('error');
-        done(err);
-      });
-  });
-});
 
 describe('routes: /auth', () => {
   context('POST /auth/signup', () => {
@@ -226,12 +189,6 @@ describe('routes: /auth', () => {
 });
 
 describe('routes: /users', () => {
-  beforeEach((done) => {
-    User.resetTable();
-    userDB.forEach(user => User.create(user));
-    done();
-  });
-
   context('GET /users', () => {
     before((done) => {
       chai
@@ -330,14 +287,28 @@ describe('routes: /users', () => {
   });
 
   context('PATCH /users/:user-email', () => {
-    const data = {
-      status: 'verified',
-    };
+    before((done) => {
+      chai
+        .request(app)
+        .post(`${baseURI}/auth/signup`)
+        .send({
+          firstName: 'John',
+          lastName: 'Doe',
+          email: 'john.doe@email.com',
+          address: '12 Iyana Ipaja, CMS',
+          password: 'secret',
+        })
+        .end((err, res) => {
+          done(err);
+        });
+    });
+
+    const data = { status: 'verified' };
 
     it('should edit the status of a user (mark user as verified)', (done) => {
       chai
         .request(app)
-        .patch(`${baseURI}/users/etasseler0@is.gd/verify`)
+        .patch(`${baseURI}/users/john.doe@email.com/verify`)
         .send(data)
         .set('authorization', `Bearer ${adminToken}`)
         .end((err, res) => {
