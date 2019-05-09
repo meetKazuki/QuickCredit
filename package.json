@@ -8,9 +8,9 @@
     "build-babel": "babel src -d build",
     "clean": "rm -rf build .nyc_output coverage && mkdir build",
     "coverage": "nyc report --reporter=text-lcov | coveralls && nyc report --reporter=lcov",
-    "dev-start": "babel-watch ./src/app.js",
     "start": "npm run build && node ./build/app.js",
-    "test": "nyc mocha --require @babel/register --timeout 1000 --exit"
+    "start:dev": "set DEBUG=dev_ENV && babel-watch ./src/app.js",
+    "test": "set DEBUG=test_ENV && nyc mocha -r @babel/register -t 1000 --exit"
   },
   "repository": {
     "type": "git",
@@ -41,8 +41,10 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "debug": "^4.1.1",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
+    "express-validator": "^5.3.1",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.9.1"
   },

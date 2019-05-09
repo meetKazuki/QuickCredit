@@ -1,6 +1,51 @@
 const DB = {
-  users: [
+  users: [],
+  loans: [],
+  repayments: [
     {
+      id: 1,
+      loanId: 1,
+      createdOn: 'April 25, 2019 1:32 AM',
+      amount: '200000',
+      monthlyInstallments: '26666.667',
+      paidAmount: 60000,
+      balance: 140000,
+    },
+    {
+      id: 2,
+      loanId: 1,
+      createdOn: 'April 25, 2019 1:32 AM',
+      amount: '200000',
+      monthlyInstallments: '26666.667',
+      paidAmount: 60000,
+      balance: 140000,
+    },
+    {
+      id: 3,
+      loanId: 1,
+      createdOn: 'April 25, 2019 1:32 AM',
+      amount: '200000',
+      monthlyInstallments: '26666.667',
+      paidAmount: 60000,
+      balance: 140000,
+    },
+    {
+      id: 4,
+      loanId: 2,
+      createdOn: 'April 25, 2019 1:32 AM',
+      amount: '200000',
+      monthlyInstallments: '26666.667',
+      paidAmount: 60000,
+      balance: 140000,
+    },
+  ],
+};
+
+export default DB;
+
+
+/**
+ * {
       id: 1,
       firstName: 'Shisui',
       lastName: 'Uchiha',
@@ -30,8 +75,8 @@ const DB = {
       status: 'verified',
       isAdmin: true,
     },
-  ],
-  loans: [
+
+
     {
       id: 1,
       user: 'uchiha.fugaku@anbu.org',
@@ -68,8 +113,4 @@ const DB = {
       balance: 0.0,
       interest: 1000,
     },
-  ],
-  repayments: [],
-};
-
-export default DB;
+ */

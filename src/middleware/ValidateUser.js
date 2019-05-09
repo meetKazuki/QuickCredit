@@ -6,7 +6,7 @@ import User from '../models/User';
  * @description Intercepts and validates a given request for user endpoints
  * @exports ValidateUser
  */
-class ValidateUser {
+export default class ValidateUser {
   /**
    * @method validateProfileDetails
    * @description Validates profile details of the user upon registration
@@ -116,6 +116,24 @@ class ValidateUser {
       error: 'User with provided email already exists',
     });
   }
-}
 
-export default ValidateUser;
+  /**
+   * @method validateExistingUser
+   * @description
+   * @param {object} req - The Request Object
+   * @param {object} res - The Response Object
+   * @returns
+   */
+  static validateUserParam(req, res, next) {
+    const validate = HelperUtils.validate();
+    const { email } = req.params;
+
+    if (!email || validate.email.test(email)) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Invalid email type entered',
+      });
+    }
+    return next();
+  }
+}

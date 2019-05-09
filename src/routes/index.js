@@ -1,16 +1,25 @@
 import express from 'express';
+import validator from 'express-validator';
+
 import ValidateUser from '../middleware/ValidateUser';
+import AuthenticateUser from '../middleware/AuthenticateUser';
 import UserController from '../controllers/UserController';
+
+import ValidateLoan from '../middleware/ValidateLoan';
 import LoanController from '../controllers/LoanController';
 
+import ValidateRepayment from '../middleware/ValidateRepayment';
+import RepaymentController from '../controllers/RepaymentController';
+
 const router = express.Router();
+router.use(validator());
 
 router.get('/', (req, res) => {
   res.status(200).json({ message: 'Welcome to QuickCredit API v1' });
 });
 
 /**
- * POST /auth endpoints
+ * /POST endpoints
  */
 router.post(
   '/auth/signup',
@@ -25,11 +34,13 @@ router.post(
 );
 router.post(
   '/loans',
+  AuthenticateUser.verifyUser,
+  ValidateLoan.validateLoanApply,
   LoanController.createLoan,
 );
 
 /**
- * GET / endpoints
+ * /GET endpoints
  */
 router.get(
   '/users',
@@ -41,15 +52,24 @@ router.get(
 );
 router.get(
   '/loans',
+  ValidateLoan.validateQueryOptions,
+  AuthenticateUser.verifyAdmin,
   LoanController.getAllLoans,
 );
 router.get(
   '/loans/:id',
+  ValidateLoan.validateLoanID,
   LoanController.getOneLoan,
+);
+router.get(
+  '/loans/:id/repayments',
+  AuthenticateUser.verifyUser,
+  ValidateRepayment.validateRepaymentID,
+  RepaymentController.getRepaymentHistory,
 );
 
 /**
- * PATCH / endpoints
+ * /PATCH endpoints
  */
 router.patch(
   '/users/:email/verify',

@@ -62,7 +62,7 @@ Ensure you have the following installed on your local machine:
     - npm install
   ```
 - Create/configure `.env` environment with your credentials
-- Run `sh npm run dev-start` to start the server and watch for changes
+- Run `npm run dev-start` to start the server and watch for changes
 
 ### Testing
 - To test or consume the API locally, you can make use of [*Postman*](https://www.getpostman.com) to simulate a front-end client.
