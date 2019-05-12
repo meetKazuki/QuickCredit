@@ -1,13 +1,11 @@
-import Loan from '../models/Loan';
-
 /**
  * @class ValidateLoan
- * @description Intercepts and validates a given request for loan endpoints
+ * @description Intercepts and validates a given request for Loan endpoints
  * @exports ValidateLoan
  */
 export default class ValidateLoan {
   /**
-   * @method validateLoanApplication
+   * @method validateLoanApply
    * @description
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
@@ -65,10 +63,7 @@ export default class ValidateLoan {
 
     const errors = req.validationErrors();
     if (errors) {
-      return res.status(400).json({
-        status: 400,
-        error: errors[0].msg,
-      });
+      return res.status(400).json({ status: 400, error: errors[0].msg });
     }
     return next();
   }

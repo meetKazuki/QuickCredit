@@ -3,7 +3,7 @@ import User from '../models/User';
 
 /**
  * @class UserController
- * @description specifies which method handles a request for a specific endpoint
+ * @description specifies which method handles a request for User endpoints
  * @exports UserController
  */
 class UserController {
@@ -33,24 +33,25 @@ class UserController {
   }
 
   /**
-   * @method loginUser
-   * @description Logs in a user if details are valid
+   * @method authenticate
+   * @description authenticates user
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  static loginUser(req, res) {
+  static authenticate(req, res) {
     const token = HelperUtils.generateToken(req.user);
 
     res.status(200).json({
       status: 200,
       data: {
-        message: 'login successful!',
+        message: 'Login successful!',
         token,
         id: req.user.id,
         firstName: req.user.firstName,
         lastName: req.user.lastName,
         email: req.user.email,
+        isAdmin: req.user.isAdmin,
       },
     });
   }
@@ -63,10 +64,7 @@ class UserController {
    * @returns {object} JSON API Response
    */
   static getAllUsers(req, res) {
-    res.status(200).json({
-      status: 200,
-      data: User.all(),
-    });
+    res.status(200).json({ status: 200, data: User.all() });
   }
 
   /**
@@ -87,7 +85,7 @@ class UserController {
     } else {
       res.status(404).json({
         status: 404,
-        error: 'User not found',
+        error: 'User not found!',
       });
     }
   }
@@ -107,6 +105,7 @@ class UserController {
 
     const data = req.body;
     user.update(data);
+
     return res.status(201).json({
       status: 201,
       data: {

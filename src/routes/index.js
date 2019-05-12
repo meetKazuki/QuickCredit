@@ -30,7 +30,7 @@ router.post(
 router.post(
   '/auth/signin',
   ValidateUser.validateLoginDetails,
-  UserController.loginUser,
+  UserController.authenticate,
 );
 router.post(
   '/loans',
@@ -38,16 +38,25 @@ router.post(
   ValidateLoan.validateLoanApply,
   LoanController.createLoan,
 );
+router.post(
+  '/loans/:id/repayment',
+  ValidateRepayment.validateRepaymentID,
+  AuthenticateUser.verifyAdmin,
+  ValidateRepayment.validateRepayCredentials,
+  RepaymentController.postLoanRepayment,
+);
 
 /**
  * /GET endpoints
  */
 router.get(
   '/users',
+  AuthenticateUser.verifyAdmin,
   UserController.getAllUsers,
 );
 router.get(
   '/users/:email',
+  AuthenticateUser.verifyAdmin,
   UserController.getUser,
 );
 router.get(
@@ -59,6 +68,7 @@ router.get(
 router.get(
   '/loans/:id',
   ValidateLoan.validateLoanID,
+  AuthenticateUser.verifyAdmin,
   LoanController.getOneLoan,
 );
 router.get(
@@ -73,10 +83,14 @@ router.get(
  */
 router.patch(
   '/users/:email/verify',
+  ValidateUser.validateEmail,
+  AuthenticateUser.verifyAdmin,
   UserController.updateUser,
 );
 router.patch(
   '/loans/:id',
+  ValidateLoan.validateLoanID,
+  AuthenticateUser.verifyAdmin,
   LoanController.updateLoan,
 );
 

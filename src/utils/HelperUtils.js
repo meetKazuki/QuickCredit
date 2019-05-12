@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 
 dotenv.config();
-
 const secretKey = process.env.SECRET_KEY;
 
 class HelperUtils {

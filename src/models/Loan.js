@@ -3,14 +3,17 @@ import DB from '../database';
 export default class Loan {
   /**
    * Creates an instance of Loan
+   *
    * @param {Object} attributes loan attributes
    */
-  constructor({ user, tenor, amount }) {
+  constructor({
+    user, tenor, amount, status,
+  }) {
     Loan.incrementCount();
     this.id = Loan.count;
     this.user = user;
     this.createdOn = Date.now();
-    this.status = 'pending';
+    this.status = status || 'pending';
     this.repaid = false;
     this.tenor = parseInt(tenor, 10);
     this.amount = parseFloat(amount, 10.0);
@@ -56,6 +59,12 @@ export default class Loan {
     return Loan.table.find(loan => loan.id === id);
   }
 
+  /**
+   * Find resource by user email
+   *
+   * @param {string} user resource email address
+   * @returns {Loan} a Loan resource
+   */
   static findByUser(user) {
     return Loan.table.find(record => record.user === user);
   }
@@ -80,9 +89,12 @@ export default class Loan {
    * @returns {Loan} loan resource
    */
   update(data) {
+    this.balance = data.balance || this.balance;
+    this.repaid = data.repaid || this.repaid;
     if (this.status === 'pending') {
       this.status = data.status || this.status;
     }
+
     return this;
   }
 

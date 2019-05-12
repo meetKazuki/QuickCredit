@@ -1,11 +1,8 @@
-import debug from 'debug';
 import Loan from '../models/Loan';
-
-const Debug = debug('dev_ENV');
 
 /**
  * @class LoanController
- * @description specifies which method handles a request for a specific endpoint
+ * @description specifies which method handles a request for the Loan endpoints
  * @exports LoanController
  */
 class LoanController {
@@ -32,6 +29,7 @@ class LoanController {
       firstName, lastName, user, amount, tenor,
     };
     Loan.create(newLoan);
+
     return res.status(201).json({
       status: 201,
       data: {
@@ -61,12 +59,12 @@ class LoanController {
     const { status, repaid } = req.query;
     if (status && repaid) {
       const response = Loan.findQuery(status, JSON.parse(repaid));
-
       return res.status(200).json({
         status: 200,
         data: response,
       });
     }
+
     return res.status(200).json({
       status: 200,
       data: Loan.all(),
@@ -83,16 +81,10 @@ class LoanController {
   static getOneLoan(req, res) {
     const loanRecord = Loan.find(parseInt(req.params.id, 10));
     if (!loanRecord) {
-      return res.status(404).json({
-        status: 404,
-        error: 'loan record not found',
-      });
+      return res.status(404).json({ status: 404, error: 'Loan record not found!' });
     }
 
-    return res.status(200).json({
-      status: 200,
-      data: loanRecord,
-    });
+    return res.status(200).json({ status: 200, data: loanRecord });
   }
 
   /**
@@ -105,10 +97,7 @@ class LoanController {
   static updateLoan(req, res) {
     const loanRecord = Loan.find(parseInt(req.params.id, 10));
     if (!loanRecord) {
-      return res.status(404).json({
-        status: 404,
-        error: 'Loan record not found',
-      });
+      return res.status(404).json({ status: 404, error: 'Loan record not found!' });
     }
 
     const data = req.body;

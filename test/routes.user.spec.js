@@ -1,51 +1,17 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import debug from 'debug';
+import app from '../src/app';
 
 import User from '../src/models/User';
-import app from '../src/app';
-import { userDB } from './mock-data';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
-const baseURI = '/api/v1';
 const Debug = debug('test_ENV');
+const baseURI = '/api/v1';
 
-describe('routes /, /404, /api/v1', () => {
-  it('should return the index page', (done) => {
-    chai
-      .request(app)
-      .get('/')
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body).to.have.property('message');
-        done(err);
-      });
-  });
-
-  it('should return the API page', (done) => {
-    chai
-      .request(app)
-      .get(baseURI)
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body).to.have.property('message');
-        done(err);
-      });
-  });
-
-  it('should return an error for any invalid route', (done) => {
-    chai
-      .request(app)
-      .get('/404')
-      .end((err, res) => {
-        expect(res).to.have.status(404);
-        expect(res.body).to.have.property('error');
-        done(err);
-      });
-  });
-});
+let adminToken;
 
 describe('routes: /auth', () => {
   context('POST /auth/signup', () => {
@@ -152,19 +118,12 @@ describe('routes: /auth', () => {
   });
 
   context('POST /auth/signin', () => {
-    beforeEach((done) => {
-      User.resetTable();
-      userDB.forEach(data => User.create(data));
-      done();
-    });
-
-
     it('should login user if details are valid', (done) => {
       chai
         .request(app)
         .post(`${baseURI}/auth/signin`)
         .send({
-          email: 'etasseler0@is.gd',
+          email: 'john.doe@email.com',
           password: 'secret',
         })
         .end((err, res) => {
@@ -230,37 +189,52 @@ describe('routes: /auth', () => {
 });
 
 describe('routes: /users', () => {
-  let token;
-  beforeEach((done) => {
-    User.resetTable();
-    userDB.forEach(data => User.create(data));
-
-    const user = User.table[0];
-    chai
-      .request(app)
-      .post(`${baseURI}/auth/signin`)
-      .send({
-        email: user.email,
-        password: 'secret',
-      })
-      .end((err, res) => {
-        const response = res.body.data.token;
-        token = response;
-        done(err);
-      });
-  });
-
   context('GET /users', () => {
+    before((done) => {
+      chai
+        .request(app)
+        .post(`${baseURI}/auth/signin`)
+        .send({ email: 'meetdesmond.edem@gmail.com', password: 'secret' })
+        .end((err, res) => {
+          adminToken = res.body.data.token;
+          done(err);
+        });
+    });
+
     it('should fetch a list of all users', (done) => {
       chai
         .request(app)
         .get(`${baseURI}/users`)
+        .set('authorization', `Bearer ${adminToken}`)
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body).to.have.property('data');
           done(err);
         });
     });
+
+    specify('error if token is not provided', (done) => {
+      chai
+        .request(app)
+        .get(`${baseURI}/users`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body).to.have.property('error');
+          done(err);
+        });
+    });
+
+    /* specify('error when unauthorized user tries to access endpoint', (done) => {
+      chai
+        .request(app)
+        .get(`${baseURI}/users`)
+        .set('authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res).to.have.status(403);
+          expect(res.body).to.have.property('error');
+          done(err);
+        });
+    }); */
   });
 
   context('GET /users/:user-email', () => {
@@ -271,6 +245,7 @@ describe('routes: /users', () => {
       chai
         .request(app)
         .get(`${baseURI}/users/${email}`)
+        .set('authorization', `Bearer ${adminToken}`)
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body).to.have.property('data');
@@ -287,10 +262,10 @@ describe('routes: /users', () => {
 
     specify('error for non-existing resource', (done) => {
       const id = 20;
-
       chai
         .request(app)
         .get(`${baseURI}/users/${id}`)
+        .set('authorization', `Bearer ${adminToken}`)
         .end((err, res) => {
           expect(res).to.have.status(404);
           expect(res.body.status).to.equal(404);
@@ -298,18 +273,44 @@ describe('routes: /users', () => {
           done(err);
         });
     });
+
+    specify('error if token is not provided', (done) => {
+      chai
+        .request(app)
+        .get(`${baseURI}/users`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body).to.have.property('error');
+          done(err);
+        });
+    });
   });
 
-  context.skip('PATCH /users/:user-email', () => {
-    const data = {
-      status: 'verified',
-    };
+  context('PATCH /users/:user-email', () => {
+    before((done) => {
+      chai
+        .request(app)
+        .post(`${baseURI}/auth/signup`)
+        .send({
+          firstName: 'John',
+          lastName: 'Doe',
+          email: 'john.doe@email.com',
+          address: '12 Iyana Ipaja, CMS',
+          password: 'secret',
+        })
+        .end((err, res) => {
+          done(err);
+        });
+    });
+
+    const data = { status: 'verified' };
 
     it('should edit the status of a user (mark user as verified)', (done) => {
       chai
         .request(app)
-        .patch(`${baseURI}/users/meetdesmond.edem@gmail.com/verify`)
+        .patch(`${baseURI}/users/john.doe@email.com/verify`)
         .send(data)
+        .set('authorization', `Bearer ${adminToken}`)
         .end((err, res) => {
           expect(res).to.have.status(201);
           expect(res.body).to.have.property('data');
@@ -323,7 +324,7 @@ describe('routes: /users', () => {
         .request(app)
         .patch(`${baseURI}/users/etasseler0@is.com/verify`)
         .send(data)
-        .set('Authorization', token)
+        .set('authorization', `Bearer ${adminToken}`)
         .end((err, res) => {
           expect(res).to.have.status(404);
           expect(res.body).to.have.property('status');
@@ -338,7 +339,7 @@ describe('routes: /users', () => {
         .request(app)
         .patch(`${baseURI}/users/etasseler/verify`)
         .send(data)
-        .set('Authorization', token)
+        .set('authorization', `Bearer ${adminToken}`)
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body).to.have.property('status');

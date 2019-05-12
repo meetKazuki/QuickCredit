@@ -25,18 +25,6 @@ export default class User {
     this.isAdmin = false;
   }
 
-  toString() {
-    return {
-      id: this.id,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      address: this.address,
-      email: this.email,
-      status: this.status,
-      isAdmin: this.isAdmin,
-    };
-  }
-
   static incrementCount() {
     User.count += 1;
   }
