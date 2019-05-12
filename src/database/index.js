@@ -28,7 +28,7 @@ const DB = {
     {
       id: 1,
       user: 'uchiha.itachi@anbu.org',
-      createdOn: Date.now(),
+      createdOn: Date(Date.now()),
       status: 'approved',
       repaid: false,
       tenor: 3,
@@ -43,7 +43,7 @@ const DB = {
     {
       id: 1,
       loanId: 1,
-      createdOn: Date.now(),
+      createdOn: Date(Date.now()),
       amount: 20000,
       monthlyInstallments: 7000,
       paidAmount: 7000,

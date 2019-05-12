@@ -2,11 +2,9 @@ import debug from 'debug';
 import HelperUtils from '../utils/HelperUtils';
 import User from '../models/User';
 
-const Debug = debug('dev_ENV');
-
 /**
  * @class ValidateUser
- * @description Intercepts and validates a given request for user endpoints
+ * @description Intercepts and validates a given request for User endpoints
  * @exports ValidateUser
  */
 export default class ValidateUser {

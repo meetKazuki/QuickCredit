@@ -6,7 +6,9 @@ export default class Loan {
    *
    * @param {Object} attributes loan attributes
    */
-  constructor({ user, tenor, amount, status }) {
+  constructor({
+    user, tenor, amount, status,
+  }) {
     Loan.incrementCount();
     this.id = Loan.count;
     this.user = user;
@@ -86,8 +88,7 @@ export default class Loan {
    * @param {object} data attributes to modify
    * @returns {Loan} loan resource
    */
-  static update(data) {
-    console.log(data);
+  update(data) {
     this.balance = data.balance || this.balance;
     this.repaid = data.repaid || this.repaid;
     if (this.status === 'pending') {

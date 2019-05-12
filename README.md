@@ -10,8 +10,8 @@
 
 ## Project Overview
 
-Quick Credit is an online lending platform that provides short term soft loans to individuals. This
-helps solve problems of financial inclusion as a way to alleviate poverty and empower low income earners.
+Quick Credit is an online lending platform that provides short term soft loans to individuals. It seeks to solve problems of
+financial inclusion as a way to alleviate poverty and empower low income earners.
 
 
 ## Features
@@ -54,7 +54,7 @@ Ensure you have the following installed on your local machine:
 
 ### Installing/Run locally
 - Make sure you have `nodejs`, `postgres` installed.
-- Clone or fork repo :man_shrugging:
+- Clone or fork repo🤷‍♂
 
   ```bash
     - git clone https://github.com/meetKazuki/QuickCredit.git
@@ -66,16 +66,16 @@ Ensure you have the following installed on your local machine:
 
 ### Testing
 - To test or consume the API locally, you can make use of [*Postman*](https://www.getpostman.com) to simulate a front-end client.
-- You can also test by running `npm test`.
+- There are also automated tests that you can fire up by running `npm test`.
 
 
 ## HTTP Requests
 All API requests are made by sending a secure HTTPS request using one of the following methods, depending on the action being taken:
 
 - `POST` Create a resource
-- `PATCH` Update a resource
 - `GET` Get a resource or list of resources
-- `DELETE` Delete a resource
+- `PATCH` Update a resource
+<!-- - `DELETE` Delete a resource -->
 
 For `POST` and `PATCH` requests, the body of your request may include a JSON payload.
 
@@ -100,3 +100,6 @@ Each response will be returned with one of the following HTTP status codes:
 
 ## License
 The QuickCredit API is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Misc😏
+If for some reason you find this repo useful, please give me a star🙏

@@ -1,12 +1,8 @@
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
-import debug from 'debug';
-
-const Debug = debug('dev_ENV');
 
 dotenv.config();
-
 const secretKey = process.env.SECRET_KEY;
 
 class HelperUtils {

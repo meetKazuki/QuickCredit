@@ -3,7 +3,7 @@ import User from '../models/User';
 
 /**
  * @class UserController
- * @description specifies which method handles a request for a specific endpoint
+ * @description specifies which method handles a request for User endpoints
  * @exports UserController
  */
 class UserController {
@@ -45,7 +45,7 @@ class UserController {
     res.status(200).json({
       status: 200,
       data: {
-        message: 'login successful!',
+        message: 'Login successful!',
         token,
         id: req.user.id,
         firstName: req.user.firstName,
@@ -64,10 +64,7 @@ class UserController {
    * @returns {object} JSON API Response
    */
   static getAllUsers(req, res) {
-    res.status(200).json({
-      status: 200,
-      data: User.all(),
-    });
+    res.status(200).json({ status: 200, data: User.all() });
   }
 
   /**
@@ -88,7 +85,7 @@ class UserController {
     } else {
       res.status(404).json({
         status: 404,
-        error: 'User not found',
+        error: 'User not found!',
       });
     }
   }

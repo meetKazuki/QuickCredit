@@ -1,7 +1,4 @@
-import debug from 'debug';
 import HelperUtils from '../utils/HelperUtils';
-
-const Debug = debug('dev_ENV');
 
 /**
  * @class AuthenticateUser
@@ -10,7 +7,7 @@ const Debug = debug('dev_ENV');
  */
 class AuthenticateUser {
   /**
-   * @method
+   * @method verifyAuthHeader
    * @description
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object

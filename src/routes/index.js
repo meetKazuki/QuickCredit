@@ -40,6 +40,9 @@ router.post(
 );
 router.post(
   '/loans/:id/repayment',
+  ValidateRepayment.validateRepaymentID,
+  AuthenticateUser.verifyAdmin,
+  ValidateRepayment.validateRepayCredentials,
   RepaymentController.postLoanRepayment,
 );
 
