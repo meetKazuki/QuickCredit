@@ -32,6 +32,7 @@ class LoanController {
       firstName, lastName, user, amount, tenor,
     };
     Loan.create(newLoan);
+
     return res.status(201).json({
       status: 201,
       data: {

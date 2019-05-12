@@ -3,9 +3,9 @@ import morgan from 'morgan';
 import Debug from 'debug';
 import router from './routes';
 
-const debug = Debug('dev_ENV');
 const app = express();
 const PORT = process.env.PORT || 3000;
+const debug = Debug('dev_ENV');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

@@ -6,12 +6,12 @@ export default class Loan {
    *
    * @param {Object} attributes loan attributes
    */
-  constructor({ user, tenor, amount }) {
+  constructor({ user, tenor, amount, status }) {
     Loan.incrementCount();
     this.id = Loan.count;
     this.user = user;
     this.createdOn = Date.now();
-    this.status = 'pending';
+    this.status = status || 'pending';
     this.repaid = false;
     this.tenor = parseInt(tenor, 10);
     this.amount = parseFloat(amount, 10.0);
@@ -86,10 +86,14 @@ export default class Loan {
    * @param {object} data attributes to modify
    * @returns {Loan} loan resource
    */
-  update(data) {
+  static update(data) {
+    console.log(data);
+    this.balance = data.balance || this.balance;
+    this.repaid = data.repaid || this.repaid;
     if (this.status === 'pending') {
       this.status = data.status || this.status;
     }
+
     return this;
   }
 

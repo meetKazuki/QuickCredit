@@ -1,11 +1,11 @@
 import DB from '../database';
 
 export default class Repayment {
-  constructor({ loanID, amount }) {
+  constructor({ loanID, paidAmount }) {
     Repayment.incrementCount();
     this.id = Repayment.count;
     this.loanID = loanID;
-    this.amount = parseFloat(amount, 10.0);
+    this.paidAmount = parseFloat(paidAmount, 10.0);
     this.createdOn = Date.now();
   }
 

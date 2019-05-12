@@ -38,6 +38,10 @@ router.post(
   ValidateLoan.validateLoanApply,
   LoanController.createLoan,
 );
+router.post(
+  '/loans/:id/repayment',
+  RepaymentController.postLoanRepayment,
+);
 
 /**
  * /GET endpoints
@@ -76,7 +80,7 @@ router.get(
  */
 router.patch(
   '/users/:email/verify',
-  ValidateUser.validateEmailParam,
+  ValidateUser.validateEmail,
   AuthenticateUser.verifyAdmin,
   UserController.updateUser,
 );

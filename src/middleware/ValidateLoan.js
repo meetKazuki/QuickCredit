@@ -1,5 +1,3 @@
-import Loan from '../models/Loan';
-
 /**
  * @class ValidateLoan
  * @description Intercepts and validates a given request for loan endpoints
@@ -7,7 +5,7 @@ import Loan from '../models/Loan';
  */
 export default class ValidateLoan {
   /**
-   * @method validateLoanApplication
+   * @method validateLoanApply
    * @description
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object

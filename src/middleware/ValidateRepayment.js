@@ -1,4 +1,4 @@
-export default class ValidateRepaymentRecord {
+export default class ValidateRepayment {
   static validateRepaymentID(req, res, next) {
     req
       .checkParams('id')

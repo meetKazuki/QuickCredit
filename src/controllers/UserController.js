@@ -108,6 +108,7 @@ class UserController {
 
     const data = req.body;
     user.update(data);
+
     return res.status(201).json({
       status: 201,
       data: {

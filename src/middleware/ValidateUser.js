@@ -15,7 +15,7 @@ export default class ValidateUser {
    * @description Validates profile details of the user upon registration
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
-   * @returns {object} JSON API Response
+   * @returns
    */
   static validateProfileDetails(req, res, next) {
     const validate = HelperUtils.validate();
@@ -47,7 +47,7 @@ export default class ValidateUser {
    * @description Validates login details (email and password)
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
-   * @returns {object} JSON API Response
+   * @returns
    */
   static validateLoginDetails(req, res, next) {
     const validate = HelperUtils.validate();
@@ -104,7 +104,7 @@ export default class ValidateUser {
    * @description
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
-   * @returns {object} JSON API Response
+   * @returns
    */
   static validateExistingUser(req, res, next) {
     const { email } = req.body;
@@ -127,7 +127,7 @@ export default class ValidateUser {
    * @param {object} res - The Response Object
    * @returns
    */
-  static validateEmailParam(req, res, next) {
+  static validateEmail(req, res, next) {
     const validate = HelperUtils.validate();
     const { email } = req.params;
 
