@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+- 10.15.1
+env:
+  global:
+  - CC_TEST_REPORTER_ID=8b4fe4c25416a25bbf6c697cb2c078fc75c010a292eebed0b3cab889c6603852
+  - secure: bzvywPmiFNKEIYupGnZPlQeysa3npGt+LNbChb2pNXfjla0Rw26DsHzcwcG/INmFmFFr5D6xw+BTFgArOsNC1fzuV8orT44dpv7Xhu5QLB3v21b8JEcZ4w6T9bgvtt1Imi2/Epfcx/NhE13plVMFE81uyPdfko1WxnpCzImQIzNe35ayPKHG6uXESUqbfDsN21FAtvW3Plispwfwg5UN7YUmwicsGxlQJ+jlIf+fUzhlPNkrh+GHi+hts6bWjpruMzCtdrW0akLJy8/w/6z5g6u1HsLHX6CVWq8DYv4jHzp7qg6rDvbGwL07kPN64xierl8GO8MsYCxqSrFJmq3aZA4ZKLLGvuEkXS5a4Pf1HPUbW+ypWCwZ8ij1o1pLlZhhJgSw6KtMChVsoABk28BBsfIMfnvOvQJniJcMXqvjvZFWu67rRZLbk53t/WAuXlD7LuBJC4AUsrEqlhQQFMtB/opP0QuIwetsl9DwQ6IbsPO1RmpbWgy8v67EL+S8Sx9KZdNnDop1a1wFgdvyG+G9wmR7p2mbo29yXHCdsGML9UF8mm+BPrw81ubExhc4CmpG3h1fb12c+neReTwm0S7hGqRR8MQ6YMSnbSdyLG4lN64zkOAN2OLnaR9DpDsFzitBAIkdynbJ4gH3kehV8OFFOFk3ehydFOe8w5ql9OKYqfM=
+install:
+- npm install
+before_script:
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+  > ./cc-test-reporter
+- chmod +x ./cc-test-reporter
+- "./cc-test-reporter before-build"
+script: npm test
+after_success:
+- npm run coverage
+- "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"

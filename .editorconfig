@@ -1,0 +1,40 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 2
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.js]
+charset = utf-8
+indent_style = space
+indent_size = 2
+
+[**.min.js]
+indent_style = ignore
+insert_final_newline = ignore
+
+[{package.json,.travis.yml}]
+indent_style = space
+indent_size = 2
+insert_final_newline = ignore
+
+[vcbuild.bat]
+end_of_line = crlf
+
+[Makefile]
+indent_size = 8
+indent_style = tab
+
+[{deps}/**]
+charset = ignore
+end_of_line = ignore
+indent_size = ignore
+indent_style = ignore
+trim_trailing_whitespace = true
+
+[{test/fixtures,deps,tools/node_modules,tools/gyp,tools/icu,tools/msvs}/**]
+insert_final_newline = false

@@ -1,5 +1,7 @@
 @import 'normalize.css';
 @import url('https://fonts.googleapis.com/css?family=Biryani|Carter+One|Hind+Siliguri|Nunito');
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+@import url('https://fonts.googleapis.com/css?family=Shojumaru');
 
 /** Base Styles **/
 
@@ -19,6 +21,7 @@ h2 {
   font-family: 'Hind Siliguri', sans-serif;
 }
 a {
+  font-family: 'Raleway', sans-serif;
   text-decoration: none;
 }
 li {
@@ -63,11 +66,8 @@ a.btn {
 .navbar {
   display: flex;
 }
-.navbar-logo {
-  padding: 12px 40px;
-}
 .logo {
-  width: 100px;
+  height: 50px;
 }
 .navbar-menu {
   display: flex;
@@ -102,6 +102,7 @@ a.btn {
   display: block;
   font-weight: 600;
   padding: 0.1rem 0.5rem;
+  text-transform: uppercase;
 }
 .navbar-link a:hover {
   color: #f4511e;
@@ -111,7 +112,7 @@ a.btn {
 
 .hero {
   align-items: center;
-  background-image: url(https://user-images.githubusercontent.com/12225152/56541352-63150380-6563-11e9-947b-d2c3c012895a.jpg);
+  background-image: url(https://user-images.githubusercontent.com/12225152/57661552-49576100-75e3-11e9-9ce9-d656d4eb7928.jpg);
   background-position: center top;
   background-size: cover;
   color: #f9f9f9;
@@ -139,9 +140,10 @@ a.btn {
   text-transform: uppercase;
 }
 .hero-paragraph {
-  font-size: 1.1em;
+  font-size: 1.3em;
   margin-bottom: 40px;
-  width: 75%;
+  text-align: center;
+  width: 45vw;
 }
 .hero-callout {
   margin-top: 10px;
@@ -185,12 +187,14 @@ section {
 section > .btn {
   align-self: center;
 }
-.section-title {
+.section-title,
+.section-callout {
+  align-self: center;
   display: inline-block;
 }
 .section-title,
 .section-text {
-  margin-bottom: 15px;
+  margin-bottom: 25px;
   position: relative;
 }
 .section-title:after {

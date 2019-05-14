@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Biryani|Carter+One|Hind+Siliguri|Nunito');
 
 * {
+  /* border: 0.3px solid red; */
   transition-duration: 0.6s;
   transition-property: all;
   transition-timing-function: ease;
@@ -58,13 +59,22 @@ button {
 
 /** Header Styles **/
 header {
-  margin: 1rem auto;
-  width: 20vw;
+  align-self: center;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
 }
-.logo {
-  object-fit: contain;
-  height: 100%;
-  width: 100%;
+.navbar-logo {
+  text-align: center;
+}
+.navbar-logo {
+  color: #EBF2FA;
+  font-size: 1.4rem;
+}
+.navbar-logo .fas {
+  margin-left: 0.1rem;
+}
+.navbar-logo span {
+  margin-left: 1rem;
 }
 
 /** Main Styles **/
