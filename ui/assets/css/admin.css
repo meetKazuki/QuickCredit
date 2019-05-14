@@ -24,7 +24,7 @@ h1 {
   font-family: 'Carter One', cursive;
 }
 h2 {
-  font-family: 'Hind Siliguri', sans-serif;  
+  font-family: 'Hind Siliguri', sans-serif;
 }
 a {
   text-decoration: none;
@@ -158,6 +158,7 @@ main {
   position: relative;
 }
 .section-title {
+  align-self: center;
   color: #1D3461;
   display: inline-block;
   margin-bottom: 15px;

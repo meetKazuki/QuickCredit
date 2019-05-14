@@ -1,4 +1,4 @@
-import HelperUtils from '../utils/HelperUtils';
+import HelperUtils from '../utils/helperUtils';
 
 const DB = {
   users: [

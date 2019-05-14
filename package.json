@@ -9,8 +9,8 @@
     "clean": "rm -rf build .nyc_output coverage && mkdir build",
     "coverage": "nyc report --reporter=text-lcov | coveralls && nyc report --reporter=lcov",
     "start": "npm run build && node ./build/app.js",
-    "start:dev": "set DEBUG=dev_ENV && babel-watch ./src/app.js",
-    "test": "set DEBUG=test_ENV && nyc mocha -r @babel/register -t 1000 --exit"
+    "start:dev": "babel-watch ./src/app.js",
+    "test": "nyc mocha -r @babel/register -t 1000 --exit"
   },
   "repository": {
     "type": "git",

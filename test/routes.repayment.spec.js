@@ -27,7 +27,7 @@ describe('routes: repayment', () => {
 
       chai
         .request(app)
-        .post(`${baseURI}/auth/signin`)
+        .post('/auth/signin')
         .send({ email: 'meetdesmond.edem@gmail.com', password: 'secret' })
         .end((err, res) => {
           adminToken = res.body.data.token;
@@ -130,7 +130,7 @@ describe('routes: repayment', () => {
 
       chai
         .request(app)
-        .post(`${baseURI}/auth/signin`)
+        .post('/auth/signin')
         .send({ email: 'etasseler0@is.gd', password: 'secret' })
         .end((err, res) => {
           userToken = res.body.data.token;
