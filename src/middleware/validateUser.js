@@ -1,5 +1,4 @@
-import debug from 'debug';
-import HelperUtils from '../utils/HelperUtils';
+import HelperUtils from '../utils/helperUtils';
 import User from '../models/User';
 
 /**
@@ -22,15 +21,15 @@ export default class ValidateUser {
     } = req.body;
     let error = '';
 
-    if (!firstName || !validate.name.test(firstName)) {
+    if (!firstName.trim() || !validate.name.test(firstName)) {
       error = 'You need to include a valid first name';
-    } else if (!lastName || !validate.name.test(lastName)) {
+    } else if (!lastName.trim() || !validate.name.test(lastName)) {
       error = 'You need to include a valid last name';
     } else if (!address) {
       error = 'You need to include a valid address';
-    } else if (!email || !validate.email.test(email)) {
+    } else if (!email.trim() || !validate.email.test(email)) {
       error = 'You need to include a valid email address';
-    } else if (!password) {
+    } else if (!password.trim()) {
       error = 'You need to include a password';
     }
 
@@ -54,10 +53,10 @@ export default class ValidateUser {
     let status;
 
     // Test validity of input
-    if (!email || !validate.email.test(email)) {
-      error = 'The email provided is invalid';
-    } else if (!password) {
-      error = 'Provide password to continue';
+    if (!email.trim() || !validate.email.test(email)) {
+      error = 'Email/Password provided is invalid';
+    } else if (!password.trim()) {
+      error = 'Email/Password provided is invalid';
     }
 
     if (error) {

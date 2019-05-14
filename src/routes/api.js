@@ -1,15 +1,15 @@
 import express from 'express';
 import validator from 'express-validator';
 
-import ValidateUser from '../middleware/ValidateUser';
-import AuthenticateUser from '../middleware/AuthenticateUser';
-import UserController from '../controllers/UserController';
+import ValidateUser from '../middleware/validateUser';
+import AuthenticateUser from '../middleware/authenticateUser';
+import UserController from '../controllers/userController';
 
-import ValidateLoan from '../middleware/ValidateLoan';
-import LoanController from '../controllers/LoanController';
+import ValidateLoan from '../middleware/validateLoan';
+import LoanController from '../controllers/loanController';
 
-import ValidateRepayment from '../middleware/ValidateRepayment';
-import RepaymentController from '../controllers/RepaymentController';
+import ValidateRepayment from '../middleware/validateRepayment';
+import RepaymentController from '../controllers/repaymentController';
 
 const router = express.Router();
 router.use(validator());
@@ -21,17 +21,6 @@ router.get('/', (req, res) => {
 /**
  * /POST endpoints
  */
-router.post(
-  '/auth/signup',
-  ValidateUser.validateProfileDetails,
-  ValidateUser.validateExistingUser,
-  UserController.createUser,
-);
-router.post(
-  '/auth/signin',
-  ValidateUser.validateLoginDetails,
-  UserController.authenticate,
-);
 router.post(
   '/loans',
   AuthenticateUser.verifyUser,

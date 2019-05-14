@@ -1,14 +1,11 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import debug from 'debug';
 import app from '../src/app';
-
 import User from '../src/models/User';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
-const Debug = debug('test_ENV');
 const baseURI = '/api/v1';
 
 let adminToken;
@@ -26,7 +23,7 @@ describe('routes: /auth', () => {
     it('should create a new user', (done) => {
       chai
         .request(app)
-        .post(`${baseURI}/auth/signup`)
+        .post('/auth/signup')
         .send(userData)
         .end((err, res) => {
           expect(res).to.have.status(201);
@@ -44,7 +41,7 @@ describe('routes: /auth', () => {
       userData.lastName = '';
       chai
         .request(app)
-        .post(`${baseURI}/auth/signup`)
+        .post('/auth/signup')
         .send(userData)
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -61,7 +58,7 @@ describe('routes: /auth', () => {
       userData.firstName = '';
       chai
         .request(app)
-        .post(`${baseURI}/auth/signup`)
+        .post('/auth/signup')
         .send(userData)
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -78,7 +75,7 @@ describe('routes: /auth', () => {
       userData.address = '';
       chai
         .request(app)
-        .post(`${baseURI}/auth/signup`)
+        .post('/auth/signup')
         .send(userData)
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -92,7 +89,7 @@ describe('routes: /auth', () => {
       userData.email = '';
       chai
         .request(app)
-        .post(`${baseURI}/auth/signup`)
+        .post('/auth/signup')
         .send(userData)
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -106,7 +103,7 @@ describe('routes: /auth', () => {
       userData.password = '';
       chai
         .request(app)
-        .post(`${baseURI}/auth/signup`)
+        .post('/auth/signup')
         .send(userData)
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -121,7 +118,7 @@ describe('routes: /auth', () => {
     it('should login user if details are valid', (done) => {
       chai
         .request(app)
-        .post(`${baseURI}/auth/signin`)
+        .post('/auth/signin')
         .send({
           email: 'john.doe@email.com',
           password: 'secret',
@@ -137,7 +134,7 @@ describe('routes: /auth', () => {
     specify('error if email is not provided', (done) => {
       chai
         .request(app)
-        .post(`${baseURI}/auth/signin`)
+        .post('/auth/signin')
         .send({ email: '', password: '1234345' })
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -150,7 +147,7 @@ describe('routes: /auth', () => {
     specify('error if invalid email type is provided', (done) => {
       chai
         .request(app)
-        .post(`${baseURI}/auth/signin`)
+        .post('/auth/signin')
         .send({ email: 'sffet', password: '1234345' })
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -163,7 +160,7 @@ describe('routes: /auth', () => {
     specify('error if password is not provided', (done) => {
       chai
         .request(app)
-        .post(`${baseURI}/auth/signin`)
+        .post('/auth/signin')
         .send({ email: 'meetdesmond.edem@gmail.com', password: '' })
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -176,7 +173,7 @@ describe('routes: /auth', () => {
     specify('error if user does not exist', (done) => {
       chai
         .request(app)
-        .post(`${baseURI}/auth/signin`)
+        .post('/auth/signin')
         .send({ email: 'randomuser200@email.com', password: '2232323' })
         .end((err, res) => {
           expect(res).to.have.status(404);
@@ -193,7 +190,7 @@ describe('routes: /users', () => {
     before((done) => {
       chai
         .request(app)
-        .post(`${baseURI}/auth/signin`)
+        .post('/auth/signin')
         .send({ email: 'meetdesmond.edem@gmail.com', password: 'secret' })
         .end((err, res) => {
           adminToken = res.body.data.token;
@@ -290,7 +287,7 @@ describe('routes: /users', () => {
     before((done) => {
       chai
         .request(app)
-        .post(`${baseURI}/auth/signup`)
+        .post('/auth/signup')
         .send({
           firstName: 'John',
           lastName: 'Doe',

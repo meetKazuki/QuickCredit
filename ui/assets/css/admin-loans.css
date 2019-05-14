@@ -19,7 +19,6 @@
 .toggle-reports .btn {
   background: #fffffa;
   color: #1d3461;
-  border: 2px solid #fffffa;
 }
 .btn {
   height: 30px;
@@ -29,7 +28,7 @@
   text-align: center;
 }
 .btn.btn-toggled {
-  border: 2px solid #fffffa;
+  /* border: 2px solid #fffffa; */
   background: #427aa1;
   color: #ffffff;
 }
