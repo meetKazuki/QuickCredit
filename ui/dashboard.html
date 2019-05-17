@@ -7,10 +7,17 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>QuickCredit &mdash; User Dashboard</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-  <link rel="stylesheet" href="assets/css/dashboard.css"> 
+  <link rel="stylesheet" href="assets/css/dashboard.css">
 </head>
 <body>
   <aside>
+    <div class="modal-toggle"></div>
+    <button class="hamburger-menu"><a class="hamburger"></a></button>
+    <div class="asidebar-logo">
+      <a href="./">
+        <img src="https://user-images.githubusercontent.com/12225152/57765850-2bcaea00-76fe-11e9-8d2a-0871c4a5980c.png"alt="logo" class="logo">
+      </a>
+    </div>
     <nav>
       <a href="#" class="active"><i class="fas fa-tachometer-alt"></i>Overview</a>
       <a href="loan.html"><i class="fas fa-landmark"></i>Request for Loan</a>
@@ -20,10 +27,10 @@
   </aside>
 
   <header>
-    <nav>
-      <a href="#"><i class="fas fa-bell"></i></a>
-      <a href="signin.html"><i class="fas fa-sign-out-alt"></i></a>
-    </nav>
+  <nav>
+    <a href="#"><i class="fas fa-bell"></i></a>
+    <a href="signin.html"><i class="fas fa-sign-out-alt"></i></a>
+  </nav>
   </header>
 
   <main>
@@ -95,5 +102,7 @@
       </div>
     </section>
   </main>
+
+  <script src="assets/js/user.js"></script>
 </body>
 </html>

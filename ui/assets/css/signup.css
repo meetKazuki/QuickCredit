@@ -2,7 +2,6 @@
 @import url('https://fonts.googleapis.com/css?family=Biryani|Carter+One|Hind+Siliguri|Nunito');
 
 * {
-  /* border: 0.3px solid red; */
   transition-duration: 0.6s;
   transition-property: all;
   transition-timing-function: ease;
@@ -60,21 +59,14 @@ button {
 /** Header Styles **/
 header {
   align-self: center;
+  height: 10vh;
   margin-bottom: 1rem;
   margin-top: 1rem;
 }
-.navbar-logo {
-  text-align: center;
-}
-.navbar-logo {
-  color: #EBF2FA;
-  font-size: 1.4rem;
-}
-.navbar-logo .fas {
-  margin-left: 0.1rem;
-}
-.navbar-logo span {
-  margin-left: 1rem;
+.logo {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
 }
 
 /** Main Styles **/
@@ -165,7 +157,7 @@ section > p a:hover {
 /* for smartphones < 768px */
 @media screen and (max-width: 768px) {
   header {
-    width: 70%;
+    width: 30%;
   }
 
   .container {

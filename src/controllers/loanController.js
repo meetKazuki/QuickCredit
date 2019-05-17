@@ -14,34 +14,29 @@ class LoanController {
    * @returns {object} JSON API Response
    */
   static createLoan(req, res) {
-    const {
-      firstName, lastName, user, amount, tenor,
-    } = req.body;
+    const { email, firstName, lastName } = req.user;
+    const { amount, tenor } = req.body;
 
-    if (Loan.findByUser(user)) {
+    if (Loan.findByEmail(email)) {
       return res.status(409).json({
         status: 409,
-        error: 'You already applied for a loan',
+        error: "You've already applied for a loan",
       });
     }
 
-    const newLoan = {
-      firstName, lastName, user, amount, tenor,
-    };
-    Loan.create(newLoan);
-
+    const newLoan = Loan.create({ email, amount, tenor });
     return res.status(201).json({
       status: 201,
       data: {
-        message: 'Loan request received. We\'ll get back to you shortly.',
+        message: "Loan request received. We'll get back to you shortly.",
         loanId: newLoan.id,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: newLoan.user,
+        firstName,
+        lastName,
+        email: newLoan.email,
         amount: newLoan.amount,
-        tenor: newLoan.tenor,
         interest: newLoan.interest,
-        monthlyInstallment: newLoan.paymentInstallment,
+        tenor: newLoan.tenor,
+        paymentInstallment: newLoan.paymentInstallment,
         balance: newLoan.balance,
         status: newLoan.status,
       },
@@ -57,13 +52,7 @@ class LoanController {
    */
   static getAllLoans(req, res) {
     const { status, repaid } = req.query;
-    if (status && repaid) {
-      const response = Loan.findQuery(status, JSON.parse(repaid));
-      return res.status(200).json({
-        status: 200,
-        data: response,
-      });
-    }
+    Loan.findQuery(status, repaid);
 
     return res.status(200).json({
       status: 200,
@@ -81,7 +70,8 @@ class LoanController {
   static getOneLoan(req, res) {
     const loanRecord = Loan.find(parseInt(req.params.id, 10));
     if (!loanRecord) {
-      return res.status(404).json({ status: 404, error: 'Loan record not found!' });
+      return res
+        .status(404).json({ status: 404, error: 'Loan record not found!' });
     }
 
     return res.status(200).json({ status: 200, data: loanRecord });
@@ -97,7 +87,8 @@ class LoanController {
   static updateLoan(req, res) {
     const loanRecord = Loan.find(parseInt(req.params.id, 10));
     if (!loanRecord) {
-      return res.status(404).json({ status: 404, error: 'Loan record not found!' });
+      return res
+        .status(404).json({ status: 404, error: 'Loan record not found!' });
     }
 
     const data = req.body;
@@ -113,6 +104,30 @@ class LoanController {
         monthlyInstallment: loanRecord.paymentInstallment,
         interest: loanRecord.interest,
       },
+    });
+  }
+
+  /**
+   * @method viewUserLoans
+   * @description Fetches all loan applications for a particular user
+   * @param {object} req Request object
+   * @param {object} res Response object
+   * @returns {object} JSON API Response
+   */
+  static viewUserLoans(req, res) {
+    const { email } = req.user;
+    const loanHistory = Loan.fetchLoans(email);
+
+    if (!loanHistory) {
+      return res.status(403).json({
+        status: 403,
+        error: "You don't have access to this resource",
+      });
+    }
+
+    return res.status(200).json({
+      status: 200,
+      data: loanHistory,
     });
   }
 }

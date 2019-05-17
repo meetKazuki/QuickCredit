@@ -50,7 +50,7 @@ class RepaymentController {
    * @returns {object} JSON API Response
    */
   static getRepaymentHistory(req, res) {
-    const { loanId } = req.params;
+    const loanId = req.params.id;
 
     const loanRecord = Repayment.find(loanId);
     if (!loanRecord) {

@@ -1,9 +1,6 @@
 @import 'normalize.css';
 @import url('https://fonts.googleapis.com/css?family=Biryani|Carter+One|Hind+Siliguri|Nunito');
 
-/* * {
-  border: 0.1px solid red;
-} */
 body {
   background-color: #ebf2fa;
   display: grid;
@@ -44,7 +41,6 @@ button {
   background: transparent;
   border: 1px solid #427AA1;
   border-radius: 3px;
-  /* color: #fffffa; */
   font-size: 1em;
   height: 40px;
   margin: 0;
@@ -76,14 +72,25 @@ main {
 
 aside {
   background-color: #0A122A;
+  flex-direction: column;
   grid-area: aside;
-  justify-content: center;
+}
+aside .asidebar-logo {
+  align-self: center;
+  margin-top: 3vh;
+  padding: 3px;
+  width: 18vw;
+}
+.asidebar-logo img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
 }
 aside nav {
   display: flex;
   flex-direction: column;
-  padding-top: 10rem;
-  width: 100%;
+  justify-content: center;
+  height: 50%;
 }
 aside nav a {
   color: #fffffa;
@@ -111,10 +118,12 @@ aside nav a .fas {
 
 header {
   align-items: center;
-  /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
   grid-area: header;
   min-height: 7vh;
   justify-content: flex-end;
+}
+.hamburger-menu {
+  display: none;
 }
 header nav {
   margin: 0.3rem;
@@ -185,4 +194,102 @@ main {
   background-color: #2ebc4f;
   border-color: #2ebc4f;
   align-self: flex-end;
+}
+
+
+@media only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+  /* base styles */
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+  .btn-secondary {
+    width: 100%;
+  }
+
+  /* aside menu */
+  .asidebar-logo {
+    display: none;
+  }
+  aside nav {
+    display: none;
+    background: #151b3a;
+    top: 50px;
+    overflow: hidden;
+    position: absolute;
+    transition: all 250ms ease-in-out;
+    width: 100%;
+    z-index: 10000;
+  }
+  aside nav.menu-open {
+    display: flex;
+    flex-direction: column;
+  }
+  aside nav a.active {
+    border: none;
+  }
+  .hamburger-menu {
+    background: transparent;
+    border: 0;
+    display: block;
+    padding: 37px;
+    position: absolute;
+    left: 0;
+    top: -10px;
+  }
+  .hamburger-menu.menu-open > .hamburger {
+    background: transparent;
+  }
+  .hamburger-menu.menu-open > .hamburger:after,
+  .hamburger-menu.menu-open > .hamburger:before {
+    top: 0;
+    width: 30px;
+  }
+  .hamburger-menu.menu-open > .hamburger:after {
+    transform: rotate(-45deg);
+  }
+  .hamburger-menu.menu-open > .hamburger:before {
+    transform: rotate(45deg);
+  }
+  .hamburger {
+    background: #0a122a;
+    display: block;
+    height: 2px;
+    position: absolute;
+    right: 20px;
+    top: 36px;
+    width: 30px;
+  }
+  .hamburger:before {
+    top: 7px;
+  }
+  .hamburger:after {
+    bottom: 7px;
+  }
+  .hamburger:before,
+  .hamburger:after {
+    background: #0a122a;
+    content: "";
+    display: block;
+    height: 2px;
+    position: absolute;
+    right: 0px;
+    transition: all 250ms ease-in;
+    width: 30px;
+  }
+
+
+  /* Header styles */
+  header {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: start;
+  }
+
+
+  /* Main styles */
+  .container {
+    width: 80%;
+  }
 }

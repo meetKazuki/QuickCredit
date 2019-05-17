@@ -1,24 +1,21 @@
 @import 'normalize.css';
-@import url('https://fonts.googleapis.com/css?family=Biryani|Carter+One|Hind+Siliguri|Nunito');
-@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
-@import url('https://fonts.googleapis.com/css?family=Shojumaru');
+@import url('https://fonts.googleapis.com/css?family=Averia+Libre|Biryani|Nunito+Sans|Raleway');
 
 /** Base Styles **/
-
+html {
+  scroll-behavior: smooth;
+}
 body {
   background-color: #ebf2fa;
   display: flex;
   flex-direction: column;
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Nunito Sans', sans-serif;
   font-size: 16px;
   line-height: 1.4;
   min-height: 100vh;
 }
-h1 {
-  font-family: 'Carter One', cursive;
-}
-h2 {
-  font-family: 'Hind Siliguri', sans-serif;
+h1, h2 {
+  font-family: 'Biryani', sans-serif;
 }
 a {
   font-family: 'Raleway', sans-serif;
@@ -39,7 +36,7 @@ a.btn {
 }
 .column {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .column .icon-circle {
   align-self: center;
@@ -65,9 +62,18 @@ a.btn {
 }
 .navbar {
   display: flex;
+  justify-content: space-between;
 }
-.logo {
-  height: 50px;
+.navbar-logo {
+  height: 60px;
+  justify-self: center;
+  margin-left: 15px;
+  padding: 3px;
+}
+.navbar-logo img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
 }
 .navbar-menu {
   display: flex;
@@ -87,7 +93,7 @@ a.btn {
 }
 .navbar-menu > li:last-child a.btn-transparent {
   background-color: #fffffa;
-  border: 2px solid #427aa1;
+  border: 1px solid #427aa1;
   color: #111111;
 }
 .navbar-menu > li:last-child a.btn-transparent:hover {
@@ -122,18 +128,8 @@ a.btn {
   justify-content: center;
   padding: 40px 80px;
 }
-.hero:after {
-  border: 10px solid;
-  border-color: #f9f9f9 transparent transparent;
-  bottom: 2vh;
-  content: "";
-  height: 0;
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%, 0);
-  width: 0;
-}
 .hero-title {
+  font-family: 'Averia Libre', cursive;
   font-size: 2.3em;
   letter-spacing: 0.3rem;
   margin-bottom: 30px;
@@ -147,6 +143,12 @@ a.btn {
 }
 .hero-callout {
   margin-top: 10px;
+}
+.hero-down {
+  bottom: 0.7rem;
+  color: #fffffa;
+  font-size: 2rem;
+  position: absolute;
 }
 .btn-home {
   background: #EF461C;
@@ -355,11 +357,15 @@ footer nav a:hover {
   }
   .hero-paragraph {
     font-size: 1em;
-    text-align: justify;
+    text-align: center;
+    width: 85vw;
   }
   .hero-callout,
   .features {
     flex-direction: column;
+  }
+  .hero-down {
+    bottom: 0.1rem;
   }
 
   /** section **/

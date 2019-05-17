@@ -10,11 +10,15 @@ export default class Repayment {
     this.id = Repayment.count;
     this.loanID = loanID;
     this.paidAmount = parseFloat(paidAmount, 10.0);
-    this.createdOn = Date(Date.now());
+    this.createdOn = Date();
   }
 
   static incrementCount() {
     Repayment.count += 1;
+  }
+
+  attribute() {
+    return { ...this };
   }
 
   /**
@@ -24,7 +28,7 @@ export default class Repayment {
    * @returns {Repayment} a Repayment resource
    */
   static create(attributes) {
-    const repayment = new Repayment(attributes);
+    const repayment = new Repayment(attributes).attribute();
     Repayment.table.push(repayment);
     return repayment;
   }
