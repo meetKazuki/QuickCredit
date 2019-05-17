@@ -34,9 +34,30 @@ export default class ValidateRepayment {
    * @returns
    */
   static validateRepayCredentials(req, res, next) {
-    const loanID = parseInt(req.params.id, 10);
-    const loanRecord = Loan.find(loanID);
+    const loan = parseInt(req.params.id, 10);
+    const loanRecord = Loan.find(loan);
     const { paidAmount } = req.body;
+
+    req
+      .checkParams('id')
+      .isNumeric()
+      .withMessage('ID should be an integer');
+    req
+      .checkBody('loanID')
+      .notEmpty()
+      .withMessage('Specify LoanID for this transaction')
+      .isNumeric()
+      .withMessage('LoanID should be an integer');
+    req
+      .checkBody('paidAmount')
+      .notEmpty()
+      .withMessage('Enter amount to be repaid')
+      .isNumeric()
+      .withMessage('paidAmount should be an integer');
+    const errors = req.validationErrors();
+    if (errors) {
+      return res.status(400).json({ status: 400, error: errors[0].msg });
+    }
 
     if (!loanRecord) {
       return res.status(404).json({ status: 404, error: 'Loan record not found' });
@@ -44,7 +65,7 @@ export default class ValidateRepayment {
     if (loanRecord.status !== 'approved') {
       return res.status(422).json({
         status: 422,
-        error: 'Loan request is not even approved!',
+        error: 'Loan request is not approved!',
       });
     }
     if (paidAmount > loanRecord.paymentInstallment) {

@@ -11,7 +11,14 @@
   </head>
   <body>
     <div id="modal-toggle" class="modal-toggle closed"></div>
+    <button class="hamburger-menu"><a class="hamburger"></a></button>
     <aside>
+      <div class="asidebar-logo">
+        <a href="./">
+          <img src="https://user-images.githubusercontent.com/12225152/57765850-2bcaea00-76fe-11e9-8d2a-0871c4a5980c.png"
+            alt="logo" class="logo">
+        </a>
+      </div>
       <nav>
         <a href="admin.html"><i class="fas fa-users-cog"></i> Manage Users</a>
         <a href="admin-loans.html" class="active">
@@ -145,7 +152,7 @@
             </tbody>
           </table>
         </div>
-        
+
         <div id="loans-repaid" class="responsive-table">
           <table id="records-table">
             <thead>
@@ -252,7 +259,7 @@
                 <th></th>
               </tr>
             </thead>
-        
+
             <tbody>
               <tr>
                 <td>1</td>
@@ -347,7 +354,7 @@
                 <th></th>
               </tr>
             </thead>
-        
+
             <tbody>
               <tr>
                 <td>1</td>
@@ -375,7 +382,7 @@
           </table>
         </div>
 
-        
+
       <div id="modal" class="modal report-modal closed">
         <div class="modal-header">
           <p class="modal-title">Loan Details</p>
@@ -399,5 +406,6 @@
     </main>
 
     <script src="assets/js/admin.js"></script>
+    <script src="assets/js/user.js"></script>
   </body>
 </html>

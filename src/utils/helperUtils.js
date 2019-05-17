@@ -9,7 +9,7 @@ class HelperUtils {
   static validate() {
     return {
       name: /^[a-zA-Z]+$/,
-      email: /^([A-z0-9-_.]+)@([A-z0-9-_.]+)\.([A-z]{2,3})$/,
+      email: /^([A-z0-9]+)([._-]{0,1})([A-z0-9]+)@([A-z0-9-_.]+)\.([A-z]{2,3})$/,
     };
   }
 

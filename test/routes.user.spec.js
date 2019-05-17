@@ -7,7 +7,10 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 const baseURI = '/api/v1';
+const authURI = '/api/v1/auth';
 
+const userToken1 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3ROYW1lIjoiT2JpdG8iLCJsYXN0TmFtZSI6IlVjaGloYSIsImFkZHJlc3MiOiJBa2F0c3VraSBIUSwgTGFuZCBvZiBXYXRlciIsImVtYWlsIjoidWNoaWhhLm9iaXRvQGFrYXRzdWtpLm9yZyIsInBhc3N3b3JkIjoiJDJhJDA4JHdqVUVoOEtCQ1hXRTQ1MW0wU0xmNk9Sa3RFMU51YzBVanBaYS5VWUFRYmZpdnREekxzb0t1Iiwic3RhdHVzIjoidW52ZXJpZmllZCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1NTgwNDkzODIsImV4cCI6MTU1ODEzNTc4Mn0.kIoRMlVGzw9Qfh27qjjbfuZr-4KjWFv06wXizLjsCEs';
+const userToken1a = 'yyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3ROYW1lIjoiT2JpdG8iLCJsYXN0TmFtZSI6IlVjaGloYSIsImFkZHJlc3MiOiJBa2F0c3VraSBIUSwgTGFuZCBvZiBXYXRlciIsImVtYWlsIjoidWNoaWhhLm9iaXRvQGFrYXRzdWtpLm9yZyIsInBhc3N3b3JkIjoiJDJhJDA4JHVpQ25vajdwL0tEbFR3VHg0NU1Hdi4zTzM4Qy4yUjUwWUtBQlpLTE0yZHpoL2h6WE95bUNPIiwic3RhdHVzIjoidW52ZXJpZmllZCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1NTgwMjYyMzUsImV4cCI6MTU1ODExMjYzNX0.lClBIG6-l_NMD0pKzA0K5wIYr1W-ErA9Ys3RXB2lrfw';
 let adminToken;
 
 describe('routes: /auth', () => {
@@ -23,7 +26,7 @@ describe('routes: /auth', () => {
     it('should create a new user', (done) => {
       chai
         .request(app)
-        .post('/auth/signup')
+        .post(`${authURI}/signup`)
         .send(userData)
         .end((err, res) => {
           expect(res).to.have.status(201);
@@ -37,19 +40,27 @@ describe('routes: /auth', () => {
         });
     });
 
+    specify('error if email provided already exists', (done) => {
+      chai
+        .request(app)
+        .post(`${authURI}/signup`)
+        .send(userData)
+        .end((err, res) => {
+          expect(res).to.have.status(409);
+          done(err);
+        });
+    });
+
     specify('error when user signs up with empty last name', (done) => {
       userData.lastName = '';
       chai
         .request(app)
-        .post('/auth/signup')
+        .post(`${authURI}/signup`)
         .send(userData)
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal(400);
           expect(res.body).to.have.property('error');
-          expect(res.body.error).to.equal(
-            'You need to include a valid last name',
-          );
           done(err);
         });
     });
@@ -58,15 +69,12 @@ describe('routes: /auth', () => {
       userData.firstName = '';
       chai
         .request(app)
-        .post('/auth/signup')
+        .post(`${authURI}/signup`)
         .send(userData)
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal(400);
           expect(res.body).to.have.property('error');
-          expect(res.body.error).to.equal(
-            'You need to include a valid first name',
-          );
           done(err);
         });
     });
@@ -75,7 +83,7 @@ describe('routes: /auth', () => {
       userData.address = '';
       chai
         .request(app)
-        .post('/auth/signup')
+        .post(`${authURI}/signup`)
         .send(userData)
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -89,7 +97,7 @@ describe('routes: /auth', () => {
       userData.email = '';
       chai
         .request(app)
-        .post('/auth/signup')
+        .post(`${authURI}/signup`)
         .send(userData)
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -103,7 +111,7 @@ describe('routes: /auth', () => {
       userData.password = '';
       chai
         .request(app)
-        .post('/auth/signup')
+        .post(`${authURI}/signup`)
         .send(userData)
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -118,7 +126,7 @@ describe('routes: /auth', () => {
     it('should login user if details are valid', (done) => {
       chai
         .request(app)
-        .post('/auth/signin')
+        .post(`${authURI}/signin`)
         .send({
           email: 'john.doe@email.com',
           password: 'secret',
@@ -134,7 +142,7 @@ describe('routes: /auth', () => {
     specify('error if email is not provided', (done) => {
       chai
         .request(app)
-        .post('/auth/signin')
+        .post(`${authURI}/signin`)
         .send({ email: '', password: '1234345' })
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -147,7 +155,7 @@ describe('routes: /auth', () => {
     specify('error if invalid email type is provided', (done) => {
       chai
         .request(app)
-        .post('/auth/signin')
+        .post(`${authURI}/signin`)
         .send({ email: 'sffet', password: '1234345' })
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -160,7 +168,7 @@ describe('routes: /auth', () => {
     specify('error if password is not provided', (done) => {
       chai
         .request(app)
-        .post('/auth/signin')
+        .post(`${authURI}/signin`)
         .send({ email: 'meetdesmond.edem@gmail.com', password: '' })
         .end((err, res) => {
           expect(res).to.have.status(400);
@@ -170,10 +178,21 @@ describe('routes: /auth', () => {
         });
     });
 
+    specify('error if password provided is incorrect', (done) => {
+      chai
+        .request(app)
+        .post(`${authURI}/signin`)
+        .send({ email: 'meetdesmond.edem@gmail.com', password: 'secr' })
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          done(err);
+        });
+    });
+
     specify('error if user does not exist', (done) => {
       chai
         .request(app)
-        .post('/auth/signin')
+        .post(`${authURI}/signin`)
         .send({ email: 'randomuser200@email.com', password: '2232323' })
         .end((err, res) => {
           expect(res).to.have.status(404);
@@ -190,7 +209,7 @@ describe('routes: /users', () => {
     before((done) => {
       chai
         .request(app)
-        .post('/auth/signin')
+        .post(`${authURI}/signin`)
         .send({ email: 'meetdesmond.edem@gmail.com', password: 'secret' })
         .end((err, res) => {
           adminToken = res.body.data.token;
@@ -221,17 +240,29 @@ describe('routes: /users', () => {
         });
     });
 
-    /* specify('error when unauthorized user tries to access endpoint', (done) => {
+    specify('error if token provided is invalid', (done) => {
       chai
         .request(app)
         .get(`${baseURI}/users`)
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', `Bearer ${userToken1a}`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body).to.have.property('error');
+          done(err);
+        });
+    });
+
+    specify('error when unauthorized user tries to access endpoint', (done) => {
+      chai
+        .request(app)
+        .get(`${baseURI}/users`)
+        .set('authorization', `Bearer ${userToken1}`)
         .end((err, res) => {
           expect(res).to.have.status(403);
           expect(res.body).to.have.property('error');
           done(err);
         });
-    }); */
+    });
   });
 
   context('GET /users/:user-email', () => {
@@ -257,11 +288,39 @@ describe('routes: /users', () => {
         });
     });
 
-    specify('error for non-existing resource', (done) => {
-      const id = 20;
+    specify('error if token is not provided', (done) => {
+      const email = 'sarutobi@hokage.org';
       chai
         .request(app)
-        .get(`${baseURI}/users/${id}`)
+        .get(`${baseURI}/users/${email}`)
+        .set('authorization', '')
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.status).to.equal(401);
+          expect(res.body).to.have.property('error');
+          done(err);
+        });
+    });
+
+    specify('error if token is invalid', (done) => {
+      const email = 'sarutobi@hokage.org';
+      chai
+        .request(app)
+        .get(`${baseURI}/users/${email}`)
+        .set('authorization', `${userToken1a}`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.status).to.equal(401);
+          expect(res.body).to.have.property('error');
+          done(err);
+        });
+    });
+
+    specify('error for non-existing resource', (done) => {
+      const email = 'sarutobi@hokage.org';
+      chai
+        .request(app)
+        .get(`${baseURI}/users/${email}`)
         .set('authorization', `Bearer ${adminToken}`)
         .end((err, res) => {
           expect(res).to.have.status(404);
@@ -271,19 +330,22 @@ describe('routes: /users', () => {
         });
     });
 
-    specify('error if token is not provided', (done) => {
+    specify('error for invalid email', (done) => {
+      const email = 'sarutobi@hokage';
       chai
         .request(app)
-        .get(`${baseURI}/users`)
+        .get(`${baseURI}/users/${email}`)
+        .set('authorization', `Bearer ${adminToken}`)
         .end((err, res) => {
-          expect(res).to.have.status(401);
+          expect(res).to.have.status(400);
+          expect(res.body.status).to.equal(400);
           expect(res.body).to.have.property('error');
           done(err);
         });
     });
   });
 
-  context('PATCH /users/:user-email', () => {
+  context.skip('PATCH /users/:user-email', () => {
     before((done) => {
       chai
         .request(app)

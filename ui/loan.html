@@ -11,10 +11,18 @@
 </head>
 <body>
   <aside>
+    <div class="modal-toggle"></div>
+    <button class="hamburger-menu"><a class="hamburger"></a></button>
+    <div class="asidebar-logo">
+      <a href="./">
+        <img src="https://user-images.githubusercontent.com/12225152/57765850-2bcaea00-76fe-11e9-8d2a-0871c4a5980c.png"
+          alt="logo" class="logo">
+      </a>
+    </div>
     <nav>
       <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i>Overview</a>
       <a href="loan.html" class="active"><i class="fas fa-landmark"></i>Request for Loan</a>
-      <a href="#"><i class="fas fa-cog"> </i>Settings</a>
+      <a href="#"><i class="fas fa-cog"></i>Settings</a>
       <a href="admin.html"><i class="fas fa-user-lock"></i>Admin</a>
     </nav>
   </aside>
@@ -28,49 +36,48 @@
 
   <main>
     <h2 class="section-title">Loan Request</h2>
-    <div class="container">
-      <form action="#" class="form-container">
-        <div class="form-element-wrapper">
-          <!-- <label for="firstName">Enter First Name <span>*</span></label> -->
-          <input type="text" name="firstName" class="form-element" id="firstName" placeholder="Your First Name" required>
-        
-          <!-- <label for="lastName">Enter Last Name <span>*</span></label> -->
-          <input type="text" name="lastName" class="form-element" id="lastName" placeholder="Your Last Name" required>
-        </div>
+    <form action="#" class="form-container">
+      <!-- <div class="form-element-wrapper"></div> -->
+      <label for="firstName">Enter Full Name <span>*</span></label>
+      <input type="text" name="fullname" class="form-element" id="fullName" placeholder="Your Full Name" required>
 
-        <div class="form-element-wrapper">
-          <!-- <label for="username">Enter Username <span>*</span></label> -->
-          <input type="text" name="home-address" class="form-element" id="home-address" placeholder="Your Home Address" required>
-        
-          <!-- <label for="email">Enter Email <span>*</span></label> -->
-          <input type="text" name="work-address" class="form-element" id="work-address" placeholder="Your Work Address">
-        </div>
+      <label for="work-address">Enter Work Address <span>*</span></label>
+      <input type="text" name="work-address" class="form-element" id="work-address" placeholder="Your Work Address" required>
 
-        <div class="form-element-wrapper">
-          <!-- <label for="phoneNumber">Enter Phone Number <span>*</span></label> -->
-          <input type="number" name="amount" class="form-element" id="amount" placeholder="Enter Loan Amount">
-        
-          <!-- <label for="password">Enter Password <span>*</span></label> -->
-          <select name="tenor" id="tenor" class="form-element" required>
-            <option default>-- Select loan duration --</option>
-            <option value="3-months">3 months</option>
-            <option value="6-months">6 months</option>
-            <option value="12-months">12 months</option>
-          </select>
-        </div>
+      <label for="address">Enter Home Address <span>*</span></label>
+      <input type="text" name="home-address" class="form-element" id="home-address" placeholder="Your Home Address" required>
 
-        <div class="form-element-wrapper">
-          <input type="number" class="form-element" id="accountNumber" placeholder="Your Account Number" required>
+      <label for="email">Enter Email <span>*</span></label>
+      <input type="text" name="email" class="form-element" id="email" placeholder="Your email Address">
 
-          <select name="accountType" id="accountType" class="form-element" required>
-            <option default>-- Select account type --</option>
-            <option value="current">Current</option>
-            <option value="savings">Savings</option>
-          </select>
-        </div>
-        <button class="btn btn-secondary">Request For Loan</button>
-      </form>
-    </div>
+      <div class="form-element-wrapper">
+        <label for="amount">Enter Amount <span>*</span></label>
+        <input type="number" name="amount" class="form-element" id="amount" placeholder="Enter Amount">
+
+        <select name="tenor" id="tenor" class="form-element" required>
+          <option default>-- Select loan duration --</option>
+          <option value="3-months">3 months</option>
+          <option value="6-months">6 months</option>
+          <option value="12-months">12 months</option>
+        </select>
+      </div>
+
+      <div class="form-element-wrapper">
+        <input type="number" class="form-element" id="accountNumber" placeholder="Your Account Number" required>
+
+        <select name="accountType" id="accountType" class="form-element" required>
+          <option default>-- Select account type --</option>
+          <option value="current">Current</option>
+          <option value="savings">Savings</option>
+        </select>
+      </div>
+
+      <button class="btn btn-secondary">Request For Loan</button>
+    </form>
   </main>
+
+  <script src="assets/js/user.js"></script>
 </body>
 </html>
+
+<!--<div class="form-element-wrapper"></div> -->

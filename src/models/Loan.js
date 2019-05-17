@@ -7,12 +7,12 @@ export default class Loan {
    * @param {Object} attributes loan attributes
    */
   constructor({
-    user, tenor, amount, status,
+    email, tenor, amount, status,
   }) {
     Loan.incrementCount();
     this.id = Loan.count;
-    this.user = user;
-    this.createdOn = Date.now();
+    this.email = email;
+    this.createdOn = Date(Date.now());
     this.status = status || 'pending';
     this.repaid = false;
     this.tenor = parseInt(tenor, 10);
@@ -26,6 +26,10 @@ export default class Loan {
 
   static incrementCount() {
     Loan.count += 1;
+  }
+
+  attribute() {
+    return { ...this };
   }
 
   /**
@@ -44,7 +48,7 @@ export default class Loan {
    * @returns {Loan} a Loan resource
    */
   static create(attributes) {
-    const loan = new Loan(attributes);
+    const loan = new Loan(attributes).attribute();
     Loan.table.push(loan);
     return loan;
   }
@@ -62,11 +66,18 @@ export default class Loan {
   /**
    * Find resource by user email
    *
-   * @param {string} user resource email address
+   * @param {string} email resource email address
    * @returns {Loan} a Loan resource
    */
-  static findByUser(user) {
-    return Loan.table.find(record => record.user === user);
+  static findByEmail(email) {
+    return Loan.table.find(record => record.email === email);
+  }
+
+  /**
+   * Fetch loans by email
+   */
+  static fetchLoans(email) {
+    return Loan.table.filter(record => record.email === email);
   }
 
   /**
@@ -77,6 +88,11 @@ export default class Loan {
    * @returns {Loan} a Loan resource
    */
   static findQuery(status, repaid) {
+    if (status) {
+      return Loan.table.filter(result => result.status === status);
+    } if (repaid) {
+      return Loan.table.filter(result => result.repaid === repaid);
+    }
     return Loan.table.filter(
       result => result.status === status && result.repaid === repaid,
     );
