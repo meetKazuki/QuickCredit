@@ -45,8 +45,14 @@ router.get(
 );
 router.get(
   '/users/:email',
+  ValidateUser.validateEmail,
   AuthenticateUser.verifyAdmin,
   UserController.getUser,
+);
+router.get(
+  '/user/loans',
+  AuthenticateUser.verifyUser,
+  LoanController.viewUserLoans,
 );
 router.get(
   '/loans',
@@ -78,8 +84,9 @@ router.patch(
 );
 router.patch(
   '/loans/:id',
-  ValidateLoan.validateLoanID,
   AuthenticateUser.verifyAdmin,
+  ValidateLoan.validateLoanID,
+  ValidateLoan.validatePatchOptions,
   LoanController.updateLoan,
 );
 

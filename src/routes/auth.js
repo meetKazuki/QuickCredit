@@ -1,8 +1,10 @@
 import express from 'express';
+import validator from 'express-validator';
 import ValidateUser from '../middleware/validateUser';
 import UserController from '../controllers/userController';
 
 const router = express.Router();
+router.use(validator());
 
 router.post(
   '/signup',

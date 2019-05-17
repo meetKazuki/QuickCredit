@@ -13,35 +13,6 @@ export default class ValidateLoan {
    */
   static validateLoanApply(req, res, next) {
     req
-      .checkBody('user')
-      .notEmpty()
-      .withMessage('Email address is required')
-      .trim()
-      .isEmail()
-      .withMessage('Email address entered is invalid!')
-      .customSanitizer(user => user.toLowerCase());
-
-    req
-      .checkBody('firstName')
-      .notEmpty()
-      .withMessage('Your first name is required')
-      .trim()
-      .isLength({ min: 3, max: 15 })
-      .withMessage('First name should be between 3 to 15 characters')
-      .isAlpha()
-      .withMessage('First name should only contain alphabets');
-
-    req
-      .checkBody('lastName')
-      .notEmpty()
-      .withMessage('Your last name is required')
-      .trim()
-      .isLength({ min: 3, max: 15 })
-      .withMessage('Last name should be between 3 to 15 characters')
-      .isAlpha()
-      .withMessage('Last name should only contain alphabets');
-
-    req
       .checkBody('amount')
       .notEmpty()
       .withMessage('Enter amount')
@@ -49,12 +20,12 @@ export default class ValidateLoan {
       .isNumeric()
       .withMessage('Amount should be an integer')
       .isLength({ min: 5, max: 7 })
-      .withMessage('Amount should not be less than 5,000');
+      .withMessage('Amount should not be less than 10,000');
 
     req
       .checkBody('tenor')
       .notEmpty()
-      .withMessage('Loan tenor is required')
+      .withMessage('Tenor is required')
       .trim()
       .isNumeric()
       .withMessage('Tenor should be an integer')
@@ -108,6 +79,30 @@ export default class ValidateLoan {
       .withMessage('Invalid repaid type entered!')
       .matches(/^(true|false)$/)
       .withMessage('Invalid repaid entered');
+
+    const errors = req.validationErrors();
+    if (errors) {
+      return res.status(400).json({ status: 400, error: errors[0].msg });
+    }
+    return next();
+  }
+
+  /**
+   * @method validatePatchOptions
+   * @description
+   * @param {object} req - The Request Object
+   * @param {object} res - The Response Object
+   * @returns
+   */
+  static validatePatchOptions(req, res, next) {
+    req
+      .checkBody('status')
+      .trim()
+      .isAlpha()
+      .notEmpty()
+      .withMessage('You failed to specify loan status in the request body')
+      .matches(/^(approved|rejected)$/)
+      .withMessage("Accepted values are 'approved' or 'rejected'");
 
     const errors = req.validationErrors();
     if (errors) {
