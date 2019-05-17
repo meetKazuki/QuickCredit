@@ -10,7 +10,7 @@ const baseURI = '/api/v1';
 const authURI = '/api/v1/auth';
 
 const userToken1 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3ROYW1lIjoiT2JpdG8iLCJsYXN0TmFtZSI6IlVjaGloYSIsImFkZHJlc3MiOiJBa2F0c3VraSBIUSwgTGFuZCBvZiBXYXRlciIsImVtYWlsIjoidWNoaWhhLm9iaXRvQGFrYXRzdWtpLm9yZyIsInBhc3N3b3JkIjoiJDJhJDA4JHdqVUVoOEtCQ1hXRTQ1MW0wU0xmNk9Sa3RFMU51YzBVanBaYS5VWUFRYmZpdnREekxzb0t1Iiwic3RhdHVzIjoidW52ZXJpZmllZCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1NTgwNDkzODIsImV4cCI6MTU1ODEzNTc4Mn0.kIoRMlVGzw9Qfh27qjjbfuZr-4KjWFv06wXizLjsCEs';
-const userToken1a = 'yyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3ROYW1lIjoiT2JpdG8iLCJsYXN0TmFtZSI6IlVjaGloYSIsImFkZHJlc3MiOiJBa2F0c3VraSBIUSwgTGFuZCBvZiBXYXRlciIsImVtYWlsIjoidWNoaWhhLm9iaXRvQGFrYXRzdWtpLm9yZyIsInBhc3N3b3JkIjoiJDJhJDA4JHVpQ25vajdwL0tEbFR3VHg0NU1Hdi4zTzM4Qy4yUjUwWUtBQlpLTE0yZHpoL2h6WE95bUNPIiwic3RhdHVzIjoidW52ZXJpZmllZCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1NTgwMjYyMzUsImV4cCI6MTU1ODExMjYzNX0.lClBIG6-l_NMD0pKzA0K5wIYr1W-ErA9Ys3RXB2lrfw';
+const userToken1a = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuZXdVc2VyIjp7ImlkIjoyLCJmaXJzdE5hbWUiOiJPYml0byIsImxhc3ROYW1lIjoiVWNoaWhhIiwiYWRkcmVzcyI6IkFrYXRzdWtpIEhRLCBMYW5kIG9mIFdhdGVyIiwiZW1haWwiOiJ1Y2hpaGEub2JpdG9AYWthdHN1a2kub3JnIiwicGFzc3dvcmQiOiIkMmEkMDgkV1dhN2xTa3NFWnVRTUpFMVZSMThOZXhELlpaeUFEVDRlWFdPL3N0OGlhUWg5VTliczNESnkiLCJzdGF0dXMiOiJ1bnZlcmlmaWVkIiwiaXNBZG1pbiI6ZmFsc2V9LCJpYXQiOjE1NTgwOTYwNTcsImV4cCI6MTU1ODE4MjQ1N30.589gzBgigeIuK_Ug5P7BAVwDLwBN6Z42M0sp9EQXAr0';
 let adminToken;
 
 describe('routes: /auth', () => {
@@ -244,7 +244,7 @@ describe('routes: /users', () => {
       chai
         .request(app)
         .get(`${baseURI}/users`)
-        .set('authorization', `Bearer ${userToken1a}`)
+        .set('authorization', `Bearer ${userToken1}`)
         .end((err, res) => {
           expect(res).to.have.status(401);
           expect(res.body).to.have.property('error');
@@ -256,7 +256,7 @@ describe('routes: /users', () => {
       chai
         .request(app)
         .get(`${baseURI}/users`)
-        .set('authorization', `Bearer ${userToken1}`)
+        .set('authorization', `Bearer ${userToken1a}`)
         .end((err, res) => {
           expect(res).to.have.status(403);
           expect(res.body).to.have.property('error');
@@ -345,7 +345,7 @@ describe('routes: /users', () => {
     });
   });
 
-  context.skip('PATCH /users/:user-email', () => {
+  context('PATCH /users/:user-email', () => {
     before((done) => {
       chai
         .request(app)

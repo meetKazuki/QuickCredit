@@ -115,6 +115,7 @@ class LoanController {
    * @returns {object} JSON API Response
    */
   static viewUserLoans(req, res) {
+    console.log(req.user);
     const { email } = req.user;
     const loanHistory = Loan.fetchLoans(email);
 

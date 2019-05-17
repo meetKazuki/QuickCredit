@@ -12,7 +12,7 @@ export default class Loan {
     Loan.incrementCount();
     this.id = Loan.count;
     this.email = email;
-    this.createdOn = Date(Date.now());
+    this.createdOn = Date();
     this.status = status || 'pending';
     this.repaid = false;
     this.tenor = parseInt(tenor, 10);
@@ -26,10 +26,6 @@ export default class Loan {
 
   static incrementCount() {
     Loan.count += 1;
-  }
-
-  attribute() {
-    return { ...this };
   }
 
   /**
@@ -48,7 +44,7 @@ export default class Loan {
    * @returns {Loan} a Loan resource
    */
   static create(attributes) {
-    const loan = new Loan(attributes).attribute();
+    const loan = new Loan(attributes);
     Loan.table.push(loan);
     return loan;
   }

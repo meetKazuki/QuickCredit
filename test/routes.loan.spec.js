@@ -13,6 +13,7 @@ const baseURI = '/api/v1';
 const authURI = '/api/v1/auth';
 
 const userToken1 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3ROYW1lIjoiT2JpdG8iLCJsYXN0TmFtZSI6IlVjaGloYSIsImFkZHJlc3MiOiJBa2F0c3VraSBIUSwgTGFuZCBvZiBXYXRlciIsImVtYWlsIjoidWNoaWhhLm9iaXRvQGFrYXRzdWtpLm9yZyIsInBhc3N3b3JkIjoiJDJhJDA4JHVpQ25vajdwL0tEbFR3VHg0NU1Hdi4zTzM4Qy4yUjUwWUtBQlpLTE0yZHpoL2h6WE95bUNPIiwic3RhdHVzIjoidW52ZXJpZmllZCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1NTgwMjYyMzUsImV4cCI6MTU1ODExMjYzNX0.lClBIG6-l_NMD0pKzA0K5wIYr1W-ErA9Ys3RXB2lrfw';
+const userToken1a = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuZXdVc2VyIjp7ImlkIjoyLCJmaXJzdE5hbWUiOiJPYml0byIsImxhc3ROYW1lIjoiVWNoaWhhIiwiYWRkcmVzcyI6IkFrYXRzdWtpIEhRLCBMYW5kIG9mIFdhdGVyIiwiZW1haWwiOiJ1Y2hpaGEub2JpdG9AYWthdHN1a2kub3JnIiwicGFzc3dvcmQiOiIkMmEkMDgkV1dhN2xTa3NFWnVRTUpFMVZSMThOZXhELlpaeUFEVDRlWFdPL3N0OGlhUWg5VTliczNESnkiLCJzdGF0dXMiOiJ1bnZlcmlmaWVkIiwiaXNBZG1pbiI6ZmFsc2V9LCJpYXQiOjE1NTgwOTYwNTcsImV4cCI6MTU1ODE4MjQ1N30.589gzBgigeIuK_Ug5P7BAVwDLwBN6Z42M0sp9EQXAr0';
 let userToken;
 let adminToken;
 
@@ -60,7 +61,7 @@ describe('routes: loan', () => {
         chai
           .request(app)
           .get(`${baseURI}/users`)
-          .set('authorization', `Bearer ${userToken1}`)
+          .set('authorization', `Bearer ${userToken1a}`)
           .end((err, res) => {
             expect(res).to.have.status(403);
             expect(res.body).to.have.status(403);
@@ -144,7 +145,7 @@ describe('routes: loan', () => {
         chai
           .request(app)
           .get(`${baseURI}/users`)
-          .set('authorization', `Bearer ${userToken1}`)
+          .set('authorization', `Bearer ${userToken1a}`)
           .end((err, res) => {
             expect(res).to.have.status(403);
             expect(res.body).to.have.status(403);
@@ -226,7 +227,7 @@ describe('routes: loan', () => {
       });
     });
 
-    context.skip('PATCH /loans/<:loan-id>', () => {
+    context('PATCH /loans/<:loan-id>', () => {
       beforeEach((done) => {
         Loan.resetTable();
         loanDB.forEach(data => Loan.create(data));

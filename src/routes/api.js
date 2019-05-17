@@ -79,6 +79,7 @@ router.get(
 router.patch(
   '/users/:email/verify',
   ValidateUser.validateEmail,
+  ValidateUser.validatePatchOptions,
   AuthenticateUser.verifyAdmin,
   UserController.updateUser,
 );

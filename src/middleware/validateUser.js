@@ -178,4 +178,27 @@ export default class ValidateUser {
     }
     return next();
   }
+
+  /**
+   * @method validatePatchOptions
+   * @description
+   * @param {object} req - The Request Object
+   * @param {object} res - The Response Object
+   * @returns
+   */
+  static validatePatchOptions(req, res, next) {
+    req
+      .checkBody('status')
+      .notEmpty()
+      .withMessage('Specify status field')
+      .isAlpha()
+      .withMessage('Invalid option specified')
+      .equals('verified')
+      .withMessage('Invalid status option entered');
+    const errors = req.validationErrors();
+    if (errors) {
+      return res.status(400).json({ status: 400, error: errors[0].msg });
+    }
+    return next();
+  }
 }

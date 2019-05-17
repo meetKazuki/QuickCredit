@@ -17,10 +17,6 @@ export default class Repayment {
     Repayment.count += 1;
   }
 
-  attribute() {
-    return { ...this };
-  }
-
   /**
    * Creates a new resource
    *
@@ -28,7 +24,7 @@ export default class Repayment {
    * @returns {Repayment} a Repayment resource
    */
   static create(attributes) {
-    const repayment = new Repayment(attributes).attribute();
+    const repayment = new Repayment(attributes);
     Repayment.table.push(repayment);
     return repayment;
   }
@@ -41,6 +37,13 @@ export default class Repayment {
    */
   static find(id) {
     return Repayment.table.find(loan => loan.loanID === id);
+  }
+
+  /**
+   * Fetch loans by LoanID
+   */
+  static fetchRepayment(loanID) {
+    return Repayment.table.filter(record => record.loanId === loanID);
   }
 
   static resetTable() {

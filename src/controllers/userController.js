@@ -16,7 +16,7 @@ class UserController {
    */
   static createUser(req, res) {
     const newUser = User.create(req.body);
-    const token = HelperUtils.generateToken(newUser);
+    const token = HelperUtils.generateToken({ newUser });
 
     res.status(201).json({
       status: 201,

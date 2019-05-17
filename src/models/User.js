@@ -20,37 +20,10 @@ export default class User {
     this.status = 'unverified';
     this.isAdmin = false;
   }
-  /* constructor(attributes) {
-    User.incrementCount();
-    this.id = User.count;
-    this.firstName = attributes.firstName;
-    this.lastName = attributes.lastName;
-    this.address = attributes.address;
-    this.email = attributes.email;
-    this.password = bcrypt.hashSync(attributes.password);
-    this.status = 'unverified';
-    this.isAdmin = false;
-  } */
 
   static incrementCount() {
     User.count += 1;
   }
-
-  attributes() {
-    return { ...this };
-  }
-  /* static get attributes() {
-    return {
-      id: this.id,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      address: this.address,
-      email: this.email,
-      password: this.password,
-      status: this.status,
-      isAdmin: this.id,
-    };
-  } */
 
   /**
    * Creates a new resource
@@ -59,7 +32,7 @@ export default class User {
    * @returns {User} a User resource
    */
   static create(attributes) {
-    const user = new User(attributes).attributes();
+    const user = new User(attributes);
     User.table.push(user);
     return user;
   }

@@ -50,9 +50,7 @@ class RepaymentController {
    * @returns {object} JSON API Response
    */
   static getRepaymentHistory(req, res) {
-    const loanId = req.params.id;
-
-    const loanRecord = Repayment.find(loanId);
+    const loanRecord = Repayment.fetchRepayment(parseInt(req.params.id, 10));
     if (!loanRecord) {
       return res.status(404).json({ status: 404, error: 'Record not found' });
     }
