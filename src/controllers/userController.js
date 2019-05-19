@@ -25,6 +25,7 @@ class UserController {
     try {
       const { rows } = await DB.query(query, values);
       const { id, firstname, lastname, email, address, status, isadmin } = rows;
+
       const token = HelperUtils.generateToken({ id, email, isadmin });
       return res.status(201).json({
         message: 'Registration successful',
@@ -55,7 +56,6 @@ class UserController {
    * @returns {object} JSON API Response
    */
   static authenticate(req, res) {
-    console.log(req.user);
     const {
       id, firstname, lastname, email, isadmin, status,
     } = req.user;
@@ -83,9 +83,12 @@ class UserController {
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  /* static getAllUsers(req, res) {
-    res.status(200).json({ status: 200, data: User.all() });
-  } */
+  static async getAllUsers(req, res) {
+    const query = 'SELECT * FROM users';
+    const { rows } = await DB.query(query);
+
+    return res.status(200).json({ data: rows });
+  }
 
   /**
    * @method getUser
@@ -94,21 +97,18 @@ class UserController {
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  /* static getUser(req, res) {
-    const user = User.findByEmail(req.params.email);
+  static async getUser(req, res) {
+    const { email } = req.params;
+    const query = 'SELECT * FROM users WHERE email=$1';
+    const values = [email];
 
-    if (user) {
-      res.status(200).json({
-        status: 200,
-        data: user,
-      });
-    } else {
-      res.status(404).json({
-        status: 404,
-        error: 'User not found!',
-      });
+    const findUser = await DB.query(query, values);
+    if (findUser.rowCount > 0) {
+      return res.status(200).json({ data: [findUser.rows[0]] });
     }
-  } */
+
+    return res.status(404).json({ error: 'User does not exist' });
+  }
 
   /**
    * @method verifyUser

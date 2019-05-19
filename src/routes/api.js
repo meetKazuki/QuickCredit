@@ -38,7 +38,7 @@ router.post(
 /**
  * /GET endpoints
  */
-/* router.get(
+router.get(
   '/users',
   AuthenticateUser.verifyAdmin,
   UserController.getAllUsers,
@@ -49,7 +49,7 @@ router.get(
   AuthenticateUser.verifyAdmin,
   UserController.getUser,
 );
-router.get(
+/* router.get(
   '/user/loans',
   AuthenticateUser.verifyUser,
   LoanController.viewUserLoans,
