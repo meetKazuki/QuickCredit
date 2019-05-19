@@ -8,9 +8,8 @@
     "build-babel": "babel src -d build",
     "clean": "rm -rf build .nyc_output coverage && mkdir build",
     "coverage": "nyc report --reporter=text-lcov | coveralls && nyc report --reporter=lcov",
-    "db:migrate": "babel-node ./src/database",
-    "db:rollback": "babel-node ./src/database/migrate.js dropTables",
-    "db:seed": "babel-node ./src/database/seed.js",
+    "db:migrate": "set DEBUG=DB_MIGRATE && babel-node ./src/database/migrate.js",
+    "db:seed": "set DEBUG=DB_SEEDING && babel-node ./src/database/seeder.js",
     "start": "npm run build && node ./build/app.js",
     "start:dev": "set DEBUG=dev_ENV && babel-watch ./src/app.js",
     "test": "nyc mocha -r @babel/register --exit"
@@ -29,7 +28,6 @@
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",
     "@babel/node": "^7.2.2",
-    "@babel/polyfill": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "@babel/register": "^7.4.4",
     "babel-watch": "^7.0.0",
@@ -44,6 +42,7 @@
     "nyc": "^14.0.0"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.4.4",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "debug": "^4.1.1",

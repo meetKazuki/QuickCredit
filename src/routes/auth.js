@@ -9,7 +9,6 @@ router.use(validator());
 router.post(
   '/signup',
   ValidateUser.validateProfileDetails,
-  ValidateUser.validateExistingUser,
   UserController.createUser,
 );
 
