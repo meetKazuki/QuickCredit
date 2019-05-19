@@ -1,5 +1,3 @@
-import Loan from '../models/Loan';
-
 /**
  * @class ValidateRepayment
  * @description Intercepts and validates a given request for Repayment endpoints

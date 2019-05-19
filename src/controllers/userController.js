@@ -1,5 +1,5 @@
 import HelperUtils from '../utils/helperUtils';
-import User from '../models/User';
+import DB from '../database/dbconnection';
 
 /**
  * @class UserController
@@ -14,22 +14,37 @@ class UserController {
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  static createUser(req, res) {
-    const newUser = User.create(req.body);
-    const token = HelperUtils.generateToken({ newUser });
+  static async createUser(req, res) {
+    const {
+      firstname, lastname, address, email, password,
+    } = req.body;
+    const hashedPassword = HelperUtils.hashPassword(password);
+    const query = 'INSERT INTO users(firstname, lastname, address, email, password) VALUES($1, $2, $3, $4, $5) RETURNING *';
+    const values = [firstname, lastname, address, email, hashedPassword];
 
-    res.status(201).json({
-      status: 201,
-      data: {
-        message: 'Registration successful!',
-        token,
-        id: newUser.id,
-        firstName: newUser.firstName,
-        lastName: newUser.lastName,
-        email: newUser.email,
-        address: newUser.address,
-      },
-    });
+    try {
+      const { rows } = await DB.query(query, values);
+      const { id, firstname, lastname, email, address, status, isadmin } = rows;
+      const token = HelperUtils.generateToken({ id, email, isadmin });
+      return res.status(201).json({
+        message: 'Registration successful',
+        data: {
+          token,
+          id: rows[0].id,
+          firstname: rows[0].firstname,
+          lastname: rows[0].lastname,
+          address: rows[0].address,
+          email: rows[0].email,
+          isadmin: rows[0].isadmin,
+          status: rows[0].status,
+        },
+      });
+    } catch (error) {
+      if (error.routine === '_bt_check_unique') {
+        return res.status(409).send({ message: 'User with email already exist' });
+      }
+      return res.status(409).send(error);
+    }
   }
 
   /**
@@ -40,18 +55,22 @@ class UserController {
    * @returns {object} JSON API Response
    */
   static authenticate(req, res) {
-    const token = HelperUtils.generateToken(req.user);
+    const {
+      id, firstname, lastname, email, isadmin, status,
+    } = req.user;
+    const token = HelperUtils.generateToken({
+      id, email, isadmin, status,
+    });
 
     res.status(200).json({
-      status: 200,
+      message: 'Login successful!',
       data: {
-        message: 'Login successful!',
         token,
-        id: req.user.id,
-        firstName: req.user.firstName,
-        lastName: req.user.lastName,
-        email: req.user.email,
-        isAdmin: req.user.isAdmin,
+        id,
+        firstname,
+        lastname,
+        email,
+        isadmin,
       },
     });
   }
@@ -63,9 +82,9 @@ class UserController {
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  static getAllUsers(req, res) {
+  /* static getAllUsers(req, res) {
     res.status(200).json({ status: 200, data: User.all() });
-  }
+  } */
 
   /**
    * @method getUser
@@ -74,7 +93,7 @@ class UserController {
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  static getUser(req, res) {
+  /* static getUser(req, res) {
     const user = User.findByEmail(req.params.email);
 
     if (user) {
@@ -88,7 +107,7 @@ class UserController {
         error: 'User not found!',
       });
     }
-  }
+  } */
 
   /**
    * @method verifyUser
@@ -98,14 +117,6 @@ class UserController {
    * @returns {object} JSON API Response
    */
   static updateUser(req, res) {
-    const user = User.findByEmail(req.params.email);
-    if (!user) {
-      return res.status(404).json({ status: 404, error: 'No user' });
-    }
-
-    const data = req.body;
-    user.update(data);
-
     return res.status(201).json({
       status: 201,
       data: {

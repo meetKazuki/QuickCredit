@@ -1,5 +1,5 @@
 import HelperUtils from '../utils/helperUtils';
-import User from '../models/User';
+import DB from '../database/dbconnection';
 
 /**
  * @class ValidateUser
@@ -16,7 +16,7 @@ export default class ValidateUser {
    */
   static validateProfileDetails(req, res, next) {
     req
-      .checkBody('firstName')
+      .checkBody('firstname')
       .notEmpty()
       .withMessage('First name is required')
       .trim()
@@ -26,7 +26,7 @@ export default class ValidateUser {
       .withMessage('First name should only contain alphabets');
 
     req
-      .checkBody('lastName')
+      .checkBody('lastname')
       .notEmpty()
       .withMessage('Last name is required')
       .trim()
@@ -70,37 +70,13 @@ export default class ValidateUser {
   }
 
   /**
-   * @method validateExistingUser
-   * @description
-   * @param {object} req - The Request Object
-   * @param {object} res - The Response Object
-   * @returns
-   */
-  static validateExistingUser(req, res, next) {
-    const { email } = req.body;
-    const user = User.findByEmail(email);
-
-    if (!user) {
-      return next();
-    }
-
-    return res.status(409).json({
-      status: 409,
-      error: 'User with provided email already exists',
-    });
-  }
-
-  /**
    * @method validateLoginDetails
    * @description Validates login details (email and password)
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
    * @returns
    */
-  static validateLoginDetails(req, res, next) {
-    let error = '';
-    let status;
-
+  static async validateLoginDetails(req, res, next) {
     req
       .checkBody('email')
       .notEmpty()
@@ -109,47 +85,33 @@ export default class ValidateUser {
       .isEmail()
       .withMessage('Invalid email address entered')
       .customSanitizer(email => email.toLowerCase());
-
     req
       .checkBody('password')
       .notEmpty()
       .withMessage('Password field is required');
     const errors = req.validationErrors();
     if (errors) {
-      return res.status(400).json({ status: 400, error: errors[0].msg });
+      return res.status(400).json({ error: errors[0].msg });
     }
 
-    const { email, password } = req.body;
+    const query = 'SELECT * from users WHERE email = $1';
+    try {
+      const { rows } = await DB.query(query, [req.body.email]);
+      const hashedPassword = rows[0].password;
+      const verifyPassword = HelperUtils.verifyPassword(`${req.body.password}`, hashedPassword);
 
-    // Find record with email
-    const user = User.findByEmail(email);
-    if (!user) {
-      return res.status(404).json({
-        status: 404,
-        error: 'The account provided does not exist',
-      });
-    }
+      if (!rows[0]) {
+        return res.status(400).json({ error: 'Email/Password is incorrect' });
+      }
+      if (!verifyPassword) {
+        return res.status(400).json({ error: 'Email/Password is incorrect' });
+      }
 
-    // verify password in the database
-    const hashedPassword = user.password;
-    const verifyPassword = HelperUtils.verifyPassword(`${password}`, hashedPassword);
-    if (!verifyPassword) {
-      error = 'Email/password is incorrect';
-      status = 401;
+      const userReq = rows[0];
+      req.user = userReq;
+    } catch (error) {
+      return res.status(400).json({ error });
     }
-    if (error) {
-      return res.status(status).json({ status, error });
-    }
-
-    // display user fields
-    const userReq = user;
-    req.user = {
-      id: userReq.id,
-      firstName: userReq.firstName,
-      lastName: userReq.lastName,
-      email: userReq.email,
-      isAdmin: userReq.isAdmin,
-    };
     return next();
   }
 
