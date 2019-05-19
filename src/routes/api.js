@@ -5,11 +5,11 @@ import ValidateUser from '../middleware/validateUser';
 import AuthenticateUser from '../middleware/authenticateUser';
 import UserController from '../controllers/userController';
 
-import ValidateLoan from '../middleware/validateLoan';
+/* import ValidateLoan from '../middleware/validateLoan';
 import LoanController from '../controllers/loanController';
 
 import ValidateRepayment from '../middleware/validateRepayment';
-import RepaymentController from '../controllers/repaymentController';
+import RepaymentController from '../controllers/repaymentController'; */
 
 const router = express.Router();
 router.use(validator());
@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
 /**
  * /POST endpoints
  */
-router.post(
+/* router.post(
   '/loans',
   AuthenticateUser.verifyUser,
   ValidateLoan.validateLoanApply,
@@ -33,12 +33,12 @@ router.post(
   AuthenticateUser.verifyAdmin,
   ValidateRepayment.validateRepayCredentials,
   RepaymentController.postLoanRepayment,
-);
+); */
 
 /**
  * /GET endpoints
  */
-router.get(
+/* router.get(
   '/users',
   AuthenticateUser.verifyAdmin,
   UserController.getAllUsers,
@@ -53,8 +53,8 @@ router.get(
   '/user/loans',
   AuthenticateUser.verifyUser,
   LoanController.viewUserLoans,
-);
-router.get(
+); */
+/* router.get(
   '/loans',
   ValidateLoan.validateQueryOptions,
   AuthenticateUser.verifyAdmin,
@@ -71,7 +71,7 @@ router.get(
   AuthenticateUser.verifyUser,
   ValidateRepayment.validateRepaymentID,
   RepaymentController.getRepaymentHistory,
-);
+); */
 
 /**
  * /PATCH endpoints
@@ -81,14 +81,14 @@ router.patch(
   ValidateUser.validateEmail,
   ValidateUser.validatePatchOptions,
   AuthenticateUser.verifyAdmin,
-  UserController.updateUser,
+  UserController.verifyUser,
 );
-router.patch(
+/* router.patch(
   '/loans/:id',
   AuthenticateUser.verifyAdmin,
   ValidateLoan.validateLoanID,
   ValidateLoan.validatePatchOptions,
   LoanController.updateLoan,
-);
+); */
 
 export default router;

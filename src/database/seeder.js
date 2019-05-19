@@ -12,8 +12,7 @@ const Debug = debug('DB_SEEDING');
 const hashedPassword = HelperUtils.hashPassword('secret');
 
 const createAdmin = `
-  INSERT INTO users(firstname, lastname, address, email, password, isadmin, status)
-  VALUES('Desmond', 'Edem', 'Sabo', 'meetdesmond.edem@gmail.com', ${hashedPassword}, 'true', 'verified')`;
+  INSERT INTO users(firstname, lastname, address, email, password, isadmin, status)  VALUES('Desmond', 'Edem', 'Sabo', 'meetdesmond.edem@gmail.com', '$2a$10$7gavyoENvyqMmcYHGR6uweEQ1gxkW5yll7VSXEqQYWnID1lAz1dJW', 'true', 'verified');`;
 const createUser = `
   INSERT INTO users(firstname, lastname, address, email, password, isadmin, status)
   VALUES('Obito', 'Uchiha', 'ANBU HQ', 'uchiha.obito@anbu.org', ${hashedPassword}, 'false', 'unverified')`;
@@ -39,3 +38,7 @@ pool.on('remove', () => {
   Debug('client removed');
   process.exit(0);
 });
+
+/**
+ * secret - $2a$10$7gavyoENvyqMmcYHGR6uweEQ1gxkW5yll7VSXEqQYWnID1lAz1dJW
+ */

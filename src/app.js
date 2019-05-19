@@ -4,7 +4,7 @@ import debug from 'debug';
 import '@babel/polyfill';
 
 import authRouter from './routes/auth';
-// import apiRouter from './routes/api';
+import apiRouter from './routes/api';
 
 const app = express();
 const Debug = debug('dev_ENV');
@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 
 app.use('/api/v1/auth', authRouter);
-// app.use('/api/v1', apiRouter);
+app.use('/api/v1', apiRouter);
 
 app.get('/', (req, res) => {
   res.status(200).json({ message: 'Welcome to QuickCredit' });

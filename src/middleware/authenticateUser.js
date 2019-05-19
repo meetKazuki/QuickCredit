@@ -78,7 +78,7 @@ class AuthenticateUser {
       return res.status(status).json({ status, error });
     }
 
-    if (payload.isAdmin !== true) {
+    if (payload.isadmin !== true) {
       return res.status(403).json({
         status: 403,
         error: 'Only admin can access this route',

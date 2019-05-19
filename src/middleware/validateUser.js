@@ -110,7 +110,7 @@ export default class ValidateUser {
       const userReq = rows[0];
       req.user = userReq;
     } catch (error) {
-      return res.status(400).json({ error });
+      return res.status(404).json({ error: 'User does not exist' });
     }
     return next();
   }
