@@ -55,6 +55,7 @@ class UserController {
    * @returns {object} JSON API Response
    */
   static authenticate(req, res) {
+    console.log(req.user);
     const {
       id, firstname, lastname, email, isadmin, status,
     } = req.user;
@@ -116,16 +117,29 @@ class UserController {
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  static updateUser(req, res) {
+  static async verifyUser(req, res) {
+    const { email } = req.params;
+    const query = 'SELECT * FROM users WHERE email=$1';
+    const update = "UPDATE users SET status='verified' WHERE email=$1 RETURNING *";
+
+    const findUser = await DB.query(query, [email]);
+    if (!findUser.rows.length) {
+      return res.status(404).json({ error: 'Email does not exist' });
+    }
+    if (findUser.rows[0].status === 'verified') {
+      return res.status(409).json({ error: 'User is already verified' });
+    }
+
+    const { rows } = await DB.query(update, [email]);
     return res.status(201).json({
-      status: 201,
+      message: 'User successfully verified',
       data: {
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        password: user.password,
-        address: user.address,
-        status: user.status,
+        email: rows[0].email,
+        firstName: rows[0].firstname,
+        lastName: rows[0].lastname,
+        address: rows[0].address,
+        status: rows[0].status,
+        isAdmin: rows[0].isadmin,
       },
     });
   }
