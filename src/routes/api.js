@@ -5,10 +5,10 @@ import ValidateUser from '../middleware/validateUser';
 import AuthenticateUser from '../middleware/authenticateUser';
 import UserController from '../controllers/userController';
 
-/* import ValidateLoan from '../middleware/validateLoan';
+import ValidateLoan from '../middleware/validateLoan';
 import LoanController from '../controllers/loanController';
 
-import ValidateRepayment from '../middleware/validateRepayment';
+/* import ValidateRepayment from '../middleware/validateRepayment';
 import RepaymentController from '../controllers/repaymentController'; */
 
 const router = express.Router();
@@ -49,12 +49,12 @@ router.get(
   AuthenticateUser.verifyAdmin,
   UserController.getUser,
 );
-/* router.get(
+router.get(
   '/user/loans',
   AuthenticateUser.verifyUser,
   LoanController.viewUserLoans,
-); */
-/* router.get(
+);
+router.get(
   '/loans',
   ValidateLoan.validateQueryOptions,
   AuthenticateUser.verifyAdmin,
@@ -66,7 +66,7 @@ router.get(
   AuthenticateUser.verifyAdmin,
   LoanController.getOneLoan,
 );
-router.get(
+/* router.get(
   '/loans/:id/repayments',
   AuthenticateUser.verifyUser,
   ValidateRepayment.validateRepaymentID,
