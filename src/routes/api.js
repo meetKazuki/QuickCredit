@@ -83,12 +83,12 @@ router.patch(
   AuthenticateUser.verifyAdmin,
   UserController.verifyUser,
 );
-/* router.patch(
+router.patch(
   '/loans/:id',
   AuthenticateUser.verifyAdmin,
   ValidateLoan.validateLoanID,
   ValidateLoan.validatePatchOptions,
   LoanController.updateLoan,
-); */
+);
 
 export default router;

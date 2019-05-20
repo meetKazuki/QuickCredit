@@ -26,7 +26,7 @@ const createRecord = `
 
 const createRecord = `
   INSERT INTO loans(email, createdon, status, repaid, tenor, amount, paymentinstallment, balance, interest)
-  VALUES('uchiha.obito@akatsuki.org', '2019-05-19T23:05:54.120Z', 'approved', 'true', 3, 20000, 7000, 21000, 1000);`;
+  VALUES('meetdesmond.edem@gmail.com', '2019-05-19T23:05:54.120Z', 'pending', 'true', 3, 20000, 7000, 21000, 1000);`;
 
 const queries = `${dropTables}${createTables}${createAdmin}${createUser}`;
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });

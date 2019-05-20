@@ -28,7 +28,7 @@ export default class LoanController {
     return res.status(201).json({
       status: 201,
       data: {
-        message: "Loan request received. We'll get back to you shortly.",
+        message: "Loan request received. You'll be notified shortly",
         loanId: newLoan.id,
         firstName,
         lastName,
@@ -90,26 +90,26 @@ export default class LoanController {
    * @param {object} res Response object
    * @returns {object} JSON API Response
    */
-  static updateLoan(req, res) {
-    const loanRecord = Loan.find(parseInt(req.params.id, 10));
-    if (!loanRecord) {
-      return res
-        .status(404).json({ status: 404, error: 'Loan record not found!' });
+  static async updateLoan(req, res) {
+    const { id } = req.params;
+    const { status } = req.body;
+    const query = 'SELECT * FROM loans WHERE id=$1';
+    const update = 'UPDATE loans SET status=$1 WHERE id=$2 RETURNING *';
+    const values = [status, id];
+
+    const fetchLoan = await DB.query(query, [id]);
+    if (!fetchLoan.rows.length) {
+      return res.status(404).json({ error: 'Loan record not found' });
+    }
+    if (fetchLoan.rows[0].status === 'approved') {
+      return res.status(409).json({ error: 'Loan is already approved' });
     }
 
-    const data = req.body;
-    loanRecord.update(data);
-
+    const { rows } = await DB.query(update, values);
+    console.log(rows);
     return res.status(201).json({
-      status: 201,
-      data: {
-        loanId: loanRecord.id,
-        loanAmount: loanRecord.amount,
-        tenor: loanRecord.tenor,
-        status: loanRecord.status,
-        monthlyInstallment: loanRecord.paymentInstallment,
-        interest: loanRecord.interest,
-      },
+      message: 'Loan record updated',
+      data: rows[0],
     });
   }
 
@@ -121,7 +121,6 @@ export default class LoanController {
    * @returns {object} JSON API Response
    */
   static async viewUserLoans(req, res) {
-    console.log(req.user);
     const query = 'SELECT * FROM loans WHERE email=$1';
     const { email } = req.user;
 
