@@ -1,21 +1,19 @@
-import express from 'express';
-import validator from 'express-validator';
+import { Router } from 'express';
 import ValidateUser from '../middleware/validateUser';
 import UserController from '../controllers/userController';
 
-const router = express.Router();
-router.use(validator());
+const authRoute = Router();
 
-router.post(
+authRoute.post(
   '/signup',
   ValidateUser.validateProfileDetails,
   UserController.createUser,
 );
 
-router.post(
+authRoute.post(
   '/signin',
   ValidateUser.validateLoginDetails,
-  UserController.authenticate,
+  UserController.login,
 );
 
-export default router;
+export default authRoute;
