@@ -1,10 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../src/app';
-
-import Loan from '../src/models/Loan';
-import Repayment from '../src/models/Repayment';
-import { loanDB, repaymentDB } from './mock-data';
+import app from '../app';
 
 chai.use(chaiHttp);
 

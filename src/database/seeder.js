@@ -1,3 +1,4 @@
+
 import { Pool } from 'pg';
 import debug from 'debug';
 import dotenv from 'dotenv';
@@ -12,7 +13,7 @@ const Debug = debug('DB_SEEDING');
 const hashedPassword = HelperUtils.hashPassword('secret');
 
 const createAdmin = `
-  INSERT INTO users(firstname, lastname, address, email, password, isadmin, status)  VALUES('Desmond', 'Edem', 'Sabo', 'meetdesmond.edem@gmail.com', '$2a$10$7gavyoENvyqMmcYHGR6uweEQ1gxkW5yll7VSXEqQYWnID1lAz1dJW', 'true', 'verified');`;
+  INSERT INTO users(firstname, lastname, address, email, password, isadmin, status)  VALUES('Desmond', 'Edem', 'Sabo', 'meetdesmond.edem@gmail.com', '${hashedPassword}', 'true', 'verified');`;
 
 const createUser = `
   INSERT INTO users(firstname, lastname, address, email, password, isadmin, status)
