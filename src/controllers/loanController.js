@@ -18,14 +18,15 @@ export default class LoanController {
     const { amount, tenor } = req.body;
 
     if (Loan.findByEmail(email)) {
-      return res.status(409).json({
+      res.status(409).json({
         status: 409,
         error: "You've already applied for a loan",
       });
+      return;
     }
 
     const newLoan = Loan.create({ email, amount, tenor });
-    return res.status(201).json({
+    res.status(201).json({
       status: 201,
       data: {
         message: "Loan request received. You'll be notified shortly",
@@ -41,6 +42,7 @@ export default class LoanController {
         status: newLoan.status,
       },
     });
+    // return;
   }
 
   /**
@@ -58,11 +60,12 @@ export default class LoanController {
     if (status && JSON.parse(repaid)) {
       const values = [status, repaid];
       const record = await DB.query(statusQuery, values);
-      return res.status(200).json({ data: record.rows[0] });
+      res.status(200).json({ data: record.rows[0] });
+      return;
     }
 
     const records = await DB.query(loansQuery);
-    return res.status(200).json({ data: [records.rows] });
+    res.status(200).json({ data: [records.rows] });
   }
 
   /**
@@ -78,9 +81,10 @@ export default class LoanController {
 
     const record = await DB.query(query, [id]);
     if (record.rowCount > 0) {
-      return res.status(200).json({ data: [record.rows[0]] });
+      res.status(200).json({ data: [record.rows[0]] });
+      return;
     }
-    return res.status(404).json({ error: 'Loan record not found' });
+    res.status(404).json({ error: 'Loan record not found' });
   }
 
   /**
@@ -99,15 +103,16 @@ export default class LoanController {
 
     const fetchLoan = await DB.query(query, [id]);
     if (!fetchLoan.rows.length) {
-      return res.status(404).json({ error: 'Loan record not found' });
+      res.status(404).json({ error: 'Loan record not found' });
+      return;
     }
     if (fetchLoan.rows[0].status === 'approved') {
-      return res.status(409).json({ error: 'Loan is already approved' });
+      res.status(409).json({ error: 'Loan is already approved' });
+      return;
     }
 
     const { rows } = await DB.query(update, values);
-    console.log(rows);
-    return res.status(201).json({
+    res.status(201).json({
       message: 'Loan record updated',
       data: rows[0],
     });
@@ -121,10 +126,10 @@ export default class LoanController {
    * @returns {object} JSON API Response
    */
   static async viewUserLoans(req, res) {
-    const query = 'SELECT * FROM loans WHERE email=$1';
     const { email } = req.user;
+    const query = `SELECT * FROM loans WHERE email='${email}'`;
 
-    const loanRecords = await DB.query(query, [email]);
-    return res.status(200).json({ data: loanRecords.rows });
+    const loanRecords = await DB.query(query);
+    res.status(200).json({ data: loanRecords.rows });
   }
 }

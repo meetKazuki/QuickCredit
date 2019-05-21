@@ -64,9 +64,10 @@ export default class ValidateUser {
       .withMessage('Password must be between 6 to 15 characters');
     const errors = req.validationErrors();
     if (errors) {
-      return res.status(400).json({ status: 400, error: errors[0].msg });
+      res.status(400).json({ status: 400, error: errors[0].msg });
+      return;
     }
-    return next();
+    next();
   }
 
   /**
@@ -91,7 +92,8 @@ export default class ValidateUser {
       .withMessage('Password field is required');
     const errors = req.validationErrors();
     if (errors) {
-      return res.status(400).json({ error: errors[0].msg });
+      res.status(400).json({ error: errors[0].msg });
+      return;
     }
 
     const query = 'SELECT * from users WHERE email = $1';
@@ -101,18 +103,21 @@ export default class ValidateUser {
       const verifyPassword = HelperUtils.verifyPassword(`${req.body.password}`, hashedPassword);
 
       if (!rows[0]) {
-        return res.status(400).json({ error: 'Email/Password is incorrect' });
+        res.status(401).json({ error: 'Email/Password is incorrect' });
+        return;
       }
       if (!verifyPassword) {
-        return res.status(400).json({ error: 'Email/Password is incorrect' });
+        res.status(401).json({ error: 'Email/Password is incorrect' });
+        return;
       }
 
       const userReq = rows[0];
       req.user = userReq;
     } catch (error) {
-      return res.status(404).json({ error: 'User does not exist' });
+      res.status(500).json({ error: 'Internal Server error' });
+      return;
     }
-    return next();
+    next();
   }
 
   /**
@@ -133,12 +138,13 @@ export default class ValidateUser {
       .customSanitizer(email => email.toLowerCase());
     const errors = req.validationErrors();
     if (errors) {
-      return res.status(400).json({
+      res.status(400).json({
         status: 400,
         error: errors[0].msg,
       });
+      return;
     }
-    return next();
+    next();
   }
 
   /**
@@ -159,8 +165,9 @@ export default class ValidateUser {
       .withMessage('Invalid status option entered');
     const errors = req.validationErrors();
     if (errors) {
-      return res.status(400).json({ status: 400, error: errors[0].msg });
+      res.status(400).json({ status: 400, error: errors[0].msg });
+      return;
     }
-    return next();
+    next();
   }
 }
