@@ -48,6 +48,7 @@ class AuthenticateUser {
 
     if (error) {
       res.status(status).json({ status, error });
+      return;
     }
 
     req.user = payload;
@@ -70,12 +71,14 @@ class AuthenticateUser {
       status = 401;
       error = 'No authorization header was specified';
       res.status(status).json({ status, error });
+      return;
     }
 
     if (payload && payload.error === 'token') {
       status = 401;
       error = 'Token provided cannot be authenticated.';
       res.status(status).json({ status, error });
+      return;
     }
 
     if (payload.isadmin !== true) {
@@ -83,6 +86,7 @@ class AuthenticateUser {
         status: 403,
         error: 'Only admin can access this route',
       });
+      return;
     }
     next();
   }

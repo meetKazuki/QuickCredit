@@ -29,15 +29,17 @@ class UserController {
       } = rows;
 
       const token = HelperUtils.generateToken({ id, email, isadmin });
-      return res.status(201).json({
+      res.status(201).json({
         message: 'Registration successful',
         data: { token, ...rows[0] },
       });
+      return;
     } catch (error) {
       if (error.routine === '_bt_check_unique') {
-        return res.status(409).send({ message: 'User with email already exist' });
+        res.status(409).send({ message: 'User with email already exist' });
+        return;
       }
-      return res.status(500);
+      res.status(500).send({ error: 'Server error' });
     }
   }
 
@@ -80,7 +82,7 @@ class UserController {
     const query = 'SELECT * FROM users';
     const { rows } = await DB.query(query);
 
-    return res.status(200).json({ data: rows });
+    res.status(200).json({ data: rows });
   }
 
   /**
@@ -96,10 +98,11 @@ class UserController {
 
     const findUser = await DB.query(query);
     if (!findUser.rowCount > 0) {
-      return res.status(404).json({ error: 'User does not exist' });
+      res.status(404).json({ error: 'User does not exist' });
+      return;
     }
 
-    return res.status(200).json({ data: [findUser.rows[0]] });
+    res.status(200).json({ data: [findUser.rows[0]] });
   }
 
   /**
@@ -116,14 +119,16 @@ class UserController {
 
     const findUser = await DB.query(query, [email]);
     if (!findUser.rows.length) {
-      return res.status(404).json({ error: 'Email does not exist' });
+      res.status(404).json({ error: 'Email does not exist' });
+      return;
     }
     if (findUser.rows[0].status === 'verified') {
-      return res.status(409).json({ error: 'User is already verified' });
+      res.status(409).json({ error: 'User is already verified' });
+      return;
     }
 
     const { rows } = await DB.query(update, [email]);
-    return res.status(201).json({
+    res.status(201).json({
       message: 'User successfully verified',
       data: { ...rows[0] },
     });
