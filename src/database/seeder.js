@@ -13,22 +13,18 @@ const hashedPassword = HelperUtils.hashPassword('secret');
 
 const createAdmin = `
   INSERT INTO users(firstname, lastname, address, email, password, isadmin, status)  VALUES('Desmond', 'Edem', 'Sabo', 'meetdesmond.edem@gmail.com', '$2a$10$7gavyoENvyqMmcYHGR6uweEQ1gxkW5yll7VSXEqQYWnID1lAz1dJW', 'true', 'verified');`;
+
 const createUser = `
   INSERT INTO users(firstname, lastname, address, email, password, isadmin, status)
-  VALUES('Obito', 'Uchiha', 'ANBU HQ', 'uchiha.obito@anbu.org', '${hashedPassword}', 'false', 'unverified')`;
-const createUser = `
-  INSERT INTO users(firstname, lastname, address, email, password, isadmin, status)
-  VALUES('Sasuke', 'Uchiha', 'ANBU HQ', 'uchiha.sasuke@konoha.org', '$2a$10$7gavyoENvyqMmcYHGR6uweEQ1gxkW5yll7VSXEqQYWnID1lAz1dJW', 'false', 'verified');`;
+  VALUES('Obito', 'Uchiha', 'ANBU HQ', 'uchiha.obito@akatsuki.org', '${hashedPassword}', 'false', 'unverified');`;
 
 const createRecord = `
-  INSERT INTO loans(email, createdon, status, repaid, tenor, amount, paymentinstallment, balance, interest)
-  VALUES('uchiha.sasuke@konoha.org', '2019-05-19T23:05:54.120Z', 'approved', 'false', 3, 20000, 7000, 21000, 1000);`;
+  INSERT INTO loans(email, status, repaid, tenor, amount,paymentInstallment, balance, interest)
+  VALUES('uchiha.obito@akatsuki.org', 'approved', 'false', 3, 20000,7000, 21000, 1000);`;
 
-const createRecord = `
-  INSERT INTO loans(email, createdon, status, repaid, tenor, amount, paymentinstallment, balance, interest)
-  VALUES('meetdesmond.edem@gmail.com', '2019-05-19T23:05:54.120Z', 'pending', 'true', 3, 20000, 7000, 21000, 1000);`;
+const createRepayment = 'INSERT INTO repayments(loanId, amount) VALUES(1, 7000);';
 
-const queries = `${dropTables}${createTables}${createAdmin}${createUser}`;
+const queries = `${dropTables}${createTables}${createAdmin}${createUser}${createRecord}${createRepayment}`;
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 pool.on('connect', () => {
@@ -49,7 +45,3 @@ pool.on('remove', () => {
   Debug('client removed');
   process.exit(0);
 });
-
-/**
- * secret - $2a$10$7gavyoENvyqMmcYHGR6uweEQ1gxkW5yll7VSXEqQYWnID1lAz1dJW
- */

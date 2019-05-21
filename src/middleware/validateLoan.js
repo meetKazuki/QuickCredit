@@ -34,9 +34,9 @@ export default class ValidateLoan {
 
     const errors = req.validationErrors();
     if (errors) {
-      return res.status(400).json({ status: 400, error: errors[0].msg });
+      res.status(400).json({ status: 400, error: errors[0].msg });
     }
-    return next();
+    next();
   }
 
   /**
@@ -54,9 +54,9 @@ export default class ValidateLoan {
 
     const errors = req.validationErrors();
     if (errors) {
-      return res.status(400).json({ status: 400, error: errors[0].msg });
+      res.status(400).json({ status: 400, error: errors[0].msg });
     }
-    return next();
+    next();
   }
 
   /**
@@ -82,9 +82,9 @@ export default class ValidateLoan {
 
     const errors = req.validationErrors();
     if (errors) {
-      return res.status(400).json({ status: 400, error: errors[0].msg });
+      res.status(400).json({ status: 400, error: errors[0].msg });
     }
-    return next();
+    next();
   }
 
   /**
@@ -106,8 +106,8 @@ export default class ValidateLoan {
 
     const errors = req.validationErrors();
     if (errors) {
-      return res.status(400).json({ status: 400, error: errors[0].msg });
+      res.status(400).json({ status: 400, error: errors[0].msg });
     }
-    return next();
+    next();
   }
 }

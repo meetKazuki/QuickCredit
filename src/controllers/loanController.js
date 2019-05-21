@@ -106,7 +106,6 @@ export default class LoanController {
     }
 
     const { rows } = await DB.query(update, values);
-    console.log(rows);
     return res.status(201).json({
       message: 'Loan record updated',
       data: rows[0],
@@ -121,10 +120,10 @@ export default class LoanController {
    * @returns {object} JSON API Response
    */
   static async viewUserLoans(req, res) {
-    const query = 'SELECT * FROM loans WHERE email=$1';
     const { email } = req.user;
+    const query = `SELECT * FROM loans WHERE email='${email}'`;
 
-    const loanRecords = await DB.query(query, [email]);
+    const loanRecords = await DB.query(query);
     return res.status(200).json({ data: loanRecords.rows });
   }
 }

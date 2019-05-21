@@ -47,11 +47,11 @@ class AuthenticateUser {
     }
 
     if (error) {
-      return res.status(status).json({ status, error });
+      res.status(status).json({ status, error });
     }
 
     req.user = payload;
-    return next();
+    next();
   }
 
   /**
@@ -69,22 +69,22 @@ class AuthenticateUser {
     if (payload && payload.error === 'auth') {
       status = 401;
       error = 'No authorization header was specified';
-      return res.status(status).json({ status, error });
+      res.status(status).json({ status, error });
     }
 
     if (payload && payload.error === 'token') {
       status = 401;
       error = 'Token provided cannot be authenticated.';
-      return res.status(status).json({ status, error });
+      res.status(status).json({ status, error });
     }
 
     if (payload.isadmin !== true) {
-      return res.status(403).json({
+      res.status(403).json({
         status: 403,
         error: 'Only admin can access this route',
       });
     }
-    return next();
+    next();
   }
 }
 
