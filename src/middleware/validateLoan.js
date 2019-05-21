@@ -35,6 +35,7 @@ export default class ValidateLoan {
     const errors = req.validationErrors();
     if (errors) {
       res.status(400).json({ status: 400, error: errors[0].msg });
+      return;
     }
     next();
   }
@@ -55,6 +56,7 @@ export default class ValidateLoan {
     const errors = req.validationErrors();
     if (errors) {
       res.status(400).json({ status: 400, error: errors[0].msg });
+      return;
     }
     next();
   }
@@ -83,6 +85,7 @@ export default class ValidateLoan {
     const errors = req.validationErrors();
     if (errors) {
       res.status(400).json({ status: 400, error: errors[0].msg });
+      return;
     }
     next();
   }
@@ -107,6 +110,7 @@ export default class ValidateLoan {
     const errors = req.validationErrors();
     if (errors) {
       res.status(400).json({ status: 400, error: errors[0].msg });
+      return;
     }
     next();
   }

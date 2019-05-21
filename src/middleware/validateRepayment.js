@@ -20,6 +20,7 @@ export default class ValidateRepayment {
     const errors = req.validationErrors();
     if (errors) {
       res.status(400).json({ status: 400, error: errors[0].msg });
+      return;
     }
     next();
   }
@@ -55,25 +56,30 @@ export default class ValidateRepayment {
     const errors = req.validationErrors();
     if (errors) {
       res.status(400).json({ status: 400, error: errors[0].msg });
+      return;
     }
 
     if (!loanRecord) {
       res.status(404).json({ status: 404, error: 'Loan record not found' });
+      return;
     }
     if (loanRecord.status !== 'approved') {
       res.status(422).json({
         status: 422,
         error: 'Loan request is not approved!',
       });
+      return;
     }
     if (paidAmount > loanRecord.paymentInstallment) {
       res.status(409).json({
         status: 409,
         error: `You are supposed to pay ${loanRecord.paymentInstallment} monthly`,
       });
+      return;
     }
     if (loanRecord.repaid === true) {
       res.status(409).json({ status: 409, error: 'Loan already repaid' });
+      return;
     }
 
     next();
