@@ -39,7 +39,7 @@ class UserController {
         res.status(409).send({ message: 'User with email already exist' });
         return;
       }
-      res.status(500);
+      res.status(500).send({ error: 'Server error' });
     }
   }
 
