@@ -37,7 +37,7 @@ loanRouter.get(
   '/loans/:id/repayments',
   AuthenticateUser.verifyUser,
   ValidateRepayment.validateRepaymentID,
-  RepaymentController.getRepaymentHistory,
+  RepaymentController.viewRepaymentHistory,
 );
 
 loanRouter.patch(
