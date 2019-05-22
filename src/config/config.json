@@ -1,0 +1,25 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": 1111,
+    "database": "quickcredit",
+    "host": "localhost",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+
+  "test": {
+    "username": "postgres",
+    "password": 1111,
+    "database": "quicktest",
+    "host": "localhost",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+
+  "production": {
+    "client": "pg",
+    "use_env_variable": "DATABASE_URL",
+    "dialect": "postgres"
+  }
+}

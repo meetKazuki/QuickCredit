@@ -96,27 +96,22 @@ export default class ValidateUser {
       return;
     }
 
-    const query = 'SELECT * from users WHERE email = $1';
-    try {
-      const { rows } = await DB.query(query, [req.body.email]);
-      const hashedPassword = rows[0].password;
-      const verifyPassword = HelperUtils.verifyPassword(`${req.body.password}`, hashedPassword);
-
-      if (!rows[0]) {
-        res.status(401).json({ error: 'Email/Password is incorrect' });
-        return;
-      }
-      if (!verifyPassword) {
-        res.status(401).json({ error: 'Email/Password is incorrect' });
-        return;
-      }
-
-      const userReq = rows[0];
-      req.user = userReq;
-    } catch (error) {
-      res.status(500).json({ error: 'Internal Server error' });
+    const query = `SELECT * from users WHERE email='${req.body.email}'`;
+    const { rows } = await DB.query(query);
+    if (rows.length < 1) {
+      res.status(401).json({ error: 'Email/Password is incorrect' });
       return;
     }
+
+    const hashedPassword = rows[0].password;
+    const verifyPassword = HelperUtils.verifyPassword(`${req.body.password}`, hashedPassword);
+    if (!verifyPassword) {
+      res.status(401).json({ error: 'Email/Password is incorrect' });
+      return;
+    }
+
+    const userReq = rows[0];
+    req.user = userReq;
     next();
   }
 

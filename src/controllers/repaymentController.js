@@ -27,7 +27,7 @@ export default class RepaymentController {
 
     const records = await DB.query(query);
     if (!records.rows.length) {
-      res.status(404).json({ erorr: 'Loan record not found' });
+      res.status(404).json({ error: 'Loan record not found' });
       return;
     }
 

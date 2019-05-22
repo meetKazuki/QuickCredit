@@ -12,7 +12,7 @@
     "db:seed": "set DEBUG=DB_SEEDING && babel-node ./src/database/seeder.js",
     "start": "npm run build && node ./build/app.js",
     "start:dev": "set DEBUG=dev_ENV && babel-watch ./src/app.js",
-    "test": "nyc mocha -r @babel/register --exit"
+    "test": "npm run db:migrate && nyc mocha ./src/test -r @babel/register --exit"
   },
   "repository": {
     "type": "git",

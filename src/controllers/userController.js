@@ -36,10 +36,10 @@ class UserController {
       return;
     } catch (error) {
       if (error.routine === '_bt_check_unique') {
-        res.status(409).send({ message: 'User with email already exist' });
+        res.status(409).json({ message: 'User with email already exist' });
         return;
       }
-      res.status(500).send({ error: 'Server error' });
+      res.status(500).json({ error });
     }
   }
 
@@ -107,7 +107,7 @@ class UserController {
 
   /**
    * @method verifyUser
-   * @description Verifies a user by unique ID
+   * @description Verifies a user
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
