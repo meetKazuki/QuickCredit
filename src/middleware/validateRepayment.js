@@ -81,7 +81,6 @@ export default class ValidateRepayment {
       res.status(409).json({ status: 409, error: 'Loan already repaid' });
       return;
     }
-
     next();
   }
 }

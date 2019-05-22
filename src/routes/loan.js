@@ -7,13 +7,13 @@ import RepaymentController from '../controllers/repaymentController';
 
 const loanRouter = Router();
 
-/* loanRouter.post(
+loanRouter.post(
   '/loans',
   AuthenticateUser.verifyUser,
   ValidateLoan.validateLoanApply,
   LoanController.createLoan,
 );
-router.post(
+/* router.post(
   '/loans/:id/repayment',
   ValidateRepayment.validateRepaymentID,
   AuthenticateUser.verifyAdmin,

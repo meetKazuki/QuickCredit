@@ -13,36 +13,36 @@ export default class LoanController {
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  static createLoan(req, res) {
-    const { email, firstName, lastName } = req.user;
+  static async createLoan(req, res) {
+    const { email } = req.user;
     const { amount, tenor } = req.body;
+    const loan = {
+      email,
+      interest: 0.05 * parseInt(amount, 10),
+      get paymentInstallment() {
+        return ((parseInt(amount, 10) + this.interest) / parseInt(tenor, 10));
+      },
+      get balance() {
+        return (parseInt(this.paymentInstallment, 10) * parseInt(tenor, 10));
+      },
+      status: 'pending',
+      repaid: false,
+    };
 
-    if (Loan.findByEmail(email)) {
-      res.status(409).json({
-        status: 409,
-        error: "You've already applied for a loan",
+    const loanQuery = `SELECT * FROM loans WHERE email='${email}'`;
+    const verify = await DB.query(loanQuery);
+    if (!verify.rows.length || verify.rows[verify.rows.length - 1].repaid === true) {
+      const insertQuery = `INSERT INTO loans(email, amount, interest, status, repaid, tenor,paymentInstallment, balance)
+      VALUES('${email}', '${amount}', '${loan.interest}', '${loan.status}', '${loan.repaid}', '${tenor}', '${loan.paymentInstallment}', '${loan.balance}') RETURNING *;`;
+
+      const create = await DB.query(insertQuery);
+      res.status(201).json({
+        message: 'Loan request created successfully',
+        data: create.rows,
       });
       return;
     }
-
-    const newLoan = Loan.create({ email, amount, tenor });
-    res.status(201).json({
-      status: 201,
-      data: {
-        message: "Loan request received. You'll be notified shortly",
-        loanId: newLoan.id,
-        firstName,
-        lastName,
-        email: newLoan.email,
-        amount: newLoan.amount,
-        interest: newLoan.interest,
-        tenor: newLoan.tenor,
-        paymentInstallment: newLoan.paymentInstallment,
-        balance: newLoan.balance,
-        status: newLoan.status,
-      },
-    });
-    // return;
+    res.status(409).json({ error: 'You already applied for a loan' });
   }
 
   /**

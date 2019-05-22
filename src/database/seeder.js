@@ -12,20 +12,17 @@ dotenv.config();
 const Debug = debug('DB_SEEDING');
 const hashedPassword = HelperUtils.hashPassword('secret');
 
-const createAdmin = `
-  INSERT INTO users(firstname, lastname, address, email, password, isadmin, status)  VALUES('Desmond', 'Edem', 'Sabo', 'meetdesmond.edem@gmail.com', '${hashedPassword}', 'true', 'verified');`;
-
-const createUser = `
-  INSERT INTO users(firstname, lastname, address, email, password, isadmin, status)
-  VALUES('Obito', 'Uchiha', 'ANBU HQ', 'uchiha.obito@akatsuki.org', '${hashedPassword}', 'false', 'unverified');`;
+const createUsers = `
+  INSERT INTO users(firstname, lastname, address, email, password, isadmin, status)  VALUES('Desmond', 'Edem', 'Sabo', 'meetdesmond.edem@gmail.com', '${hashedPassword}', 'true', 'verified'),('Obito', 'Uchiha', 'Akatsuki Cavern', 'uchiha.obito@akatsuki.org', '${hashedPassword}', 'false', 'unverified')`;
 
 const createRecord = `
-  INSERT INTO loans(email, status, repaid, tenor, amount,paymentInstallment, balance, interest)
-  VALUES('uchiha.obito@akatsuki.org', 'approved', 'false', 3, 20000,7000, 21000, 1000);`;
+  INSERT INTO loans(email,status,repaid,tenor,amount,paymentInstallment,balance, interest)
+  VALUES('uchiha.obito@akatsuki.org','pending','false',3,20000,7000,21000,1000);`;
 
 const createRepayment = 'INSERT INTO repayments(loanId, amount) VALUES(1, 7000);';
 
-const queries = `${dropTables}${createTables}${createAdmin}${createUser}${createRecord}${createRepayment}`;
+const queries = `${dropTables}${createTables}${createUsers}${createRecord}${createRepayment}`;
+
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 pool.on('connect', () => {
