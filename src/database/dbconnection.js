@@ -1,11 +1,20 @@
-import { Pool } from 'pg';
+import { Pool, types } from 'pg';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+let pool;
+if (process.env.NODE_ENV === 'test') {
+  pool = new Pool({
+    connectionString: process.env.TEST_DB_URL,
+  });
+} else {
+  pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+  });
+}
+
+types.setTypeParser(1700, val => parseFloat(val));
 
 export default {
   query(text, params) {

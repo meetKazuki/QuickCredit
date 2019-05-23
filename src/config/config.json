@@ -3,13 +3,13 @@
     "username": "postgres",
     "password": 1111,
     "database": "quickcredit",
-    "host": "localhost",
+    "host": "127.0.0.1",
     "port": 5432,
     "dialect": "postgres"
   },
 
   "test": {
-    "username": "postgres",
+    "username": "KAZUKI",
     "password": 1111,
     "database": "quicktest",
     "host": "localhost",

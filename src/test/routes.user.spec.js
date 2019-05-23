@@ -9,9 +9,9 @@ const baseURI = '/api/v1';
 const authURI = '/api/v1/auth';
 
 let adminToken;
-const userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc2FkbWluIjpmYWxzZSwic3RhdHVzIjoidW52ZXJpZmllZCIsImlhdCI6MTU1ODQ1MTMzMiwiZXhwIjoxNTU4NTM3NzMyfQ.d2sNOHanRMYmkzWspKEjqZB5c2ni6ythCl9l8_75fV8';
+const userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ1Y2hpaGEub2JpdG9AYWthdHN1a2kub3JnIiwiaXNhZG1pbiI6ZmFsc2UsInN0YXR1cyI6InVudmVyaWZpZWQiLCJpYXQiOjE1NTg1NTg3MDYsImV4cCI6MTU1ODY0NTEwNn0.lFNRmotMiWi526QZJUvPbY8rMEOC-yGPK2QPRDDRjyA';
 
-describe.skip('routes: /users', () => {
+describe('routes: /users', () => {
   context('GET /users', () => {
     before((done) => {
       chai

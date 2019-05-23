@@ -7,6 +7,45 @@ import DB from '../database/dbconnection';
  */
 export default class RepaymentController {
   /**
+   * @method postRepayment
+   * @description
+   * @param {object} req - The Request Object
+   * @param {object} res - The Response Object
+   * @returns {object} JSON API Response
+   */
+  static async postRepayment(req, res) {
+    const id = parseInt(req.params.id, 10);
+    const paidAmount = parseInt(req.body.paidAmount, 10);
+    const query = `SELECT * FROM loans WHERE id='${id}'`;
+    let repaid = false;
+
+    const check = await DB.query(query);
+    const newBalance = check.rows[0].balance - paidAmount;
+    const loanQuery = 'UPDATE loans SET repaid=$1, balance=$2 WHERE id=$3 RETURNING *';
+
+    if (newBalance <= 0) {
+      repaid = true;
+    } else check.rows[0].balance -= paidAmount;
+
+    const values = [`${repaid}`, `${newBalance}`, id];
+    const updateQuery = await DB.query(loanQuery, values);
+
+    const insert = `INSERT into repayments(loanId, amount) VALUES('${id}', '${paidAmount}') RETURNING *`;
+    const repayment = await DB.query(insert);
+
+    res.status(201).json({
+      message: 'Payment successful',
+      id: repayment.rows[0].id,
+      loandId: repayment.rows[0].loandid,
+      createdOn: repayment.rows[0].createdon,
+      paidAmount,
+      amount: updateQuery.rows[0].amount,
+      monthlyInstallment: updateQuery.rows[0].paymentinstallment,
+      balance: updateQuery.rows[0].balance,
+    });
+  }
+
+  /**
    * @method viewRepaymentsHistory
    * @description
    * @param {object} req - The Request Object

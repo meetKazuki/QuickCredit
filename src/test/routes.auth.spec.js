@@ -11,11 +11,6 @@ const authURI = '/api/v1/auth';
 let userData;
 
 describe('routes: /auth', () => {
-  // afterEach((done) => {
-  //   DB.query('DROP TABLE IF EXISTS users CASCADE');
-  //   done();
-  // });
-
   context('POST /auth/signup', () => {
     it('should create a new user', (done) => {
       userData = {
@@ -94,7 +89,13 @@ describe('routes: /auth', () => {
     });
 
     specify('error when user signs up with empty address', (done) => {
-      userData.address = '';
+      userData = {
+        firstname: 'John',
+        lastname: '',
+        email: 'john.doe@email.com',
+        address: '12 Iyana Ipaja, CMS',
+        password: 'secret',
+      };
       chai
         .request(app)
         .post(`${authURI}/signup`)
@@ -109,7 +110,7 @@ describe('routes: /auth', () => {
 
     specify('error when user signs up with empty email', (done) => {
       userData = {
-        firstname: '',
+        firstname: 'John',
         lastname: 'Doe',
         email: '',
         address: '12 Iyana Ipaja, CMS',

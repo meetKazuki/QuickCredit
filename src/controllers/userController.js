@@ -114,10 +114,10 @@ class UserController {
    */
   static async verifyUser(req, res) {
     const { email } = req.params;
-    const query = 'SELECT * FROM users WHERE email=$1';
-    const update = "UPDATE users SET status='verified' WHERE email=$1 RETURNING *";
+    const query = `SELECT * FROM users WHERE email='${email}'`;
+    const update = `UPDATE users SET status='verified' WHERE email='${email}' RETURNING *`;
 
-    const findUser = await DB.query(query, [email]);
+    const findUser = await DB.query(query);
     if (!findUser.rows.length) {
       res.status(404).json({ error: 'Email does not exist' });
       return;
@@ -127,7 +127,7 @@ class UserController {
       return;
     }
 
-    const { rows } = await DB.query(update, [email]);
+    const { rows } = await DB.query(update);
     res.status(201).json({
       message: 'User successfully verified',
       data: { ...rows[0] },
