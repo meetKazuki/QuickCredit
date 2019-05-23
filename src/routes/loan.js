@@ -13,13 +13,14 @@ loanRouter.post(
   ValidateLoan.validateLoanApply,
   LoanController.createLoan,
 );
-/* router.post(
+loanRouter.post(
   '/loans/:id/repayment',
-  ValidateRepayment.validateRepaymentID,
+  ValidateRepayment.validateRepayID,
+  ValidateRepayment.validateRepayBody,
   AuthenticateUser.verifyAdmin,
   ValidateRepayment.validateRepayCredentials,
-  RepaymentController.postLoanRepayment,
-); */
+  RepaymentController.postRepayment,
+);
 
 loanRouter.get(
   '/loans',
@@ -36,7 +37,7 @@ loanRouter.get(
 loanRouter.get(
   '/loans/:id/repayments',
   AuthenticateUser.verifyUser,
-  ValidateRepayment.validateRepaymentID,
+  ValidateRepayment.validateRepayID,
   RepaymentController.viewRepaymentHistory,
 );
 

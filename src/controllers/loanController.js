@@ -29,20 +29,25 @@ export default class LoanController {
       repaid: false,
     };
 
-    const loanQuery = `SELECT * FROM loans WHERE email='${email}'`;
-    const verify = await DB.query(loanQuery);
-    if (!verify.rows.length || verify.rows[verify.rows.length - 1].repaid === true) {
-      const insertQuery = `INSERT INTO loans(email, amount, interest, status, repaid, tenor,paymentInstallment, balance)
-      VALUES('${email}', '${amount}', '${loan.interest}', '${loan.status}', '${loan.repaid}', '${tenor}', '${loan.paymentInstallment}', '${loan.balance}') RETURNING *;`;
+    try {
+      const loanQuery = `SELECT * FROM loans WHERE email='${email}'`;
+      const verify = await DB.query(loanQuery);
+      if (!verify.rows.length || verify.rows[verify.rows.length - 1].repaid === true) {
+        const insertQuery = `INSERT INTO loans(email, amount, interest, status, repaid, tenor,paymentInstallment, balance)
+        VALUES('${email}', '${amount}', '${loan.interest}', '${loan.status}', '${loan.repaid}', '${tenor}', '${loan.paymentInstallment}', '${loan.balance}') RETURNING *;`;
 
-      const create = await DB.query(insertQuery);
-      res.status(201).json({
-        message: 'Loan request created successfully',
-        data: create.rows,
-      });
+        const create = await DB.query(insertQuery);
+        res.status(201).json({
+          message: 'Loan request created successfully',
+          data: create.rows,
+        });
+        return;
+      }
+      res.status(409).json({ error: 'You already applied for a loan' });
       return;
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' });
     }
-    res.status(409).json({ error: 'You already applied for a loan' });
   }
 
   /**
@@ -70,16 +75,16 @@ export default class LoanController {
 
   /**
    * @method getOneLoan
-   * @description Retrieves a specific loan record by ID
+   * @description Retrieves a specific loan record by Id
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
   static async getOneLoan(req, res) {
-    const query = 'SELECT * FROM loans WHERE id=$1';
     const { id } = req.params;
+    const query = `SELECT * FROM loans WHERE id='${id}'`;
 
-    const record = await DB.query(query, [id]);
+    const record = await DB.query(query);
     if (record.rowCount > 0) {
       res.status(200).json({ data: [record.rows[0]] });
       return;
@@ -89,7 +94,7 @@ export default class LoanController {
 
   /**
    * @method updateLoan
-   * @description Edit the status of the loan record
+   * @description Edit the status of a loan record
    * @param {object} req Request object
    * @param {object} res Response object
    * @returns {object} JSON API Response
@@ -97,11 +102,10 @@ export default class LoanController {
   static async updateLoan(req, res) {
     const { id } = req.params;
     const { status } = req.body;
-    const query = 'SELECT * FROM loans WHERE id=$1';
-    const update = 'UPDATE loans SET status=$1 WHERE id=$2 RETURNING *';
-    const values = [status, id];
+    const query = `SELECT * FROM loans WHERE id='${id}'`;
+    const update = `UPDATE loans SET status='${status}' WHERE id='${id}' RETURNING *`;
 
-    const fetchLoan = await DB.query(query, [id]);
+    const fetchLoan = await DB.query(query);
     if (!fetchLoan.rows.length) {
       res.status(404).json({ error: 'Loan record not found' });
       return;
@@ -111,7 +115,7 @@ export default class LoanController {
       return;
     }
 
-    const { rows } = await DB.query(update, values);
+    const { rows } = await DB.query(update);
     res.status(201).json({
       message: 'Loan record updated',
       data: rows[0],

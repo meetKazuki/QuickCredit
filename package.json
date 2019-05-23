@@ -9,10 +9,10 @@
     "clean": "rm -rf build .nyc_output coverage && mkdir build",
     "coverage": "nyc report --reporter=text-lcov | coveralls && nyc report --reporter=lcov",
     "db:migrate": "set DEBUG=DB_MIGRATE && babel-node ./src/database/migrate.js",
-    "db:seed": "set DEBUG=DB_SEEDING && babel-node ./src/database/seeder.js",
+    "db:seed": "cross-env NODE_ENV=test && set DEBUG=DB_SEEDING && babel-node ./src/database/seeder.js",
     "start": "npm run build && node ./build/app.js",
     "start:dev": "set DEBUG=dev_ENV && babel-watch ./src/app.js",
-    "test": "npm run db:migrate && nyc mocha ./src/test -r @babel/register --exit"
+    "test": "cross-env NODE_ENV=test && npm run db:migrate && npm run db:seed && nyc mocha ./src/test -r @babel/register --exit"
   },
   "repository": {
     "type": "git",
@@ -34,6 +34,7 @@
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "coveralls": "^3.0.3",
+    "cross-env": "^5.2.0",
     "editorconfig": "^0.15.3",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",

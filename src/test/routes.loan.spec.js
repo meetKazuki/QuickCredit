@@ -11,38 +11,33 @@ const { expect } = chai;
 const baseURI = '/api/v1';
 const authURI = '/api/v1/auth';
 
-const hashedPassword = HelperUtils.hashPassword('secret');
-let userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huLmRvZUBlbWFpbC5jb20iLCJpc2FkbWluIjpmYWxzZSwic3RhdHVzIjoidW52ZXJpZmllZCIsImlhdCI6MTU1ODQ1MTMzMiwiZXhwIjoxNTU4NTM3NzMyfQ.d2sNOHanRMYmkzWspKEjqZB5c2ni6ythCl9l8_75fV8';
+let userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ1Y2hpaGEub2JpdG9AYWthdHN1a2kub3JnIiwiaXNhZG1pbiI6ZmFsc2UsInN0YXR1cyI6InVudmVyaWZpZWQiLCJpYXQiOjE1NTg1NTg3MDYsImV4cCI6MTU1ODY0NTEwNn0.lFNRmotMiWi526QZJUvPbY8rMEOC-yGPK2QPRDDRjyA';
 let adminToken;
 
 describe('routes: loan', () => {
   describe('routes: Admin /loans', () => {
-    beforeEach(async () => {
-      await DB.query(`INSERT INTO users(firstname, lastname, address, email, password, isadmin, status)  VALUES('Desmond', 'Edem', 'Sabo', 'meetdesmond.edem@gmail.com', '${hashedPassword}', 'true', 'verified');`);
-      await DB.query(`
-      INSERT INTO loans(email,status,repaid,tenor,amount,paymentInstallment,balance, interest)
-      VALUES('uchiha.obito@akatsuki.org','pending','false',3,20000,7000,21000,1000);`);
-
-      const res = await chai
+    before((done) => {
+      chai
         .request(app)
         .post(`${authURI}/signin`)
-        .send({ email: 'meetdesmond.edem@gmail.com', password: 'secret' });
-      adminToken = res.body.data.token;
-      console.log(adminToken);
-    });
-
-    afterEach((done) => {
-      DB.query(dropTables);
+        .send({ email: 'meetdesmond.edem@gmail.com', password: 'secret' })
+        .end((err, res) => {
+          adminToken = res.body.data.token;
+          done(err);
+        });
     });
 
     context('GET /loans', () => {
-      it('should fetch all loan applications', async () => {
-        const res = await chai
+      it('should fetch all loan applications', (done) => {
+        chai
           .request(app)
           .get(`${baseURI}/loans`)
-          .set('authorization', `Bearer ${adminToken}`);
-        expect(res).to.have.status(200);
-        expect(res.body).to.have.property('data');
+          .set('authorization', `Bearer ${adminToken}`)
+          .end((err, res) => {
+            expect(res).to.have.status(200);
+            expect(res.body).to.have.property('data');
+            done(err);
+          });
       });
 
       specify('error if token is not provided', (done) => {
@@ -70,7 +65,7 @@ describe('routes: loan', () => {
       });
     });
 
-    context.skip('GET /loans/?status&repaid', () => {
+    context('GET /loans/?status&repaid', () => {
       it('should return all loans that are approved and fully repaid', (done) => {
         chai
           .request(app)
@@ -143,14 +138,13 @@ describe('routes: loan', () => {
       });
     });
 
-    context.skip('GET /loans/:<loan-id>', () => {
+    context('GET /loans/:<loan-id>', () => {
       it('should fetch a specific loan application', (done) => {
         chai
           .request(app)
           .get(`${baseURI}/loans/1`)
           .set('authorization', `Bearer ${adminToken}`)
           .end((err, res) => {
-            console.log(res.body);
             expect(res).to.have.status(200);
             expect(res.body).to.have.property('data');
             expect(res.body.data[0]).to.have.property('id');
@@ -207,7 +201,7 @@ describe('routes: loan', () => {
       });
     });
 
-    context.skip('PATCH /loans/<:loan-id>', () => {
+    context('PATCH /loans/<:loan-id>', () => {
       const data = { status: 'approved' };
 
       specify('error if patch options are not the accepted value', (done) => {
@@ -281,7 +275,7 @@ describe('routes: loan', () => {
     });
   });
 
-  describe.skip('routes: User /loans', () => {
+  describe('routes: User /loans', () => {
     context('POST /loans', () => {
       before((done) => {
         chai
@@ -415,7 +409,7 @@ describe('routes: loan', () => {
     });
   });
 
-  describe.skip('routes: /User /Loans', () => {
+  describe('routes: /User /Loans', () => {
     before((done) => {
       chai
         .request(app)
