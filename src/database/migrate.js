@@ -11,7 +11,7 @@ const Debug = debug('DB_MIGRATE');
 const queries = `${dropQuery}${createQuery}`;
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.TEST_DB_URL,
 });
 
 pool.on('connect', () => {

@@ -22,7 +22,7 @@ const createRepayment = 'INSERT INTO repayments(loanid, amount) VALUES(1, 7000);
 
 const queries = `${dropTables}${createTables}${createUsers}${createRecord}${createRepayment}`;
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const pool = new Pool({ connectionString: process.env.TEST_DB_URL });
 
 pool.on('connect', () => {
   Debug('connected to the db');
