@@ -1,3 +1,4 @@
+import uuidv4 from 'uuid/v4';
 import DB from '../database/dbconnection';
 
 /**
@@ -32,11 +33,25 @@ export default class LoanController {
     try {
       const loanQuery = `SELECT * FROM loans WHERE email='${email}'`;
       const verify = await DB.query(loanQuery);
-      if (!verify.rows.length || verify.rows[verify.rows.length - 1].repaid === true) {
-        const insertQuery = `INSERT INTO loans(email, amount, interest, status, repaid, tenor,paymentInstallment, balance)
-        VALUES('${email}', '${amount}', '${loan.interest}', '${loan.status}', '${loan.repaid}', '${tenor}', '${loan.paymentInstallment}', '${loan.balance}') RETURNING *;`;
+      if (
+        !verify.rows.length || verify.rows[verify.rows.length - 1].repaid === true
+      ) {
+        const insertQuery = `INSERT INTO
+        loans(id,email,amount,interest,status,repaid,tenor,paymentInstallment, balance)
+        VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *;`;
+        const values = [
+          uuidv4(),
+          email,
+          amount,
+          loan.interest,
+          loan.status,
+          loan.repaid,
+          tenor,
+          loan.paymentInstallment,
+          loan.balance,
+        ];
 
-        const create = await DB.query(insertQuery);
+        const create = await DB.query(insertQuery, values);
         res.status(201).json({
           message: 'Loan request created successfully',
           data: create.rows,
@@ -44,7 +59,6 @@ export default class LoanController {
         return;
       }
       res.status(409).json({ error: 'You already applied for a loan' });
-      return;
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });
     }
@@ -65,7 +79,7 @@ export default class LoanController {
     if (status && JSON.parse(repaid)) {
       const values = [status, repaid];
       const record = await DB.query(statusQuery, values);
-      res.status(200).json({ data: record.rows[0] });
+      res.status(200).json({ data: [record.rows[0]] });
       return;
     }
 
@@ -86,7 +100,7 @@ export default class LoanController {
 
     const record = await DB.query(query);
     if (record.rowCount > 0) {
-      res.status(200).json({ data: [record.rows[0]] });
+      res.status(200).json({ data: record.rows[0] });
       return;
     }
     res.status(404).json({ error: 'Loan record not found' });
@@ -103,7 +117,8 @@ export default class LoanController {
     const { id } = req.params;
     const { status } = req.body;
     const query = `SELECT * FROM loans WHERE id='${id}'`;
-    const update = `UPDATE loans SET status='${status}' WHERE id='${id}' RETURNING *`;
+    const update = `UPDATE loans
+      SET status='${status}' WHERE id='${id}' RETURNING *`;
 
     const fetchLoan = await DB.query(query);
     if (!fetchLoan.rows.length) {

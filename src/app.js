@@ -9,13 +9,12 @@ const app = express();
 const Debug = debug('dev_ENV');
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+app.use(cors('*'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // app.use(morgan('dev'));
 
 app.use('/api/v1/', router);
-
 
 app.get('/', (req, res) => {
   res.status(200).json({ message: 'Welcome to QuickCredit' });

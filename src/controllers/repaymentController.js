@@ -1,3 +1,4 @@
+import uuidv4 from 'uuid/v4';
 import DB from '../database/dbconnection';
 
 /**
@@ -14,29 +15,31 @@ export default class RepaymentController {
    * @returns {object} JSON API Response
    */
   static async postRepayment(req, res) {
-    const id = parseInt(req.params.id, 10);
+    const { id } = req.params;
     const paidAmount = parseInt(req.body.paidAmount, 10);
     const query = `SELECT * FROM loans WHERE id='${id}'`;
     let repaid = false;
 
     const check = await DB.query(query);
     const newBalance = check.rows[0].balance - paidAmount;
-    const loanQuery = 'UPDATE loans SET repaid=$1, balance=$2 WHERE id=$3 RETURNING *';
+    const loanQuery = 'UPDATE loans SET repaid=$1,balance=$2 WHERE id=$3 RETURNING *';
 
     if (newBalance <= 0) {
       repaid = true;
     } else check.rows[0].balance -= paidAmount;
 
-    const values = [`${repaid}`, `${newBalance}`, id];
+    const values = [`${repaid}`, `${newBalance}`, `${id}`];
     const updateQuery = await DB.query(loanQuery, values);
 
-    const insert = `INSERT into repayments(loanId, amount) VALUES('${id}', '${paidAmount}') RETURNING *`;
-    const repayment = await DB.query(insert);
+    const insert = `INSERT into repayments(id, loanId, amount)
+      VALUES($1, $2, $3) RETURNING *`;
+    const value = [uuidv4(), id, paidAmount];
+    const repayment = await DB.query(insert, value);
 
     res.status(201).json({
       message: 'Payment successful',
       id: repayment.rows[0].id,
-      loandId: repayment.rows[0].loandid,
+      loandId: repayment.rows[0].loanid,
       createdOn: repayment.rows[0].createdon,
       paidAmount,
       amount: updateQuery.rows[0].amount,

@@ -16,7 +16,7 @@ export default class ValidateRepayment {
   static validateRepayID(req, res, next) {
     req
       .checkParams('id')
-      .isNumeric()
+      .isUUID()
       .withMessage('Invalid ID type specified');
 
     const errors = req.validationErrors();
@@ -37,14 +37,14 @@ export default class ValidateRepayment {
   static async validateRepayBody(req, res, next) {
     req
       .checkParams('id')
-      .isNumeric()
-      .withMessage('ID should be an integer');
+      .isUUID()
+      .withMessage('ID should be a valid UUID');
     req
       .checkBody('loanId')
       .notEmpty()
       .withMessage('Specify LoanId for this transaction')
-      .isNumeric()
-      .withMessage('LoanId should be an integer');
+      .isUUID()
+      .withMessage('LoanId should be a valid UUID');
     req
       .checkBody('paidAmount')
       .notEmpty()

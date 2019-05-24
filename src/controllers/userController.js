@@ -1,3 +1,4 @@
+import uuidv4 from 'uuid/v4';
 import HelperUtils from '../utils/helperUtils';
 import DB from '../database/dbconnection';
 
@@ -12,17 +13,21 @@ class UserController {
    * @description Registers a user if details are valid
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
-   * @returns
+   * @returns {void}
    */
   static async createUser(req, res) {
     const {
       firstname, lastname, address, email, password,
     } = req.body;
     const hashedPassword = HelperUtils.hashPassword(password);
-    const query = `INSERT INTO users(firstname, lastname, address, email, password) VALUES('${firstname}', '${lastname}', '${address}', '${email}', '${hashedPassword}') RETURNING *`;
+    const query = `INSERT INTO
+      users(id, firstname, lastname, address, email, password)
+      VALUES($1, $2, $3, $4, $5, $6)
+      RETURNING id, firstname, lastname, address, email, status, isadmin`;
+    const values = [uuidv4(), firstname, lastname, address, email, hashedPassword];
 
     try {
-      const { rows } = await DB.query(query);
+      const { rows } = await DB.query(query, values);
       const {
         // eslint-disable-next-line no-shadow
         id, firstname, lastname, email, address, status, isadmin,
@@ -48,7 +53,7 @@ class UserController {
    * @description logs in user
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
-   * @returns
+   * @returns {void}
    */
   static login(req, res) {
     const {
@@ -79,7 +84,7 @@ class UserController {
    * @returns {object} JSON API Response
    */
   static async getAllUsers(req, res) {
-    const query = 'SELECT * FROM users';
+    const query = 'SELECT id, firstname, lastname, address, email, status, isadmin FROM users';
     const { rows } = await DB.query(query);
 
     res.status(200).json({ data: rows });
@@ -94,7 +99,7 @@ class UserController {
    */
   static async getUser(req, res) {
     const { email } = req.params;
-    const query = `SELECT * FROM users WHERE email='${email}'`;
+    const query = `SELECT id, firstname, lastname, address, email, status, isadmin FROM users WHERE email='${email}'`;
 
     const findUser = await DB.query(query);
     if (!findUser.rowCount > 0) {
@@ -115,7 +120,7 @@ class UserController {
   static async verifyUser(req, res) {
     const { email } = req.params;
     const query = `SELECT * FROM users WHERE email='${email}'`;
-    const update = `UPDATE users SET status='verified' WHERE email='${email}' RETURNING *`;
+    const update = `UPDATE users SET status='verified' WHERE email='${email}' RETURNING firstname, lastname, address, status, isadmin`;
 
     const findUser = await DB.query(query);
     if (!findUser.rows.length) {
