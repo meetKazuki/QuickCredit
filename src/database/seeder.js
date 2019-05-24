@@ -26,7 +26,7 @@ const createRecord = `
 
 const queries = `${dropTables}${createTables}${createUsers}${createRecord}`;
 
-const pool = new Pool({ connectionString: process.env.TEST_DB_URL });
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 pool.on('connect', () => {
   Debug('connected to the db');

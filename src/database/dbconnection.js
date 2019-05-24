@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const pool = new Pool({
-  connectionString: process.env.TEST_DB_URL,
+  connectionString: process.env.DATABASE_URL,
 });
 
 /* if (process.env.NODE_ENV === 'test') {
