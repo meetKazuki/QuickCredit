@@ -1,4 +1,4 @@
-import Loan from '../models/Loan';
+import DB from '../database/dbconnection';
 
 /**
  * @class ValidateRepayment
@@ -7,23 +7,56 @@ import Loan from '../models/Loan';
  */
 export default class ValidateRepayment {
   /**
-   * @method validateRepaymentID
+   * @method validateRepayID
    * @description
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
    * @returns
    */
-  static validateRepaymentID(req, res, next) {
+  static validateRepayID(req, res, next) {
     req
       .checkParams('id')
-      .isNumeric()
+      .isUUID()
       .withMessage('Invalid ID type specified');
 
     const errors = req.validationErrors();
     if (errors) {
-      return res.status(400).json({ status: 400, error: errors[0].msg });
+      res.status(400).json({ status: 400, error: errors[0].msg });
+      return;
     }
-    return next();
+    next();
+  }
+
+  /**
+   * @method validateRepayBody
+   * @description
+   * @param {object} req - The Request Object
+   * @param {object} res - The Response Object
+   * @returns
+   */
+  static async validateRepayBody(req, res, next) {
+    req
+      .checkParams('id')
+      .isUUID()
+      .withMessage('ID should be a valid UUID');
+    req
+      .checkBody('loanId')
+      .notEmpty()
+      .withMessage('Specify LoanId for this transaction')
+      .isUUID()
+      .withMessage('LoanId should be a valid UUID');
+    req
+      .checkBody('paidAmount')
+      .notEmpty()
+      .withMessage('Enter amount to be repaid')
+      .isNumeric()
+      .withMessage('paidAmount should be an integer');
+    const errors = req.validationErrors();
+    if (errors) {
+      res.status(400).json({ status: 400, error: errors[0].msg });
+      return;
+    }
+    next();
   }
 
   /**
@@ -33,51 +66,32 @@ export default class ValidateRepayment {
    * @param {object} res - The Response Object
    * @returns
    */
-  static validateRepayCredentials(req, res, next) {
-    const loan = parseInt(req.params.id, 10);
-    const loanRecord = Loan.find(loan);
-    const { paidAmount } = req.body;
+  static async validateRepayCredentials(req, res, next) {
+    const { id } = req.params;
+    const paidAmount = parseInt(req.body.paidAmount, 10);
+    const checkQuery = `SELECT * FROM loans WHERE id='${id}'`;
 
-    req
-      .checkParams('id')
-      .isNumeric()
-      .withMessage('ID should be an integer');
-    req
-      .checkBody('loanID')
-      .notEmpty()
-      .withMessage('Specify LoanID for this transaction')
-      .isNumeric()
-      .withMessage('LoanID should be an integer');
-    req
-      .checkBody('paidAmount')
-      .notEmpty()
-      .withMessage('Enter amount to be repaid')
-      .isNumeric()
-      .withMessage('paidAmount should be an integer');
-    const errors = req.validationErrors();
-    if (errors) {
-      return res.status(400).json({ status: 400, error: errors[0].msg });
+    const check = await DB.query(checkQuery);
+    if (check.rows.length < 1) {
+      res.status(404).json({ status: 404, error: 'Loan record not found' });
+      return;
     }
-
-    if (!loanRecord) {
-      return res.status(404).json({ status: 404, error: 'Loan record not found' });
+    if (check.rows[0].status !== 'approved') {
+      res.status(422).json({ error: 'Loan request is not approved!' });
+      return;
     }
-    if (loanRecord.status !== 'approved') {
-      return res.status(422).json({
-        status: 422,
-        error: 'Loan request is not approved!',
+    if (paidAmount !== check.rows[0].paymentinstallment) {
+      res.status(409).json({
+        error: `You are supposed to pay ${check.rows[0].paymentinstallment} monthly`,
       });
+      return;
     }
-    if (paidAmount > loanRecord.paymentInstallment) {
-      return res.status(409).json({
-        status: 409,
-        error: `You are supposed to pay ${loanRecord.paymentInstallment} monthly`,
-      });
+    if (check.rows[0].repaid === true) {
+      res.status(409).json({ status: 409, error: 'Loan already repaid' });
+      return;
     }
-    if (loanRecord.repaid === true) {
-      return res.status(409).json({ status: 409, error: 'Loan already repaid' });
-    }
-
-    return next();
+    const [loan] = check.rows;
+    req.loan = loan;
+    next();
   }
 }

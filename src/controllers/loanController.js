@@ -1,11 +1,12 @@
-import Loan from '../models/Loan';
+import uuidv4 from 'uuid/v4';
+import DB from '../database/dbconnection';
 
 /**
  * @class LoanController
  * @description specifies which method handles a request for the Loan endpoints
  * @exports LoanController
  */
-class LoanController {
+export default class LoanController {
   /**
    * @method createLoan
    * @description Creates a loan application request
@@ -13,34 +14,54 @@ class LoanController {
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  static createLoan(req, res) {
-    const { email, firstName, lastName } = req.user;
+  static async createLoan(req, res) {
+    const { email } = req.user;
     const { amount, tenor } = req.body;
-
-    if (Loan.findByEmail(email)) {
-      return res.status(409).json({
-        status: 409,
-        error: "You've already applied for a loan",
-      });
-    }
-
-    const newLoan = Loan.create({ email, amount, tenor });
-    return res.status(201).json({
-      status: 201,
-      data: {
-        message: "Loan request received. We'll get back to you shortly.",
-        loanId: newLoan.id,
-        firstName,
-        lastName,
-        email: newLoan.email,
-        amount: newLoan.amount,
-        interest: newLoan.interest,
-        tenor: newLoan.tenor,
-        paymentInstallment: newLoan.paymentInstallment,
-        balance: newLoan.balance,
-        status: newLoan.status,
+    const loan = {
+      email,
+      interest: 0.05 * parseInt(amount, 10),
+      get paymentInstallment() {
+        return ((parseInt(amount, 10) + this.interest) / parseInt(tenor, 10));
       },
-    });
+      get balance() {
+        return (parseInt(this.paymentInstallment, 10) * parseInt(tenor, 10));
+      },
+      status: 'pending',
+      repaid: false,
+    };
+
+    try {
+      const loanQuery = `SELECT * FROM loans WHERE email='${email}'`;
+      const verify = await DB.query(loanQuery);
+      if (
+        !verify.rows.length || verify.rows[verify.rows.length - 1].repaid === true
+      ) {
+        const insertQuery = `INSERT INTO
+        loans(id,email,amount,interest,status,repaid,tenor,paymentInstallment, balance)
+        VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *;`;
+        const values = [
+          uuidv4(),
+          email,
+          amount,
+          loan.interest,
+          loan.status,
+          loan.repaid,
+          tenor,
+          loan.paymentInstallment,
+          loan.balance,
+        ];
+
+        const create = await DB.query(insertQuery, values);
+        res.status(201).json({
+          message: 'Loan request created successfully',
+          data: create.rows,
+        });
+        return;
+      }
+      res.status(409).json({ error: 'You already applied for a loan' });
+    } catch (error) {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
   }
 
   /**
@@ -50,60 +71,69 @@ class LoanController {
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  static getAllLoans(req, res) {
-    const { status, repaid } = req.query;
-    Loan.findQuery(status, repaid);
+  static async getAllLoans(req, res) {
+    const statusQuery = 'SELECT * FROM loans WHERE status=$1 AND repaid=$2';
+    const loansQuery = 'SELECT * FROM loans';
 
-    return res.status(200).json({
-      status: 200,
-      data: Loan.all(),
-    });
+    const { status, repaid } = req.query;
+    if (status && JSON.parse(repaid)) {
+      const values = [status, repaid];
+      const record = await DB.query(statusQuery, values);
+      res.status(200).json({ data: [record.rows[0]] });
+      return;
+    }
+
+    const records = await DB.query(loansQuery);
+    res.status(200).json({ data: [records.rows] });
   }
 
   /**
    * @method getOneLoan
-   * @description Retrieves a specific loan record by ID
+   * @description Retrieves a specific loan record by Id
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  static getOneLoan(req, res) {
-    const loanRecord = Loan.find(parseInt(req.params.id, 10));
-    if (!loanRecord) {
-      return res
-        .status(404).json({ status: 404, error: 'Loan record not found!' });
-    }
+  static async getOneLoan(req, res) {
+    const { id } = req.params;
+    const query = `SELECT * FROM loans WHERE id='${id}'`;
 
-    return res.status(200).json({ status: 200, data: loanRecord });
+    const record = await DB.query(query);
+    if (record.rowCount > 0) {
+      res.status(200).json({ data: record.rows[0] });
+      return;
+    }
+    res.status(404).json({ error: 'Loan record not found' });
   }
 
   /**
    * @method updateLoan
-   * @description Edit the status of the loan record
+   * @description Edit the status of a loan record
    * @param {object} req Request object
    * @param {object} res Response object
    * @returns {object} JSON API Response
    */
-  static updateLoan(req, res) {
-    const loanRecord = Loan.find(parseInt(req.params.id, 10));
-    if (!loanRecord) {
-      return res
-        .status(404).json({ status: 404, error: 'Loan record not found!' });
+  static async updateLoan(req, res) {
+    const { id } = req.params;
+    const { status } = req.body;
+    const query = `SELECT * FROM loans WHERE id='${id}'`;
+    const update = `UPDATE loans
+      SET status='${status}' WHERE id='${id}' RETURNING *`;
+
+    const fetchLoan = await DB.query(query);
+    if (!fetchLoan.rows.length) {
+      res.status(404).json({ error: 'Loan record not found' });
+      return;
+    }
+    if (fetchLoan.rows[0].status === 'approved') {
+      res.status(409).json({ error: 'Loan is already approved' });
+      return;
     }
 
-    const data = req.body;
-    loanRecord.update(data);
-
-    return res.status(201).json({
-      status: 201,
-      data: {
-        loanId: loanRecord.id,
-        loanAmount: loanRecord.amount,
-        tenor: loanRecord.tenor,
-        status: loanRecord.status,
-        monthlyInstallment: loanRecord.paymentInstallment,
-        interest: loanRecord.interest,
-      },
+    const { rows } = await DB.query(update);
+    res.status(201).json({
+      message: 'Loan record updated',
+      data: rows[0],
     });
   }
 
@@ -114,22 +144,11 @@ class LoanController {
    * @param {object} res Response object
    * @returns {object} JSON API Response
    */
-  static viewUserLoans(req, res) {
+  static async viewUserLoans(req, res) {
     const { email } = req.user;
-    const loanHistory = Loan.fetchLoans(email);
+    const query = `SELECT * FROM loans WHERE email='${email}'`;
 
-    if (!loanHistory) {
-      return res.status(403).json({
-        status: 403,
-        error: "You don't have access to this resource",
-      });
-    }
-
-    return res.status(200).json({
-      status: 200,
-      data: loanHistory,
-    });
+    const loanRecords = await DB.query(query);
+    res.status(200).json({ data: loanRecords.rows });
   }
 }
-
-export default LoanController;

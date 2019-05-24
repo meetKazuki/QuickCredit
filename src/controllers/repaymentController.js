@@ -1,64 +1,78 @@
-import Loan from '../models/Loan';
-import Repayment from '../models/Repayment';
+import uuidv4 from 'uuid/v4';
+import DB from '../database/dbconnection';
 
 /**
  * @class RepaymentController
- * @description specifies which method handles a request for the Repayment endpoints
+ * @description specifies which method handles a request for the Loan endpoints
  * @exports RepaymentController
  */
-class RepaymentController {
+export default class RepaymentController {
   /**
-   * @method postLoanRepayment
+   * @method postRepayment
    * @description
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  static postLoanRepayment(req, res) {
-    const loanID = parseInt(req.params.id, 10);
-    const loanRecord = Loan.find(loanID);
-    const { paidAmount } = req.body;
+  static async postRepayment(req, res) {
+    const { id } = req.params;
+    const paidAmount = parseInt(req.body.paidAmount, 10);
+    const query = `SELECT * FROM loans WHERE id='${id}'`;
+    let repaid = false;
 
-    const newBalance = loanRecord.balance - paidAmount;
+    const check = await DB.query(query);
+    const newBalance = check.rows[0].balance - paidAmount;
+    const loanQuery = 'UPDATE loans SET repaid=$1,balance=$2 WHERE id=$3 RETURNING *';
+
     if (newBalance <= 0) {
-      loanRecord.repaid = true;
-      loanRecord.balance = 0;
-    } else loanRecord.balance -= paidAmount;
+      repaid = true;
+    } else check.rows[0].balance -= paidAmount;
 
-    const data = { loanID, paidAmount };
-    const repayRecord = Repayment.create(data);
+    const values = [`${repaid}`, `${newBalance}`, `${id}`];
+    const updateQuery = await DB.query(loanQuery, values);
 
-    return res.status(201).json({
-      status: 201,
-      data: {
-        id: repayRecord.id,
-        loanId: repayRecord.loanID,
-        createdOn: repayRecord.createdOn,
-        amount: loanRecord.amount,
-        monthlyInstallment: loanRecord.paymentInstallment,
-        paidAmount: repayRecord.paidAmount,
-        balance: loanRecord.balance,
-      },
+    const insert = `INSERT into repayments(id, loanId, amount)
+      VALUES($1, $2, $3) RETURNING *`;
+    const value = [uuidv4(), id, paidAmount];
+    const repayment = await DB.query(insert, value);
+
+    res.status(201).json({
+      message: 'Payment successful',
+      id: repayment.rows[0].id,
+      loandId: repayment.rows[0].loanid,
+      createdOn: repayment.rows[0].createdon,
+      paidAmount,
+      amount: updateQuery.rows[0].amount,
+      monthlyInstallment: updateQuery.rows[0].paymentinstallment,
+      balance: updateQuery.rows[0].balance,
     });
   }
 
   /**
-   * @method getRepaymentHistory
+   * @method viewRepaymentsHistory
    * @description
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  static getRepaymentHistory(req, res) {
-    const loanId = req.params.id;
+  static async viewRepaymentHistory(req, res) {
+    const { email } = req.user;
+    const { id } = req.params;
+    const user = `SELECT * FROM loans WHERE email='${email}'`;
+    const query = `SELECT * FROM repayments WHERE loanId='${id}'`;
 
-    const loanRecord = Repayment.find(loanId);
-    if (!loanRecord) {
-      return res.status(404).json({ status: 404, error: 'Record not found' });
+    const checkLoan = await DB.query(user);
+    if (!checkLoan.rows.email === email || checkLoan.rows.isadmin === false) {
+      res.status(403).json({ error: 'You are not authorized' });
+      return;
     }
 
-    return res.status(200).json({ status: 200, data: loanRecord });
+    const records = await DB.query(query);
+    if (!records.rows.length) {
+      res.status(404).json({ error: 'Loan record not found' });
+      return;
+    }
+
+    res.status(200).json({ data: records.rows });
   }
 }
-
-export default RepaymentController;

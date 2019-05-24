@@ -1,10 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../src/app';
-
-import Loan from '../src/models/Loan';
-import Repayment from '../src/models/Repayment';
-import { loanDB, repaymentDB } from './mock-data';
+import app from '../app';
 
 chai.use(chaiHttp);
 
@@ -15,14 +11,9 @@ const authURI = '/api/v1/auth';
 let adminToken;
 let userToken;
 
-describe.skip('routes: repayment', () => {
-  context.skip('POST /loans/:<loan-id>/repayment', () => {
-    beforeEach((done) => {
-      Loan.resetTable();
-      Repayment.resetTable();
-      loanDB.forEach(data => Loan.create(data));
-      repaymentDB.forEach(data => Repayment.create(data));
-
+describe('routes: repayment', () => {
+  context('POST /loans/:<loan-id>/repayment', () => {
+    before((done) => {
       chai
         .request(app)
         .post(`${authURI}/signin`)
@@ -38,12 +29,14 @@ describe.skip('routes: repayment', () => {
         .request(app)
         .post(`${baseURI}/loans/1/repayment`)
         .set('authorization', `Bearer ${adminToken}`)
-        .send({ loanID: 1, paidAmount: 7000 })
+        .send({ loanId: 1, paidAmount: 7000 })
         .end((err, res) => {
           expect(res).to.have.status(201);
-          expect(res.body).to.have.property('status');
-          expect(res.body.status).to.equal(201);
-          expect(res.body).to.have.property('data');
+          expect(res.body).to.have.property('id');
+          expect(res.body).to.have.property('createdOn');
+          expect(res.body).to.have.property('paidAmount');
+          expect(res.body).to.have.property('monthlyInstallment');
+          expect(res.body).to.have.property('balance');
           done(err);
         });
     });
@@ -52,11 +45,10 @@ describe.skip('routes: repayment', () => {
       chai
         .request(app)
         .post(`${baseURI}/loans/1/repayment`)
-        .set('authoriztion', '')
+        .set('authorization', '')
+        .send({ loanId: 1, paidAmount: 7000 })
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body).to.have.property('status');
-          expect(res.body.status).to.equal(401);
           expect(res.body).to.have.property('error');
           done(err);
         });
@@ -66,11 +58,10 @@ describe.skip('routes: repayment', () => {
       chai
         .request(app)
         .post(`${baseURI}/loans/1/repayment`)
-        .set('authoriztion', `Bearer ${userToken}`)
+        .set('authorization', `Bearer ${userToken}`)
+        .send({ loanId: 1, paidAmount: 7000 })
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body).to.have.property('status');
-          expect(res.body.status).to.equal(401);
           expect(res.body).to.have.property('error');
           done(err);
         });
@@ -81,11 +72,9 @@ describe.skip('routes: repayment', () => {
         .request(app)
         .post(`${baseURI}/loans/8/repayment`)
         .set('authorization', `Bearer ${adminToken}`)
-        .send({ paidAmount: 7000 })
+        .send({ loanId: 8, paidAmount: 7000 })
         .end((err, res) => {
           expect(res).to.have.status(404);
-          expect(res.body).to.have.property('status');
-          expect(res.body.status).to.equal(404);
           expect(res.body).to.have.property('error');
           done(err);
         });
@@ -109,13 +98,10 @@ describe.skip('routes: repayment', () => {
 
   context('GET /loans/:<loan-id>/repayments', () => {
     before((done) => {
-      Loan.resetTable();
-      loanDB.forEach(record => Loan.create(record));
-
       chai
         .request(app)
         .post(`${authURI}/signin`)
-        .send({ email: 'etasseler0@is.gd', password: 'secret' })
+        .send({ email: 'uchiha.obito@akatsuki.org', password: 'secret' })
         .end((err, res) => {
           userToken = res.body.data.token;
           done(err);
@@ -128,10 +114,7 @@ describe.skip('routes: repayment', () => {
         .get(`${baseURI}/loans/1/repayments`)
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
-          console.log(Loan.table);
           expect(res).to.have.status(200);
-          expect(res.body.status).to.be.equal(200);
-          expect(res.body.data).to.be.an('object');
           done(err);
         });
     });
@@ -155,7 +138,6 @@ describe.skip('routes: repayment', () => {
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           expect(res).to.have.status(404);
-          expect(res.body.status).to.be.equal(404);
           expect(res.body).to.have.property('error');
           done(err);
         });
@@ -168,7 +150,6 @@ describe.skip('routes: repayment', () => {
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal(400);
           expect(res.body).to.have.property('error');
           done(err);
         });

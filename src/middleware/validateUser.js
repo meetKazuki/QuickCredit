@@ -1,5 +1,5 @@
 import HelperUtils from '../utils/helperUtils';
-import User from '../models/User';
+import DB from '../database/dbconnection';
 
 /**
  * @class ValidateUser
@@ -16,7 +16,7 @@ export default class ValidateUser {
    */
   static validateProfileDetails(req, res, next) {
     req
-      .checkBody('firstName')
+      .checkBody('firstname')
       .notEmpty()
       .withMessage('First name is required')
       .trim()
@@ -26,7 +26,7 @@ export default class ValidateUser {
       .withMessage('First name should only contain alphabets');
 
     req
-      .checkBody('lastName')
+      .checkBody('lastname')
       .notEmpty()
       .withMessage('Last name is required')
       .trim()
@@ -64,30 +64,10 @@ export default class ValidateUser {
       .withMessage('Password must be between 6 to 15 characters');
     const errors = req.validationErrors();
     if (errors) {
-      return res.status(400).json({ status: 400, error: errors[0].msg });
+      res.status(400).json({ status: 422, error: errors[0].msg });
+      return;
     }
-    return next();
-  }
-
-  /**
-   * @method validateExistingUser
-   * @description
-   * @param {object} req - The Request Object
-   * @param {object} res - The Response Object
-   * @returns
-   */
-  static validateExistingUser(req, res, next) {
-    const { email } = req.body;
-    const user = User.findByEmail(email);
-
-    if (!user) {
-      return next();
-    }
-
-    return res.status(409).json({
-      status: 409,
-      error: 'User with provided email already exists',
-    });
+    next();
   }
 
   /**
@@ -97,10 +77,7 @@ export default class ValidateUser {
    * @param {object} res - The Response Object
    * @returns
    */
-  static validateLoginDetails(req, res, next) {
-    let error = '';
-    let status;
-
+  static async validateLoginDetails(req, res, next) {
     req
       .checkBody('email')
       .notEmpty()
@@ -109,48 +86,33 @@ export default class ValidateUser {
       .isEmail()
       .withMessage('Invalid email address entered')
       .customSanitizer(email => email.toLowerCase());
-
     req
       .checkBody('password')
       .notEmpty()
       .withMessage('Password field is required');
     const errors = req.validationErrors();
     if (errors) {
-      return res.status(400).json({ status: 400, error: errors[0].msg });
+      res.status(400).json({ error: errors[0].msg });
+      return;
     }
 
-    const { email, password } = req.body;
-
-    // Find record with email
-    const user = User.findByEmail(email);
-    if (!user) {
-      return res.status(404).json({
-        status: 404,
-        error: 'The account provided does not exist',
-      });
+    const query = `SELECT * from users WHERE email='${req.body.email}'`;
+    const { rows } = await DB.query(query);
+    if (rows.length < 1) {
+      res.status(401).json({ error: 'Email/Password is incorrect' });
+      return;
     }
 
-    // verify password in the database
-    const hashedPassword = user.password;
-    const verifyPassword = HelperUtils.verifyPassword(`${password}`, hashedPassword);
+    const hashedPassword = rows[0].password;
+    const verifyPassword = HelperUtils.verifyPassword(`${req.body.password}`, hashedPassword);
     if (!verifyPassword) {
-      error = 'Email/password is incorrect';
-      status = 401;
-    }
-    if (error) {
-      return res.status(status).json({ status, error });
+      res.status(401).json({ error: 'Email/Password is incorrect' });
+      return;
     }
 
-    // display user fields
-    const userReq = user;
-    req.user = {
-      id: userReq.id,
-      firstName: userReq.firstName,
-      lastName: userReq.lastName,
-      email: userReq.email,
-      isAdmin: userReq.isAdmin,
-    };
-    return next();
+    const userReq = rows[0];
+    req.user = userReq;
+    next();
   }
 
   /**
@@ -171,11 +133,36 @@ export default class ValidateUser {
       .customSanitizer(email => email.toLowerCase());
     const errors = req.validationErrors();
     if (errors) {
-      return res.status(400).json({
+      res.status(400).json({
         status: 400,
         error: errors[0].msg,
       });
+      return;
     }
-    return next();
+    next();
+  }
+
+  /**
+   * @method validatePatchOptions
+   * @description
+   * @param {object} req - The Request Object
+   * @param {object} res - The Response Object
+   * @returns
+   */
+  static validatePatchOptions(req, res, next) {
+    req
+      .checkBody('status')
+      .notEmpty()
+      .withMessage('Specify status field')
+      .isAlpha()
+      .withMessage('Invalid option specified')
+      .equals('verified')
+      .withMessage('Invalid status option entered');
+    const errors = req.validationErrors();
+    if (errors) {
+      res.status(400).json({ status: 400, error: errors[0].msg });
+      return;
+    }
+    next();
   }
 }

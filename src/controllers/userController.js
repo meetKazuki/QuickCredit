@@ -1,5 +1,6 @@
+import uuidv4 from 'uuid/v4';
 import HelperUtils from '../utils/helperUtils';
-import User from '../models/User';
+import DB from '../database/dbconnection';
 
 /**
  * @class UserController
@@ -12,46 +13,65 @@ class UserController {
    * @description Registers a user if details are valid
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
-   * @returns {object} JSON API Response
+   * @returns {void}
    */
-  static createUser(req, res) {
-    const newUser = User.create(req.body);
-    const token = HelperUtils.generateToken(newUser);
+  static async createUser(req, res) {
+    const {
+      firstname, lastname, address, email, password,
+    } = req.body;
+    const hashedPassword = HelperUtils.hashPassword(password);
+    const query = `INSERT INTO
+      users(id, firstname, lastname, address, email, password)
+      VALUES($1, $2, $3, $4, $5, $6)
+      RETURNING id, firstname, lastname, address, email, status, isadmin`;
+    const values = [uuidv4(), firstname, lastname, address, email, hashedPassword];
 
-    res.status(201).json({
-      status: 201,
-      data: {
-        message: 'Registration successful!',
-        token,
-        id: newUser.id,
-        firstName: newUser.firstName,
-        lastName: newUser.lastName,
-        email: newUser.email,
-        address: newUser.address,
-      },
-    });
+    try {
+      const { rows } = await DB.query(query, values);
+      const {
+        // eslint-disable-next-line no-shadow
+        id, firstname, lastname, email, address, status, isadmin,
+      } = rows;
+
+      const token = HelperUtils.generateToken({ id, email, isadmin });
+      res.status(201).json({
+        message: 'Registration successful',
+        data: { token, ...rows[0] },
+      });
+      return;
+    } catch (error) {
+      if (error.routine === '_bt_check_unique') {
+        res.status(409).json({ message: 'User with email already exist' });
+        return;
+      }
+      res.status(500).json({ error });
+    }
   }
 
   /**
-   * @method authenticate
-   * @description authenticates user
+   * @method login
+   * @description logs in user
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
-   * @returns {object} JSON API Response
+   * @returns {void}
    */
-  static authenticate(req, res) {
-    const token = HelperUtils.generateToken(req.user);
+  static login(req, res) {
+    const {
+      id, firstname, lastname, email, isadmin, status,
+    } = req.user;
+    const token = HelperUtils.generateToken({
+      id, email, isadmin, status,
+    });
 
     res.status(200).json({
-      status: 200,
+      message: 'Login successful!',
       data: {
-        message: 'Login successful!',
         token,
-        id: req.user.id,
-        firstName: req.user.firstName,
-        lastName: req.user.lastName,
-        email: req.user.email,
-        isAdmin: req.user.isAdmin,
+        id,
+        firstname,
+        lastname,
+        email,
+        isadmin,
       },
     });
   }
@@ -63,8 +83,11 @@ class UserController {
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  static getAllUsers(req, res) {
-    res.status(200).json({ status: 200, data: User.all() });
+  static async getAllUsers(req, res) {
+    const query = 'SELECT id, firstname, lastname, address, email, status, isadmin FROM users';
+    const { rows } = await DB.query(query);
+
+    res.status(200).json({ data: rows });
   }
 
   /**
@@ -74,48 +97,45 @@ class UserController {
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  static getUser(req, res) {
-    const user = User.findByEmail(req.params.email);
+  static async getUser(req, res) {
+    const { email } = req.params;
+    const query = `SELECT id, firstname, lastname, address, email, status, isadmin FROM users WHERE email='${email}'`;
 
-    if (user) {
-      res.status(200).json({
-        status: 200,
-        data: user,
-      });
-    } else {
-      res.status(404).json({
-        status: 404,
-        error: 'User not found!',
-      });
+    const findUser = await DB.query(query);
+    if (!findUser.rowCount > 0) {
+      res.status(404).json({ error: 'User does not exist' });
+      return;
     }
+
+    res.status(200).json({ data: [findUser.rows[0]] });
   }
 
   /**
    * @method verifyUser
-   * @description Verifies a user by unique ID
+   * @description Verifies a user
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
    * @returns {object} JSON API Response
    */
-  static updateUser(req, res) {
-    const user = User.findByEmail(req.params.email);
-    if (!user) {
-      return res.status(404).json({ status: 404, error: 'No user' });
+  static async verifyUser(req, res) {
+    const { email } = req.params;
+    const query = `SELECT * FROM users WHERE email='${email}'`;
+    const update = `UPDATE users SET status='verified' WHERE email='${email}' RETURNING firstname, lastname, address, status, isadmin`;
+
+    const findUser = await DB.query(query);
+    if (!findUser.rows.length) {
+      res.status(404).json({ error: 'Email does not exist' });
+      return;
+    }
+    if (findUser.rows[0].status === 'verified') {
+      res.status(409).json({ error: 'User is already verified' });
+      return;
     }
 
-    const data = req.body;
-    user.update(data);
-
-    return res.status(201).json({
-      status: 201,
-      data: {
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        password: user.password,
-        address: user.address,
-        status: user.status,
-      },
+    const { rows } = await DB.query(update);
+    res.status(201).json({
+      message: 'User successfully verified',
+      data: { ...rows[0] },
     });
   }
 }

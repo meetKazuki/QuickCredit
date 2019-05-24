@@ -89,6 +89,32 @@ Each response will be returned with one of the following HTTP status codes:
 - `404` `Not Found` An attempt was made to access a resource that does not exist in the API
 - `500` `Server Error` An error on the server occurred
 
+### API ENDPOINTS
+
+#### Authentication
+
+| URI                       | HTTP Method | Description       |
+|-----                      |-------------|-------------      |
+| <code>/auth/signup</code> | `POST`      | Create an account |
+| <code>/auth/signin</code> | `POST`      | Log in to account |
+
+#### API Routes
+
+| URI                                                         | HTTP Method            | Description                                  |
+|-----                                                        |-------------           |-------------                                 |
+| <code>/api/v1/users</code>                                  | `GET`                  | Fetch all Users                              |
+| <code>/api/v1/users/{email}</code>                          | `GET`                  | Fetch a single user by email                 |
+| <code>/api/v1/user/loans</code>                             | `GET`                  | Fetch all loans by a user                    |
+| <code>/api/v1/loans/</code>                                 | `GET`                  | Fetch all loans                              |
+| <code>/api/v1/loans/{id}</code>                             | `GET`                  | Fetch a single loan by id                    |
+| <code>/api/v1/loans?status=approved&repaid=false</code>     | `GET`                  | Fetch all loans that are not fully repaid    |
+| <code>/api/v1/loans?status=approved&repaid=true</code>      | `GET`                  | Fetch all loans that are fully repaid        |
+| <code>/api/v1/loans/{id}/repayments</code>                  | `GET`                  | Fetch all repayments for a loan              |
+| <code>/api/v1/loans</code>                                  | `POST`                 | Create a loan request                        |
+| <code>/api/v1/loans/{id}/repayment</code>                   | `POST`                 | Create a loan repayment record               |
+| <code>/api/v1/loans/{id}</code>                             | `PATCH`                | Update a loan record status                  |
+| <code>/api/v1/users/{email}/verify</code>                   | `PATCH`                | Update a loan user's status                  |
+
 ## Inspiration/Resources
 - [Design for Developers](https://frontendmasters.com/courses/design-for-developers/) by Sarah Drasner
 - [Github Sign In/Sign Up page](https://github.com/login?return_to=%2Fjoin)
@@ -97,6 +123,7 @@ Each response will be returned with one of the following HTTP status codes:
 - [CSS Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) by CSSTricks
 - [w3Schools](https://www.w3schools.com/howto/howto_js_tabs.asp)
 - [Building a Simple API with NodeJS & Express](https://www.codementor.io/olawalealadeusi896/building-simple-api-with-es6-krn8xx3k6) by Olawale Aladeusi🙌
+- [Node-postgres Docs](https://node-postgres.com/)
 
 ## License
 The QuickCredit API is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
