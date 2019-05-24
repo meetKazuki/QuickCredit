@@ -64,7 +64,7 @@ export default class ValidateUser {
       .withMessage('Password must be between 6 to 15 characters');
     const errors = req.validationErrors();
     if (errors) {
-      res.status(400).json({ status: 400, error: errors[0].msg });
+      res.status(400).json({ status: 422, error: errors[0].msg });
       return;
     }
     next();

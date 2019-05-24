@@ -5,3 +5,4 @@ const dropRepaymentsTable = 'DROP TABLE IF EXISTS repayments CASCADE; ';
 const dropQuery = `${dropUsersTable}${dropLoansTable}${dropRepaymentsTable}`;
 
 export default dropQuery;
+// module.exports = dropQuery;

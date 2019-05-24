@@ -50,7 +50,7 @@ export default class ValidateLoan {
   static validateLoanID(req, res, next) {
     req
       .checkParams('id')
-      .isNumeric()
+      .isUUID()
       .withMessage('Invalid ID type specified');
 
     const errors = req.validationErrors();
