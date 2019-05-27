@@ -1,0 +1,983 @@
+FORMAT: 1A
+HOST: https://quickcredit-staging.herokuapp.com
+
+# QuickCredit
+
+An online lending platform that provides short term soft loans to individuals 
+as a way to solve problems of financial inclusion, alleviate poverty and empower
+low income earners.
+
+## Home [/]
+
+### Welcome Page [GET /]
+
++ Response 200 (application/json)
+
+        {
+            "message": "Welcome to QuickCredit API v1"
+        }
+        
+        
+## User Authentication [/auth]
+
+A User object has the following attributes:
+
++ id - An UUID representing the User's ID
++ email - A string representing the User's email
++ firstname - A string representing the User's first name
++ lastname - A string representing the User's last name
++ address - A string representing the User's home/work address
++ status - A string representing the current status of the user (verified or unverified)
++ isadmin - A string representing the User's role (If the user is an admin or not)
+
+
+### Register User [POST /auth/signup]
+
++ Request (application/json)
+
+        {
+            "firstname": "Test",
+            "lastname": "User",
+            "address": "User test address",
+            "email": "testuser2@gmail.com",
+            "password": "1234567890"
+        }
+
++ Response 201 (application/json) 
+    
+    + Headers
+    
+            Location: /api/v1/auth/signup
+
+    + Body
+        
++ Request (application/json)
+
+        {
+            "firstname": "",
+            "lastname": "User",
+            "address": "No 12 address street"
+            "email": "testuser2@gmail.com",
+            "password": "1234567890"
+        }
+
++ Response 400 (application/json) 
+    
+    + Headers
+    
+            Location: /api/v1/auth/signup
+
+    + Body
+    
+            {
+                "status": 400,
+                "error": "You need to include a valid first name"
+            }
+
++ Request (application/json)
+
+        {
+            "firstname": "Test",
+            "lastname": "",
+            "address": "12 McNeil Address",
+            "email": "testuser2@gmail.com",
+            "password": "1234567890"
+        }
+
++ Response 400 (application/json) 
+    
+    + Headers
+    
+            Location: /api/v1/auth/signup
+
+    + Body
+    
+            {
+                "status": 400,
+                "error": "You need to include a valid last name"
+            }
+            
++ Request (application/json)
+
+        {
+            "firstname": "Test",
+            "lastname": "User",
+            "address": "12 Address Street",
+            "email": "",
+            "password": "1234567890"
+        }
+
++ Response 400 (application/json) 
+    
+    + Headers
+    
+            Location: /api/v1/auth/signup
+
+    + Body
+    
+            {
+                "status": 400,
+                "error": "The email you provided is invalid"
+            }
+
++ Request (application/json)
+
+        {
+            "firstname": "Test",
+            "lastname": "User",
+            "address": "",
+            "email": "testuser2@gmail.com",
+            "password": "1234567890"
+        }
+
++ Response 400 (application/json) 
+    
+    + Headers
+    
+            Location: /api/v1/auth/signup
+
+    + Body
+    
+            {
+                "status": 400,
+                "error": "You need to include a valid address"
+            }
+       
++ Request (application/json)
+
+        {
+            "firstname": "Test",
+            "lastname": "User",
+            "address": "Test User Address",
+            "email": "testuser2@gmail.com",
+            "password": ""
+        }
+
++ Response 400 (application/json) 
+    
+    + Headers
+    
+            Location: /api/v1/auth/signup
+
+    + Body
+    
+            {
+                "status": 400,
+                "error": "You need to provide a password"
+            }
+
++ Request (application/json)
+
+        {
+            "firstname": "Test",
+            "lastname": "",
+            "address": "Test User",
+            "email": "testuser2@gmail.com",
+            "password": "12345"
+        }
+
++ Response 400 (application/json) 
+    
+    + Headers
+    
+            Location: /api/v1/auth/signup
+
+    + Body
+    
+            {
+                "status": 400,
+                "error": "Password length must be 8 characters and above"
+            }
+
++ Request (application/json)
+
+        {
+            "firstname": "Test#@345&",
+            "lastname": "User",
+            "address": "",
+            "email": "testuser2@gmail.com",
+            "password": "1234567890"
+        }
+
++ Response 400 (application/json) 
+    
+    + Headers
+    
+            Location: /api/v1/auth/signup
+
+    + Body
+    
+            {
+                "status": 400,
+                "error": "You need to include a valid first name"
+            }
+
++ Request (application/json)
+
+        {
+            "firstname": "Test",
+            "lastname": "User#@345&",
+            "address": "Test user address",
+            "email": "testuser2@gmail.com",
+            "password": "1234567890"
+        }
+
++ Response 400 (application/json) 
+    
+    + Headers
+    
+            Location: /api/v1/auth/signup
+
+    + Body
+    
+            {
+                "status": 400,
+                "error": "You need to include a valid last name"
+            }
+            
++ Request (application/json)
+
+        {
+            "firstname": "Test",
+            "lastname": "User",
+            "address": "Test user's address",
+            "email": "testuser2%1##*(gmail.com",
+            "password": "1234567890"
+        }
+
++ Response 400 (application/json) 
+    
+    + Headers
+    
+            Location: /api/v1/auth/signup
+
+    + Body
+    
+            {
+                "status": 400,
+                "error": "The email you provided is invalid"
+            }
+
++ Request (application/json)
+
+        {
+            "firstname": "Test",
+            "lastname": "User",
+            "address": "Test user address",
+            "email": "testuser2@gmail.com",
+            "password": "1234567890"
+        }
+
++ Response 409 (application/json) 
+    
+    + Headers
+    
+            Location: /api/v1/auth/signup
+
+    + Body
+    
+            {
+                "status": 409,
+                "error": "A user with the given email or username or phonenumber already exists"
+            }
+
+### User Login [POST /auth/signin]
+
++ Request (application/json) 
+
+        {
+            "email": "testuser2@gmail.com",
+            "password": "1234567890"
+        }
+
++ Response 200 (application/json)
+
+    + Headers
+        
+            Location: /api/v1/auth/signin
+        
+    + Body
+            
+            {
+               "status": 200,
+               "data": [
+                   {
+                       "message": "Login Successful!",
+                       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ0ZXN0dXNlcjJAZ21haWwuY29tIiwiaXNhZG1pbiI6ImZhbHNlIiwiZmlyc3RuYW1lIjoiVGVzdCIsImxhc3RuYW1lIjoiVGVzdCIsInBob25lbnVtYmVyIjoiMDcwODg5OTg4NDUiLCJ1c2VybmFtZSI6IlRlc3RVc2VyIiwiY3JlYXRlZG9uIjoiMjAxOS0wMS0yMFQwOToxNDozNy4yNTlaIiwiaWF0IjoxNTQ3OTgyNTUxLCJleHAiOjE1NDg1ODczNTF9.WX3YnKFwZ9Xb3QVc7D5wDe_ROWzlwlpMsKuvnFe3FGQ",
+                       "user": {
+                           "id": 3,
+                           "email": "testuser2@gmail.com",
+                           "firstname": "Test",
+                           "lastname": "Test",
+                           "username": "TestUser",
+                           "phonenumber": "07088998845",
+                           "isadmin": "false"
+                        }
+                    }
+                ]
+            }
+            
++ Request (application/json) 
+
+        {
+            "email": "",
+            "password": "1234567890"
+        }
+
++ Response 400 (application/json)
+
+    + Headers
+        
+            Location: /api/v1/auth/signin
+        
+    + Body
+            
+            {
+                "status": 400,
+                "error": "The email you provided is invalid"
+            }
+            
++ Request (application/json) 
+
+        {
+            "email": "testuser2@gmail.com",
+            "password": ""
+        }
+
++ Response 400 (application/json)
+
+    + Headers
+        
+            Location: /api/v1/auth/signin
+        
+    + Body
+            
+            {
+                "status": 400,
+                "error": "You need to provide a password"
+            }
+            
++ Request (application/json) 
+
+        {
+            "email": "testuser2%^&$*#$(gmail.com",
+            "password": "1234567890"
+        }
+
++ Response 400 (application/json)
+
+    + Headers
+        
+            Location: /api/v1/auth/signin
+        
+    + Body
+            
+            {
+                "status": 400,
+                "error": "The email you provided is invalid"
+            }
+            
++ Request (application/json) 
+
+        {
+            "email": "randomuser@gmail.com",
+            "password": "1234567890"
+        }
+
++ Response 404 (application/json)
+
+    + Headers
+        
+            Location: /api/v1/auth/signin
+        
+    + Body
+            
+            {
+                "status": 404,
+                "error": "Sorry, the email account you provided does not exist"
+            }
+            
++ Request (application/json) 
+
+        {
+            "email": "testuser2@gmail.com",
+            "password": "123456"
+        }
+
++ Response 400 (application/json)
+
+    + Headers
+        
+            Location: /api/v1/auth/signin
+        
+    + Body
+            
+            {
+                "status": 400,
+                "error": "Password length must be 8 characters and above"
+            }
+            
++ Request (application/json) 
+
+        {
+            "email": "testuser2@gmail.com",
+            "password": "123456789010"
+        }
+
++ Response 400 (application/json)
+
+    + Headers
+        
+            Location: /api/v1/auth/signin
+        
+    + Body
+            
+            {
+                "status": 400,
+                "error": "Sorry, the provided email/password is incorrect"
+            }            
+
+
+## Loans Collection [/loans]
+
+A Loan object has the following attributes:
+
++ id - The ID of the loan object represented as an integer
++ user - The `email` address of the User who created the resource represented as a string
++ createdOn - The date the loan record was created in UTC format represented as a string
++ status - A string representing the current status of the loan record. It could be _pending_, _approved_ or _rejected_.
++ repaid - A boolean representing the state of the loan. `true` means loan is fully repaid, `false` means loan is not fully repaid.
++ tenor - An integer representing the duration of the loan servicing
++ amount - A float representing the principal of the loan
++ paymentInstallment - A float representing the amount user is expected to pay monthly
++ balance - A float value representing amount to be repaid
++ interest - A float value which 5% of the loan amount requested
+
+### List All Loan Records [GET /loans]
+
++ Request (application/json)
+
+    + Headers
+    
+            Authentication: Bearer JWT
+
++ Response 200 (application/json)
+
+    + Headers
+            
+            Location: /loans
+    
+    + Body
+
+            {
+                    "status": 200,
+                    "data": [
+                        {
+                            "id": 1,
+                            "user": "uchiha.itachi@anbu.org",
+                            "createdOn": 1557574810240,
+                            "status": "approved",
+                            "repaid": false,
+                            "tenor": 3,
+                            "amount": 20000,
+                            "paymentInstallment": 7000,
+                            "balance": 21000,
+                            "interest": 1000
+                        },
+                        {
+                            "id": 2,
+                            "user": "uchiha.itachi@anbu.org",
+                            "createdOn": 1557574810240,
+                            "status": "approved",
+                            "repaid": false,
+                            "tenor": 3,
+                            "amount": 20000,
+                            "paymentInstallment": 7000,
+                            "balance": 21000,
+                            "interest": 1000
+                        }
+                    ]
+            }
+        
+### List All Current Loans (not fully repaid) [GET /loans?status=approved&repaid=false]
+
++ Request
+
+            Authorization: Bearer JWT
+
++ Response 200 (application/json)
+
+
+    + Headers
+        
+            Location: /loans/
+        
+    + Body
+
+            {
+                            "status": 200,
+                            "data": [
+                                {
+                                    "id": 1,
+                                    "user": "uchiha.itachi@anbu.org",
+                                    "createdOn": 1557574810240,
+                                    "status": "approved",
+                                    "repaid": false,
+                                    "tenor": 3,
+                                    "amount": 20000,
+                                    "paymentInstallment": 7000,
+                                    "balance": 21000,
+                                    "interest": 1000
+                                },
+                                {
+                                    "id": 2,
+                                    "user": "uchiha.itachi@anbu.org",
+                                    "createdOn": 1557574810240,
+                                    "status": "approved",
+                                    "repaid": false,
+                                    "tenor": 3,
+                                    "amount": 20000,
+                                    "paymentInstallment": 7000,
+                                    "balance": 21000,
+                                    "interest": 1000
+                                }
+                            ]
+                    }
+
+### List All Current Loans (fully repaid) [GET /loans?status=approved&repaid=true]
+
++ Request
+
+            Authorization: Bearer JWT
+
++ Response 200 (application/json)
+
+
+    + Headers
+        
+            Location: /loans/
+        
+    + Body
+
+            {
+                            "status": 200,
+                            "data": [
+                                {
+                                    "id": 1,
+                                    "user": "uchiha.itachi@anbu.org",
+                                    "createdOn": 1557574810240,
+                                    "status": "approved",
+                                    "repaid": true,
+                                    "tenor": 3,
+                                    "amount": 20000,
+                                    "paymentInstallment": 7000,
+                                    "balance": 21000,
+                                    "interest": 1000
+                                },
+                                {
+                                    "id": 2,
+                                    "user": "uchiha.itachi@anbu.org",
+                                    "createdOn": 1557574810240,
+                                    "status": "approved",
+                                    "repaid": true,
+                                    "tenor": 3,
+                                    "amount": 20000,
+                                    "paymentInstallment": 7000,
+                                    "balance": 21000,
+                                    "interest": 1000
+                                }
+                            ]
+                    }
+
++ Request
+
+    + Headers
+    
+            Authorization: No Auth
+            Location: /loans/
+            
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /loans/
+
+    + Body
+
+                {
+                    "status": 401,
+                    "error": "No authorization header was specified"
+                }
+
++ Request (application/json)
+
+        Authorization: Invalid/Expired Token
+
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /loans/
+
+    + Body
+    
+            {
+                "status": 401,
+                "error": "The provided token cannot be authenticated."
+            }
+
+### Retrieve a Single Loan Record [GET /loans/{id}]
+
++ Request
+
+            Authorization: Bearer JWT
+
++ Response 200 (application/json)
+
+    + Headers
+        
+            Location: /loans/1
+        
+    + Body
+
+            {
+                    "status": 200,
+                    "data": [
+                        {
+                            "id": 1,
+                            "user": "uchiha.itachi@anbu.org",
+                            "createdOn": 1557574810240,
+                            "status": "approved",
+                            "repaid": false,
+                            "tenor": 3,
+                            "amount": 20000,
+                            "paymentInstallment": 7000,
+                            "balance": 21000,
+                            "interest": 1000
+                        }
+                    ]
+            }
+            
++ Request
+    
+    + Headers
+        
+            Authorization: No Auth
+            Location: /loans/1
+            
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /loans/dh$47
+
+    + Body
+    
+            {
+                "status": 401,
+                "error": "No authorization header was specified"
+            }
+            
++ Request (application/json)
+
+        Authorization: Invalid/Expired Token
+
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /loans/3
+
+    + Body
+    
+            {
+                "status": 401,
+                "error": "The provided token cannot be authenticated."
+            }
+            
++ Request
+    
+    + Headers
+        
+            Authorization: Bearer JWT
+            Location: /loans/0
+            
++ Response 404 (application/json)
+
+    + Headers
+
+            Location: /loans/0
+
+    + Body
+    
+            {
+                "status": 404,
+                "error": "Sorry, no record with such id exists"
+            }
+            
++ Request
+    
+    + Headers
+        
+            Authorization: Bearer JWT
+            Location: /loans/dh$47
+            
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /loans/dh$47
+
+    + Body
+    
+            {
+                "status": 400,
+                "error": "The id parameter must be a number"
+            }
+
+### Create a new Loan Request [POST /loans]
+
+As an authenticated user, you can create a new loan request. 
+It takes a JSON object containing the applicant's firstname, lastname, email and tenor. You also
+need to provide a valid Bearer token for authorization. 
+
++ Request (application/json)
+
+        Authorization: Bearer JWT
+        
+        {
+            "firstName": "Itachi",
+            "lastName": "Uchiha",
+            "user": "uchiha.itachi@anbu.org",
+            "amount": 20000,
+            "tenor": 3
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /loans
+
+    + Body
+
+            {
+                    "status": 200,
+                    "data": [
+                        {
+                            "id": 1,
+                            "loanId": 1,
+                            "user": "uchiha.itachi@anbu.org",
+                            "firstName": "Desmond",
+                            "lastName": "Edem",
+                            "createdOn": 1557574810240,
+                            "status": "approved",
+                            "repaid": false,
+                            "tenor": 3,
+                            "amount": 20000,
+                            "paymentInstallment": 7000,
+                            "balance": 21000,
+                            "interest": 1000
+                        }
+                    ]
+            }
+
++ Request (application/json)
+
+        Authorization: No Auth
+        
+        {
+            "firstName": "Itachi",
+            "lastName": "Uchiha",
+            "user": "uchiha.itachi@anbu.org",
+            "amount": 20000,
+            "tenor": 3
+        }
+
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /loans
+
+    + Body
+    
+            {
+                "status": 401,
+                "error": "No authorization header was specified"
+            }
+            
++ Request (application/json)
+
+        Authorization: Invalid/Expired Token
+        
+        {
+            "firstName": "Itachi",
+            "lastName": "Uchiha",
+            "user": "uchiha.itachi@anbu.org",
+            "amount": 20000,
+            "tenor": 3
+        }
+
++ Response 401 (application/json)
+
+    + Headers
+
+            Location: /loans
+
+    + Body
+    
+            {
+                "status": 401,
+                "error": "The provided token cannot be authenticated."
+            }
+            
++ Request (application/json)
+
+        Authorization: Bearer JWT
+        
+        {
+            "firstName": "",
+            "lastName": "Uchiha",
+            "user": "uchiha.itachi@anbu.org",
+            "amount": 20000,
+            "tenor": 3
+        }
+
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /loans
+
+    + Body
+    
+            {
+                "status": 400,
+                "error": "Your firstname  must be specified"
+            }
+            
++ Request (application/json)
+
+        Authorization: Bearer JWT
+        
+           {
+                "firstName": "Itachi",
+                "lastName": "",
+                "user": "uchiha.itachi@anbu.org",
+                "amount": 20000,
+                "tenor": 3
+            }
+
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /loans
+
+    + Body
+
+            {
+                "status": 400,
+                "error": "Your lastname must be specified"
+            }
+            
++ Request (application/json)
+
+        Authorization: Bearer JWT
+        
+        {
+                    "firstName": "Itachi",
+                    "lastName": "Uchiha",
+                    "user": "",
+                    "amount": 20000,
+                    "tenor": 3
+                }
+
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /loans
+
+    + Body
+    
+            {
+                "status": 400,
+                "error": "Enter your email address"
+            }
+            
++ Request (application/json)
+
+        Authorization: Bearer JWT
+        
+        {
+                    "firstName": "Itachi",
+                    "lastName": "Uchiha",
+                    "user": "uchiha.itachi@anbu.org",
+                    "amount": ,
+                    "tenor": 3
+                }
+
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /loans
+
+    + Body
+    
+            {
+                "status": 400,
+                "error": "Loan amount must be specified"
+            }
+            
++ Request (application/json)
+
+        Authorization: Bearer JWT
+        
+        
+           {
+                "firstName": "Itachi",
+                "lastName": "",
+                "user": "uchiha.itachi@anbu.org",
+                "amount": 20000,
+                "tenor": 
+            }
+
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /loans
+
+    + Body
+    
+            {
+                "status": 400,
+                "error": "tenor must be specified"
+            }
+            
++ Request (application/json)
+
+        Authorization: Bearer JWT
+        
+           {
+                "firstName": "Itachi",
+                "lastName": "",
+                "user": "uchiha.itachi@anbu.org",
+                "amount": 20000,
+                "tenor": 0
+            }
+
++ Response 400 (application/json)
+
+    + Headers
+
+            Location: /loans
+
+    + Body
+    
+            {
+                "status": 400,
+                "error": "Tenor must be between 1 and 12 months"
