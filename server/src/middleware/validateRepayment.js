@@ -7,27 +7,6 @@ import DB from '../database/dbconnection';
  */
 export default class ValidateRepayment {
   /**
-   * @method validateRepayID
-   * @description
-   * @param {object} req - The Request Object
-   * @param {object} res - The Response Object
-   * @returns
-   */
-  static validateRepayID(req, res, next) {
-    req
-      .checkParams('id')
-      .isUUID()
-      .withMessage('Invalid ID type specified');
-
-    const errors = req.validationErrors();
-    if (errors) {
-      res.status(400).json({ status: 400, error: errors[0].msg });
-      return;
-    }
-    next();
-  }
-
-  /**
    * @method validateRepayBody
    * @description
    * @param {object} req - The Request Object
@@ -38,7 +17,7 @@ export default class ValidateRepayment {
     req
       .checkParams('id')
       .isUUID()
-      .withMessage('ID should be a valid UUID');
+      .withMessage('Id should be a valid UUID');
     req
       .checkBody('loanId')
       .notEmpty()

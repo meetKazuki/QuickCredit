@@ -32,6 +32,17 @@ export default class LoanController {
 
     try {
       const loanQuery = `SELECT * FROM loans WHERE email='${email}'`;
+      const userQuery = `SELECT * FROM users WHERE email='${email}'`;
+
+      const userStatus = await DB.query(userQuery);
+      if (userStatus.rows.status !== 'verified') {
+        res.status(401).json({
+          status: 401,
+          error: 'User must be verified first',
+        });
+        return;
+      }
+
       const verify = await DB.query(loanQuery);
       if (
         !verify.rows.length || verify.rows[verify.rows.length - 1].repaid === true
@@ -53,14 +64,21 @@ export default class LoanController {
 
         const create = await DB.query(insertQuery, values);
         res.status(201).json({
+          status: 201,
           message: 'Loan request created successfully',
           data: create.rows,
         });
         return;
       }
-      res.status(409).json({ error: 'You already applied for a loan' });
+      res.status(409).json({
+        status: 409,
+        error: 'You already applied for a loan',
+      });
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({
+        status: 500,
+        error: 'An internal error occurred at the server',
+      });
     }
   }
 
@@ -79,12 +97,20 @@ export default class LoanController {
     if (status && JSON.parse(repaid)) {
       const values = [status, repaid];
       const record = await DB.query(statusQuery, values);
-      res.status(200).json({ data: [record.rows[0]] });
+      res.status(200).json({
+        status: 200,
+        message: 'Success',
+        data: [record.rows[0]],
+      });
       return;
     }
 
     const records = await DB.query(loansQuery);
-    res.status(200).json({ data: [records.rows] });
+    res.status(200).json({
+      status: 200,
+      message: 'Success',
+      data: [records.rows],
+    });
   }
 
   /**
@@ -99,11 +125,18 @@ export default class LoanController {
     const query = `SELECT * FROM loans WHERE id='${id}'`;
 
     const record = await DB.query(query);
-    if (record.rowCount > 0) {
-      res.status(200).json({ data: record.rows[0] });
+    if (record.rowCount <= 0) {
+      res.status(404).json({
+        status: 404,
+        error: 'Loan record not found',
+      });
       return;
     }
-    res.status(404).json({ error: 'Loan record not found' });
+    res.status(200).json({
+      status: 200,
+      message: 'Success',
+      data: record.rows[0],
+    });
   }
 
   /**
@@ -122,16 +155,25 @@ export default class LoanController {
 
     const fetchLoan = await DB.query(query);
     if (!fetchLoan.rows.length) {
-      res.status(404).json({ error: 'Loan record not found' });
+      res.status(404).json({
+        status: 404,
+        message: 'Failure',
+        error: 'Loan record not found',
+      });
       return;
     }
     if (fetchLoan.rows[0].status === 'approved') {
-      res.status(409).json({ error: 'Loan is already approved' });
+      res.status(409).json({
+        status: 409,
+        message: 'Failure',
+        error: 'Loan is already approved',
+      });
       return;
     }
 
     const { rows } = await DB.query(update);
     res.status(201).json({
+      status: 201,
       message: 'Loan record updated',
       data: rows[0],
     });
@@ -149,6 +191,10 @@ export default class LoanController {
     const query = `SELECT * FROM loans WHERE email='${email}'`;
 
     const loanRecords = await DB.query(query);
-    res.status(200).json({ data: loanRecords.rows });
+    res.status(200).json({
+      status: 200,
+      message: 'Success',
+      data: loanRecords.rows,
+    });
   }
 }

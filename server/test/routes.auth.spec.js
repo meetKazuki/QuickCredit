@@ -1,7 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import DB from '../database/dbconnection';
-import app from '../app';
+import app from '../src/app';
 
 chai.use(chaiHttp);
 
@@ -61,8 +60,8 @@ describe('routes: /auth', () => {
         .post(`${authURI}/signup`)
         .send(userData)
         .end((err, res) => {
-          expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal(400);
+          expect(res).to.have.status(422);
+          expect(res.body.status).to.be.equal(422);
           expect(res.body).to.have.property('error');
           done(err);
         });
@@ -81,8 +80,8 @@ describe('routes: /auth', () => {
         .post(`${authURI}/signup`)
         .send(userData)
         .end((err, res) => {
-          expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal(400);
+          expect(res).to.have.status(422);
+          expect(res.body.status).to.be.equal(422);
           expect(res.body).to.have.property('error');
           done(err);
         });
@@ -101,8 +100,8 @@ describe('routes: /auth', () => {
         .post(`${authURI}/signup`)
         .send(userData)
         .end((err, res) => {
-          expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal(400);
+          expect(res).to.have.status(422);
+          expect(res.body.status).to.be.equal(422);
           expect(res.body).to.have.property('error');
           done(err);
         });
@@ -121,8 +120,8 @@ describe('routes: /auth', () => {
         .post(`${authURI}/signup`)
         .send(userData)
         .end((err, res) => {
-          expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal(400);
+          expect(res).to.have.status(422);
+          expect(res.body.status).to.be.equal(422);
           expect(res.body).to.have.property('error');
           done(err);
         });

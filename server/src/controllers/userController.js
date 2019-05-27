@@ -28,23 +28,25 @@ class UserController {
 
     try {
       const { rows } = await DB.query(query, values);
-      const {
-        // eslint-disable-next-line no-shadow
-        id, firstname, lastname, email, address, status, isadmin,
-      } = rows;
-
-      const token = HelperUtils.generateToken({ id, email, isadmin });
+      const token = HelperUtils.generateToken({ rows });
       res.status(201).json({
+        status: 201,
         message: 'Registration successful',
         data: { token, ...rows[0] },
       });
       return;
     } catch (error) {
       if (error.routine === '_bt_check_unique') {
-        res.status(409).json({ message: 'User with email already exist' });
+        res.status(409).json({
+          status: 409,
+          error: 'User with email already exist',
+        });
         return;
       }
-      res.status(500).json({ error });
+      res.status(500).json({
+        status: 500,
+        error: 'An internal error occurred at the server',
+      });
     }
   }
 
@@ -64,6 +66,7 @@ class UserController {
     });
 
     res.status(200).json({
+      status: 200,
       message: 'Login successful!',
       data: {
         token,
@@ -87,7 +90,11 @@ class UserController {
     const query = 'SELECT id, firstname, lastname, address, email, status, isadmin FROM users';
     const { rows } = await DB.query(query);
 
-    res.status(200).json({ data: rows });
+    res.status(200).json({
+      status: 200,
+      message: 'Success',
+      data: rows,
+    });
   }
 
   /**
@@ -107,7 +114,11 @@ class UserController {
       return;
     }
 
-    res.status(200).json({ data: [findUser.rows[0]] });
+    res.status(200).json({
+      status: 200,
+      message: 'Success',
+      data: [findUser.rows[0]],
+    });
   }
 
   /**
@@ -124,16 +135,23 @@ class UserController {
 
     const findUser = await DB.query(query);
     if (!findUser.rows.length) {
-      res.status(404).json({ error: 'Email does not exist' });
+      res.status(404).json({
+        status: 404,
+        error: 'User does not exist',
+      });
       return;
     }
     if (findUser.rows[0].status === 'verified') {
-      res.status(409).json({ error: 'User is already verified' });
+      res.status(409).json({
+        status: 409,
+        error: 'User is already verified',
+      });
       return;
     }
 
     const { rows } = await DB.query(update);
     res.status(201).json({
+      status: 201,
       message: 'User successfully verified',
       data: { ...rows[0] },
     });

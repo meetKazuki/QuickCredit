@@ -41,28 +41,7 @@ export default class ValidateLoan {
   }
 
   /**
-   * @method validateLoanID
-   * @description
-   * @param {object} req - The Request Object
-   * @param {object} res - The Response Object
-   * @returns
-   */
-  static validateLoanID(req, res, next) {
-    req
-      .checkParams('id')
-      .isUUID()
-      .withMessage('Invalid ID type specified');
-
-    const errors = req.validationErrors();
-    if (errors) {
-      res.status(400).json({ status: 400, error: errors[0].msg });
-      return;
-    }
-    next();
-  }
-
-  /**
-   * @method
+   * @method validateQueryOptions
    * @description
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
@@ -81,31 +60,6 @@ export default class ValidateLoan {
       .withMessage('Invalid repaid type entered!')
       .matches(/^(true|false)$/)
       .withMessage('Invalid repaid entered');
-
-    const errors = req.validationErrors();
-    if (errors) {
-      res.status(400).json({ status: 400, error: errors[0].msg });
-      return;
-    }
-    next();
-  }
-
-  /**
-   * @method validatePatchOptions
-   * @description
-   * @param {object} req - The Request Object
-   * @param {object} res - The Response Object
-   * @returns
-   */
-  static validatePatchOptions(req, res, next) {
-    req
-      .checkBody('status')
-      .trim()
-      .isAlpha()
-      .notEmpty()
-      .withMessage('You failed to specify loan status in the request body')
-      .matches(/^(approved|rejected)$/)
-      .withMessage("Accepted values are 'approved' or 'rejected'");
 
     const errors = req.validationErrors();
     if (errors) {
