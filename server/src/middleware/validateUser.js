@@ -44,7 +44,7 @@ export default class ValidateUser {
       .withMessage('Address should be between 10 to 50 characters')
       // eslint-disable-next-line no-useless-escape
       .matches(/^[A-Za-z0-9\.\-\s\,]*$/)
-      .withMessage('Invalid Address format entered');
+      .withMessage('Invalid address format entered');
 
     req
       .checkBody('email')
@@ -64,7 +64,7 @@ export default class ValidateUser {
       .withMessage('Password must be between 6 to 15 characters');
     const errors = req.validationErrors();
     if (errors) {
-      res.status(400).json({ status: 422, error: errors[0].msg });
+      res.status(422).json({ status: 422, error: errors[0].msg });
       return;
     }
     next();
@@ -112,57 +112,6 @@ export default class ValidateUser {
 
     const userReq = rows[0];
     req.user = userReq;
-    next();
-  }
-
-  /**
-   * @method validateEmail
-   * @description
-   * @param {object} req - The Request Object
-   * @param {object} res - The Response Object
-   * @returns
-   */
-  static validateEmail(req, res, next) {
-    req
-      .checkParams('email')
-      .notEmpty()
-      .withMessage('Email field is required')
-      .trim()
-      .isEmail()
-      .withMessage('Invalid Email Address Entered!')
-      .customSanitizer(email => email.toLowerCase());
-    const errors = req.validationErrors();
-    if (errors) {
-      res.status(400).json({
-        status: 400,
-        error: errors[0].msg,
-      });
-      return;
-    }
-    next();
-  }
-
-  /**
-   * @method validatePatchOptions
-   * @description
-   * @param {object} req - The Request Object
-   * @param {object} res - The Response Object
-   * @returns
-   */
-  static validatePatchOptions(req, res, next) {
-    req
-      .checkBody('status')
-      .notEmpty()
-      .withMessage('Specify status field')
-      .isAlpha()
-      .withMessage('Invalid option specified')
-      .equals('verified')
-      .withMessage('Invalid status option entered');
-    const errors = req.validationErrors();
-    if (errors) {
-      res.status(400).json({ status: 400, error: errors[0].msg });
-      return;
-    }
     next();
   }
 }

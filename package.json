@@ -8,11 +8,12 @@
     "build-babel": "babel src -d build",
     "clean": "rm -rf build .nyc_output coverage && mkdir build",
     "coverage": "nyc report --reporter=text-lcov | coveralls && nyc report --reporter=lcov",
-    "db:migrate": "set DEBUG=DB_MIGRATE && babel-node ./src/database/migrate.js",
-    "db:seed": "set DEBUG=DB_SEEDING && babel-node ./src/database/seeder.js",
+    "db:migrate": "set DEBUG=DB_MIGRATE && babel-node ./server/src/database/migrations",
+    "db:seed": "set DEBUG=DB_SEEDING && babel-node ./server/src/database/seeds",
     "start": "npm run build && node ./build/app.js",
-    "start:dev": "set DEBUG=dev_ENV && babel-watch ./src/app.js",
-    "test": "cross-env NODE_ENV=test && npm run db:migrate && npm run db:seed && nyc mocha ./src/test -r @babel/register --exit"
+    "start:dev": "set DEBUG=http && cross-env NODE_ENV=development babel-watch ./server/src/app.js",
+    "start:migrate": "cross-env NODE_ENV=development npm run db:migrate",
+    "test": "cross-env-shell NODE_ENV=test \"npm run db:seed && nyc mocha ./server/test -r @babel/register --exit\""
   },
   "repository": {
     "type": "git",

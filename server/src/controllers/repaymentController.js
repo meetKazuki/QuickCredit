@@ -22,13 +22,14 @@ export default class RepaymentController {
 
     const check = await DB.query(query);
     const newBalance = check.rows[0].balance - paidAmount;
-    const loanQuery = 'UPDATE loans SET repaid=$1,balance=$2 WHERE id=$3 RETURNING *';
+    const loanQuery = `UPDATE loans SET repaid=$1,balance=$2
+      WHERE id=$3 RETURNING *`;
 
     if (newBalance <= 0) {
       repaid = true;
     } else check.rows[0].balance -= paidAmount;
 
-    const values = [`${repaid}`, `${newBalance}`, `${id}`];
+    const values = [repaid, newBalance, id];
     const updateQuery = await DB.query(loanQuery, values);
 
     const insert = `INSERT into repayments(id, loanId, amount)
@@ -63,16 +64,26 @@ export default class RepaymentController {
 
     const checkLoan = await DB.query(user);
     if (!checkLoan.rows.email === email || checkLoan.rows.isadmin === false) {
-      res.status(403).json({ error: 'You are not authorized' });
+      res.status(403).json({
+        status: 403,
+        error: 'You are not authorized',
+      });
       return;
     }
 
     const records = await DB.query(query);
     if (!records.rows.length) {
-      res.status(404).json({ error: 'Loan record not found' });
+      res.status(404).json({
+        status: 404,
+        error: 'Loan record not found',
+      });
       return;
     }
 
-    res.status(200).json({ data: records.rows });
+    res.status(200).json({
+      status: 200,
+      message: 'Success',
+      data: records.rows,
+    });
   }
 }

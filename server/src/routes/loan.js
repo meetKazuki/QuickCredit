@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import validateParameters from '../middleware/validateParameters';
 import AuthenticateUser from '../middleware/authenticateUser';
 import ValidateLoan from '../middleware/validateLoan';
 import LoanController from '../controllers/loanController';
@@ -15,7 +16,7 @@ loanRouter.post(
 );
 loanRouter.post(
   '/loans/:id/repayment',
-  ValidateRepayment.validateRepayID,
+  validateParameters.validateUUID,
   ValidateRepayment.validateRepayBody,
   AuthenticateUser.verifyAdmin,
   ValidateRepayment.validateRepayCredentials,
@@ -30,22 +31,22 @@ loanRouter.get(
 );
 loanRouter.get(
   '/loans/:id',
-  ValidateLoan.validateLoanID,
+  validateParameters.validateUUID,
   AuthenticateUser.verifyAdmin,
   LoanController.getOneLoan,
 );
 loanRouter.get(
   '/loans/:id/repayments',
   AuthenticateUser.verifyUser,
-  ValidateRepayment.validateRepayID,
+  validateParameters.validateUUID,
   RepaymentController.viewRepaymentHistory,
 );
 
 loanRouter.patch(
   '/loans/:id',
   AuthenticateUser.verifyAdmin,
-  ValidateLoan.validateLoanID,
-  ValidateLoan.validatePatchOptions,
+  validateParameters.validateUUID,
+  validateParameters.validatePatchOptions,
   LoanController.updateLoan,
 );
 

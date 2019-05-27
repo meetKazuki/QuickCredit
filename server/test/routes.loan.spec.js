@@ -1,9 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../app';
-import DB from '../database/dbconnection';
-import HelperUtils from '../utils/helperUtils';
-import dropTables from '../database/dropTables';
+import app from '../src/app';
 
 chai.use(chaiHttp);
 
@@ -11,7 +8,7 @@ const { expect } = chai;
 const baseURI = '/api/v1';
 const authURI = '/api/v1/auth';
 
-let userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ1Y2hpaGEub2JpdG9AYWthdHN1a2kub3JnIiwiaXNhZG1pbiI6ZmFsc2UsInN0YXR1cyI6InVudmVyaWZpZWQiLCJpYXQiOjE1NTg1NTg3MDYsImV4cCI6MTU1ODY0NTEwNn0.lFNRmotMiWi526QZJUvPbY8rMEOC-yGPK2QPRDDRjyA';
+let userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhlNzFjMjM0LWZiOTYtNGY5OC1iZmRhLTljYjcxZjhhNTllZiIsImVtYWlsIjoidWNoaWhhLm9iaXRvQGFrYXRzdWtpLm9yZyIsImlzYWRtaW4iOmZhbHNlLCJzdGF0dXMiOiJ1bnZlcmlmaWVkIiwiaWF0IjoxNTU4OTYzMDU1LCJleHAiOjE1NTg5NzAyNTV9.Fyt42leC8_f8T7sLF_NZxk93rcjRtD5zDgT__wwLUlw';
 let adminToken;
 
 describe('routes: loan', () => {

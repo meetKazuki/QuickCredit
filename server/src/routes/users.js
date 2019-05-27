@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import ValidateUser from '../middleware/validateUser';
+import validateParameters from '../middleware/validateParameters';
 import AuthenticateUser from '../middleware/authenticateUser';
 import UserController from '../controllers/userController';
 import LoanController from '../controllers/loanController';
@@ -13,7 +13,7 @@ userRoute.get(
 );
 userRoute.get(
   '/users/:email',
-  ValidateUser.validateEmail,
+  validateParameters.validateEmail,
   AuthenticateUser.verifyAdmin,
   UserController.getUser,
 );
@@ -25,8 +25,8 @@ userRoute.get(
 
 userRoute.patch(
   '/users/:email/verify',
-  ValidateUser.validateEmail,
-  ValidateUser.validatePatchOptions,
+  validateParameters.validateEmail,
+  validateParameters.validateStatus,
   AuthenticateUser.verifyAdmin,
   UserController.verifyUser,
 );
