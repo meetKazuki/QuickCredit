@@ -35,7 +35,7 @@ export default class LoanController {
       const userQuery = `SELECT * FROM users WHERE email='${email}'`;
 
       const userStatus = await DB.query(userQuery);
-      if (userStatus.rows.status !== 'verified') {
+      if (userStatus.rows[0].status !== 'verified') {
         res.status(401).json({
           status: 401,
           error: 'User must be verified first',
@@ -109,7 +109,7 @@ export default class LoanController {
     res.status(200).json({
       status: 200,
       message: 'Success',
-      data: [records.rows],
+      data: records.rows,
     });
   }
 

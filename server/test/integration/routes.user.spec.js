@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../src/app';
+import app from '../../src/app';
 
 chai.use(chaiHttp);
 
@@ -9,7 +9,7 @@ const baseURI = '/api/v1';
 const authURI = '/api/v1/auth';
 
 let adminToken;
-const userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhlNzFjMjM0LWZiOTYtNGY5OC1iZmRhLTljYjcxZjhhNTllZiIsImVtYWlsIjoidWNoaWhhLm9iaXRvQGFrYXRzdWtpLm9yZyIsImlzYWRtaW4iOmZhbHNlLCJzdGF0dXMiOiJ1bnZlcmlmaWVkIiwiaWF0IjoxNTU4OTYzMDU1LCJleHAiOjE1NTg5NzAyNTV9.Fyt42leC8_f8T7sLF_NZxk93rcjRtD5zDgT__wwLUlw';
+const userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5NDM1Y2RiLTNhYjUtNGJhNS1hZjQzLTBlYjdlMTVlNGRmMSIsImVtYWlsIjoidWNoaWhhLm9iaXRvQGFrYXRzdWtpLm9yZyIsImlzYWRtaW4iOmZhbHNlLCJzdGF0dXMiOiJ2ZXJpZmllZCIsImlhdCI6MTU1OTI2OTc3MiwiZXhwIjoxNTU5MzU2MTcyfQ.9bd5dGlCYlTAQWtwM7TsQh1r0UPD6rFQeeUOBEQ_t-c';
 
 describe('routes: /users', () => {
   context('GET /users', () => {
@@ -145,20 +145,6 @@ describe('routes: /users', () => {
   context('PATCH /users/:user-email', () => {
     const data = { status: 'verified' };
 
-    specify('error if status option is not an accepted value', (done) => {
-      const error = { status: 'verify' };
-      chai
-        .request(app)
-        .patch(`${baseURI}/users/john.doe@email.com/verify`)
-        .send(error)
-        .set('authorization', `Bearer ${adminToken}`)
-        .end((err, res) => {
-          expect(res).to.have.status(400);
-          expect(res.body).to.have.property('error');
-          done(err);
-        });
-    });
-
     it('should edit the status of a user (mark user as verified)', (done) => {
       chai
         .request(app)
@@ -169,6 +155,20 @@ describe('routes: /users', () => {
           expect(res).to.have.status(201);
           expect(res.body).to.have.property('data');
           expect(res.body.data).to.have.property('status');
+          done(err);
+        });
+    });
+
+    specify('error if status option is not an accepted value', (done) => {
+      const error = { status: 'verify' };
+      chai
+        .request(app)
+        .patch(`${baseURI}/users/john.doe@email.com/verify`)
+        .send(error)
+        .set('authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          expect(res.body).to.have.property('error');
           done(err);
         });
     });

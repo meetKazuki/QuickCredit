@@ -1,13 +1,12 @@
 require('dotenv').config();
 
 const env = process.env.ENV || process.env.NODE_ENV;
-console.log('config file ->', env);
 
 const DBConfig = {
   test: {
     connectionString: process.env.TEST_URL,
   },
-  development: {
+  dev: {
     connectionString: process.env.DEV_URL,
   },
   production: {

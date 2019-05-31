@@ -19,36 +19,31 @@
   <main>
     <h2 class="section-title">Create your Account</h2>
     <section class="container">
-      <form class="form-container">
+      <form class="form-container" method="POST">
         <label for="firstName">First Name <span>*</span></label>
-        <input type="text" name="firstName" class="form-element" id="firstName" placeholder="Your First Name">
+        <input type="text" name="firstName" class="form-element" id="firstName" placeholder="Your First Name" minlength="3" required>
 
         <label for="lastName">Last Name <span>*</span></label>
-        <input type="text" name="lastName" class="form-element" id="lastName" placeholder="Your Last Name">
+        <input type="text" name="lastName" class="form-element" id="lastName" placeholder="Your Last Name" minlength="3" required>
 
-        <!-- <label for="username">Enter Username <span>*</span></label>
-        <input type="text" name="username" class="form-element" id="username" placeholder="Your Username"> -->
+        <label for="address">Home Address <span>*</span></label>
+        <input type="text" name="address" class="form-element" id="address" placeholder="Your Home Address" required>
 
         <label for="email">Email Address <span>*</span></label>
-        <input type="email" name="email" class="form-element" id="email" placeholder="Your Email Address">
-
-        <label for="phoneNumber">Home Address <span>*</span></label>
-        <input type="tel" name="phoneNumber" class="form-element" id="phoneNumber" placeholder="Your Home Address">
+        <input type="email" name="email" class="form-element" id="email" placeholder="Your Email Address" required>
 
         <label for="password">Password <span>*</span></label>
-        <input type="password" name="password" class="form-element" id="password" placeholder="Your Password">
+        <input type="password" name="password" class="form-element" id="password" placeholder="Your Password" minlength="6" required>
 
-        <!-- <button class="btn btn-primary">
-          <span>Sign Up for Free <a href="dashboard.html"></a></span>
-        </button> -->
-        <button class="btn btn-primary">
-          <a href="dashboard.html">Sign Up for Free</a>
+        <button type="submit" class="btn btn-primary">
+          <a href="user-dashboard.html">Sign Up for Free</a>
         </button>
       </form>
 
       <p>Already a User? <span><a href="signin.html">Log in instead</a></span></p>
     </section>
-
   </main>
+
+  <script src="assets/js/authentication.js"></script>
 </body>
 </html>

@@ -74,6 +74,7 @@ class UserController {
         firstname,
         lastname,
         email,
+        status,
         isadmin,
       },
     });

@@ -1,6 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../src/app';
+import app from '../../src/app';
+import DB from '../../src/database/dbconnection';
 
 chai.use(chaiHttp);
 
@@ -8,7 +9,7 @@ const { expect } = chai;
 const baseURI = '/api/v1';
 const authURI = '/api/v1/auth';
 
-let userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhlNzFjMjM0LWZiOTYtNGY5OC1iZmRhLTljYjcxZjhhNTllZiIsImVtYWlsIjoidWNoaWhhLm9iaXRvQGFrYXRzdWtpLm9yZyIsImlzYWRtaW4iOmZhbHNlLCJzdGF0dXMiOiJ1bnZlcmlmaWVkIiwiaWF0IjoxNTU4OTYzMDU1LCJleHAiOjE1NTg5NzAyNTV9.Fyt42leC8_f8T7sLF_NZxk93rcjRtD5zDgT__wwLUlw';
+let userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5NDM1Y2RiLTNhYjUtNGJhNS1hZjQzLTBlYjdlMTVlNGRmMSIsImVtYWlsIjoidWNoaWhhLm9iaXRvQGFrYXRzdWtpLm9yZyIsImlzYWRtaW4iOmZhbHNlLCJzdGF0dXMiOiJ2ZXJpZmllZCIsImlhdCI6MTU1OTI2OTc3MiwiZXhwIjoxNTU5MzU2MTcyfQ.9bd5dGlCYlTAQWtwM7TsQh1r0UPD6rFQeeUOBEQ_t-c';
 let adminToken;
 
 describe('routes: loan', () => {
@@ -136,15 +137,22 @@ describe('routes: loan', () => {
     });
 
     context('GET /loans/:<loan-id>', () => {
+      let loanId;
+      before(async () => {
+        const query = 'SELECT * FROM loans';
+        const { rows } = await DB.query(query);
+        loanId = rows[0].id;
+      });
+
       it('should fetch a specific loan application', (done) => {
         chai
           .request(app)
-          .get(`${baseURI}/loans/1`)
+          .get(`${baseURI}/loans/${loanId}`)
           .set('authorization', `Bearer ${adminToken}`)
           .end((err, res) => {
             expect(res).to.have.status(200);
             expect(res.body).to.have.property('data');
-            expect(res.body.data[0]).to.have.property('id');
+            expect(res.body.data).to.have.property('id');
             done(err);
           });
       });
@@ -152,7 +160,7 @@ describe('routes: loan', () => {
       specify('error for non-existing loan record', (done) => {
         chai
           .request(app)
-          .get(`${baseURI}/loans/9`)
+          .get(`${baseURI}/loans/50622358-a6d8-4659-9d90-706d7e074c09`)
           .set('authorization', `Bearer ${adminToken}`)
           .end((err, res) => {
             expect(res).to.have.status(404);
@@ -199,13 +207,34 @@ describe('routes: loan', () => {
     });
 
     context('PATCH /loans/<:loan-id>', () => {
+      let loanId;
       const data = { status: 'approved' };
+      before(async () => {
+        const query = 'SELECT * FROM loans';
+        const { rows } = await DB.query(query);
+        loanId = rows[0].id;
+      });
+
+      it('should update loan status successfully', (done) => {
+        chai
+          .request(app)
+          .patch(`${baseURI}/loans/${loanId}`)
+          .set('authorization', `Bearer ${adminToken}`)
+          .send(data)
+          .end((err, res) => {
+            expect(res).to.have.status(201);
+            expect(res.body).to.have.property('data');
+            expect(res.body.data).to.have.property('status');
+            expect(res.body.data.status).to.equal('approved');
+            done(err);
+          });
+      });
 
       specify('error if patch options are not the accepted value', (done) => {
         const error = { status: 'yes' };
         chai
           .request(app)
-          .patch(`${baseURI}/loans/1`)
+          .patch(`${baseURI}/loans/${loanId}`)
           .set('authorization', `Bearer ${adminToken}`)
           .send(error)
           .end((err, res) => {
@@ -215,26 +244,10 @@ describe('routes: loan', () => {
           });
       });
 
-      it('should update loan status successfully', (done) => {
-        chai
-          .request(app)
-          .patch(`${baseURI}/loans/1`)
-          .set('authorization', `Bearer ${adminToken}`)
-          .send(data)
-          .end((err, res) => {
-            expect(res).to.have.status(201);
-
-            expect(res.body).to.have.property('data');
-            expect(res.body.data).to.have.property('status');
-            expect(res.body.data.status).to.equal('approved');
-            done(err);
-          });
-      });
-
       specify('error if admin approves an already approved loan', (done) => {
         chai
           .request(app)
-          .patch(`${baseURI}/loans/1`)
+          .patch(`${baseURI}/loans/${loanId}`)
           .set('authorization', `Bearer ${adminToken}`)
           .send(data)
           .end((err, res) => {
@@ -247,7 +260,7 @@ describe('routes: loan', () => {
       specify('error if loan record is not found', (done) => {
         chai
           .request(app)
-          .patch(`${baseURI}/loans/9`)
+          .patch(`${baseURI}/loans/50622358-a6d8-4659-9d90-706d7e074c09`)
           .set('authorization', `Bearer ${adminToken}`)
           .send(data)
           .end((err, res) => {
@@ -273,25 +286,35 @@ describe('routes: loan', () => {
   });
 
   describe('routes: User /loans', () => {
+    let loanData;
+
     context('POST /loans', () => {
       before((done) => {
         chai
           .request(app)
           .post(`${authURI}/signin`)
-          .send({ email: 'john.doe@email.com', password: 'secret' })
+          .send({ email: 'meetdesmond.edem@gmail.com', password: 'secret' })
           .end((err, res) => {
-            userToken = res.body.data.token;
+            adminToken = res.body.data.token;
             done(err);
           });
       });
 
-      let loanData;
+      it('should create a new loan record', (done) => {
+        loanData = { amount: 20000, tenor: 3 };
+        chai
+          .request(app)
+          .post(`${baseURI}/loans`)
+          .set('authorization', `Bearer ${adminToken}`)
+          .send(loanData)
+          .end((err, res) => {
+            expect(res).to.have.status(201);
+            done(err);
+          });
+      });
 
-      it('specify error if token is not provided', (done) => {
-        loanData = {
-          amount: 20000,
-          tenor: 3,
-        };
+      specify('error if token is not provided', (done) => {
+        loanData = { amount: 20000, tenor: 3 };
         chai
           .request(app)
           .post(`${baseURI}/loans`)
@@ -304,10 +327,7 @@ describe('routes: loan', () => {
       });
 
       specify('error if user does not supply loan amount', (done) => {
-        loanData = {
-          amount: 0,
-          tenor: 3,
-        };
+        loanData = { amount: 0, tenor: 3 };
         chai
           .request(app)
           .post(`${baseURI}/loans`)
@@ -321,10 +341,7 @@ describe('routes: loan', () => {
       });
 
       specify('error if user supplies an invalid loan amount', (done) => {
-        loanData = {
-          amount: 'oss',
-          tenor: 3,
-        };
+        loanData = { amount: 'oss', tenor: 3 };
         chai
           .request(app)
           .post(`${baseURI}/loans`)
@@ -338,10 +355,7 @@ describe('routes: loan', () => {
       });
 
       specify('error if user does not provide loan tenor', (done) => {
-        loanData = {
-          amount: 20000,
-          tenor: 0,
-        };
+        loanData = { amount: 20000, tenor: 0 };
         chai
           .request(app)
           .post(`${baseURI}/loans`)
@@ -355,10 +369,7 @@ describe('routes: loan', () => {
       });
 
       specify('error if user supplies an invalid tenor', (done) => {
-        loanData = {
-          amount: 20000,
-          tenor: 13,
-        };
+        loanData = { amount: 20000, tenor: 13 };
         chai
           .request(app)
           .post(`${baseURI}/loans`)
@@ -371,31 +382,26 @@ describe('routes: loan', () => {
           });
       });
 
-      it('should create a new loan record', (done) => {
-        loanData = {
-          amount: 20000,
-          tenor: 3,
-        };
+      specify('error if an unverified user tries to make a loan request', (done) => {
+        loanData = { amount: 20000, tenor: 3 };
         chai
           .request(app)
           .post(`${baseURI}/loans`)
           .set('authorization', `Bearer ${userToken}`)
           .send(loanData)
           .end((err, res) => {
-            expect(res).to.have.status(201);
+            expect(res).to.have.status(401);
+            expect(res.body).to.have.property('error');
             done(err);
           });
       });
 
       specify('error if user tries to apply for a loan twice', (done) => {
-        loanData = {
-          amount: 20000,
-          tenor: 3,
-        };
+        loanData = { amount: 20000, tenor: 3 };
         chai
           .request(app)
           .post(`${baseURI}/loans`)
-          .set('authorization', `Bearer ${userToken}`)
+          .set('authorization', `Bearer ${adminToken}`)
           .send(loanData)
           .end((err, res) => {
             expect(res).to.have.status(409);

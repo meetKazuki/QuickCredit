@@ -10,10 +10,12 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls && nyc report --reporter=lcov",
     "db:migrate": "set DEBUG=DB_MIGRATE && babel-node ./server/src/database/migrations",
     "db:seed": "set DEBUG=DB_SEEDING && babel-node ./server/src/database/seeds",
+    "docs": "aglio --theme-variables slate -i apiary.apib -o ./server/docs/quickcredit-docs.html",
     "start": "npm run build && node ./build/app.js",
-    "start:dev": "set DEBUG=http && cross-env NODE_ENV=development babel-watch ./server/src/app.js",
-    "start:migrate": "cross-env NODE_ENV=development npm run db:migrate",
-    "test": "cross-env-shell NODE_ENV=test \"npm run db:seed && nyc mocha ./server/test -r @babel/register --exit\""
+    "start:dev": "set DEBUG=http && cross-env NODE_ENV=dev babel-watch ./server/src/app.js",
+    "start:migrate": "cross-env NODE_ENV=dev npm run db:migrate",
+    "start:seed": "cross-env NODE_ENV=dev npm run db:seed",
+    "test": "cross-env NODE_ENV=test \"npm run db:seed && nyc mocha ./server/test -r @babel/register --recursive --exit\""
   },
   "repository": {
     "type": "git",
@@ -31,6 +33,7 @@
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.4.4",
     "@babel/register": "^7.4.4",
+    "aglio": "^2.3.0",
     "babel-watch": "^7.0.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
@@ -41,7 +44,8 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.2",
     "mocha": "^6.1.4",
-    "nyc": "^14.0.0"
+    "nyc": "^14.0.0",
+    "sinon": "^7.3.2"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
