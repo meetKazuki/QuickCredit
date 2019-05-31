@@ -7,22 +7,20 @@ An online lending platform that provides short term soft loans to individuals
 as a way to solve problems of financial inclusion, alleviate poverty and empower
 low income earners.
 
-## Home [/]
-
-### Welcome Page [GET /]
+## Home [GET /]
 
 + Response 200 (application/json)
 
         {
             "message": "Welcome to QuickCredit API v1"
         }
-        
-        
+
+
 ## User Authentication [/auth]
 
 A User object has the following attributes:
 
-+ id - An UUID representing the User's ID
++ id - A UUID representing the User's ID
 + email - A string representing the User's email
 + firstname - A string representing the User's first name
 + lastname - A string representing the User's last name
@@ -31,16 +29,16 @@ A User object has the following attributes:
 + isadmin - A string representing the User's role (If the user is an admin or not)
 
 
-### Register User [POST /auth/signup]
+### User Signup [POST /api/v1/auth/signup]
 
 + Request (application/json)
 
         {
-            "firstname": "Test",
-            "lastname": "User",
-            "address": "User test address",
-            "email": "testuser2@gmail.com",
-            "password": "1234567890"
+            "firstname": "Madara",
+            "lastname": "Uchiha",
+            "address": "Akatsuki HQ, Amegakure",
+            "email": "uchiha.madara@akatsuki.org",
+            "password": "secret"
         }
 
 + Response 201 (application/json) 
@@ -49,16 +47,31 @@ A User object has the following attributes:
     
             Location: /api/v1/auth/signup
 
+
     + Body
+
+            {
+                  "message": "Registration successful",
+                  "data": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NTkxNzk0ODUsImV4cCI6MTU1OTI2NTg4NX0.NM9fjLGz3zpWSlpxk6bDihtuFEvUMHQcwzMDX63annw",
+                    "id": "606fca52-9477-4242-8598-1c0d90feb19f",
+                    "firstname": "Madara",
+                    "lastname": "Uchiha",
+                    "address": "Akatsuki HQ, Amegakure",
+                    "email": "uchiha.madara@akatsuki.org",
+                    "status": "unverified",
+                    "isadmin": false
+                  }
+            }
         
 + Request (application/json)
 
         {
             "firstname": "",
-            "lastname": "User",
-            "address": "No 12 address street"
-            "email": "testuser2@gmail.com",
-            "password": "1234567890"
+            "lastname": "Uchiha",
+            "address": "Uchiha Clan, Konoha"
+            "email": "uchiha.fuguke@uchiha.org",
+            "password": "secret"
         }
 
 + Response 400 (application/json) 
@@ -77,11 +90,11 @@ A User object has the following attributes:
 + Request (application/json)
 
         {
-            "firstname": "Test",
-            "lastname": "",
-            "address": "12 McNeil Address",
-            "email": "testuser2@gmail.com",
-            "password": "1234567890"
+            "firstname": "Fuguke",
+            "lastname": "Uchiha",
+            "address": "Uchiha Clan, Konoha",
+            "email": "uchiha.fuguke@uchiha.org",
+            "password": "secret"
         }
 
 + Response 400 (application/json) 
@@ -100,11 +113,11 @@ A User object has the following attributes:
 + Request (application/json)
 
         {
-            "firstname": "Test",
-            "lastname": "User",
-            "address": "12 Address Street",
+            "firstname": "Fuguke",
+            "lastname": "Uchiha",
+            "address": "Uchiha Clan, Konoha",
             "email": "",
-            "password": "1234567890"
+            "password": "secret"
         }
 
 + Response 400 (application/json) 
@@ -117,17 +130,17 @@ A User object has the following attributes:
     
             {
                 "status": 400,
-                "error": "The email you provided is invalid"
+                "error": "Provide email address to continue"
             }
 
 + Request (application/json)
 
         {
-            "firstname": "Test",
-            "lastname": "User",
+            "firstname": "Fuguke",
+            "lastname": "Uchiha",
             "address": "",
-            "email": "testuser2@gmail.com",
-            "password": "1234567890"
+            "email": "uchiha.fuguke@uchiha.org",
+            "password": "secret"
         }
 
 + Response 400 (application/json) 
@@ -146,10 +159,10 @@ A User object has the following attributes:
 + Request (application/json)
 
         {
-            "firstname": "Test",
-            "lastname": "User",
-            "address": "Test User Address",
-            "email": "testuser2@gmail.com",
+            "firstname": "Fuguke",
+            "lastname": "Uchiha",
+            "address": "Uchiha Clan, Konoha",
+            "email": "uchiha.fuguke@uchiha.org",
             "password": ""
         }
 
@@ -169,11 +182,11 @@ A User object has the following attributes:
 + Request (application/json)
 
         {
-            "firstname": "Test",
-            "lastname": "",
-            "address": "Test User",
-            "email": "testuser2@gmail.com",
-            "password": "12345"
+            "firstname": "Fuguke",
+            "lastname": "Uchiha",
+            "address": "Uchiha Clan, Konoha",
+            "email": "uchiha.fuguke@uchiha.org",
+            "password": "secr"
         }
 
 + Response 400 (application/json) 
@@ -186,17 +199,17 @@ A User object has the following attributes:
     
             {
                 "status": 400,
-                "error": "Password length must be 8 characters and above"
+                "error": "Password length must be 6 characters and above"
             }
 
 + Request (application/json)
 
         {
-            "firstname": "Test#@345&",
-            "lastname": "User",
-            "address": "",
-            "email": "testuser2@gmail.com",
-            "password": "1234567890"
+            "firstname": "Fuguk23w3@e",
+            "lastname": "Uchiha",
+            "address": "Uchiha Clan, Konoha",
+            "email": "uchiha.fuguke@uchiha.org",
+            "password": "secret"
         }
 
 + Response 400 (application/json) 
@@ -215,11 +228,11 @@ A User object has the following attributes:
 + Request (application/json)
 
         {
-            "firstname": "Test",
-            "lastname": "User#@345&",
-            "address": "Test user address",
-            "email": "testuser2@gmail.com",
-            "password": "1234567890"
+            "firstname": "Fuguke",
+            "lastname": "Uchs323iha",
+            "address": "Uchiha Clan, Konoha",
+            "email": "uchiha.fuguke@uchiha.org",
+            "password": "secret"
         }
 
 + Response 400 (application/json) 
@@ -238,11 +251,11 @@ A User object has the following attributes:
 + Request (application/json)
 
         {
-            "firstname": "Test",
-            "lastname": "User",
-            "address": "Test user's address",
-            "email": "testuser2%1##*(gmail.com",
-            "password": "1234567890"
+            "firstname": "Fuguke",
+            "lastname": "Uchiha",
+            "address": "Uchiha Clan, Konoha",
+            "email": "uchiha.fugukeuchiha.org",
+            "password": "secret"
         }
 
 + Response 400 (application/json) 
@@ -261,12 +274,13 @@ A User object has the following attributes:
 + Request (application/json)
 
         {
-            "firstname": "Test",
-            "lastname": "User",
-            "address": "Test user address",
-            "email": "testuser2@gmail.com",
-            "password": "1234567890"
+            "firstname": "Fuguke",
+            "lastname": "Uchiha",
+            "address": "Uchiha Clan, Konoha",
+            "email": "uchiha.fugukeuchiha.org",
+            "password": "secret"
         }
+
 
 + Response 409 (application/json) 
     
@@ -281,13 +295,13 @@ A User object has the following attributes:
                 "error": "A user with the given email or username or phonenumber already exists"
             }
 
-### User Login [POST /auth/signin]
+### User Login [POST /api/v1/auth/signin]
 
 + Request (application/json) 
 
         {
-            "email": "testuser2@gmail.com",
-            "password": "1234567890"
+            "email": "meetdesmond.edem@gmail.com",
+            "password": "secret"
         }
 
 + Response 200 (application/json)
@@ -297,31 +311,24 @@ A User object has the following attributes:
             Location: /api/v1/auth/signin
         
     + Body
-            
+    
             {
-               "status": 200,
-               "data": [
-                   {
-                       "message": "Login Successful!",
-                       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ0ZXN0dXNlcjJAZ21haWwuY29tIiwiaXNhZG1pbiI6ImZhbHNlIiwiZmlyc3RuYW1lIjoiVGVzdCIsImxhc3RuYW1lIjoiVGVzdCIsInBob25lbnVtYmVyIjoiMDcwODg5OTg4NDUiLCJ1c2VybmFtZSI6IlRlc3RVc2VyIiwiY3JlYXRlZG9uIjoiMjAxOS0wMS0yMFQwOToxNDozNy4yNTlaIiwiaWF0IjoxNTQ3OTgyNTUxLCJleHAiOjE1NDg1ODczNTF9.WX3YnKFwZ9Xb3QVc7D5wDe_ROWzlwlpMsKuvnFe3FGQ",
-                       "user": {
-                           "id": 3,
-                           "email": "testuser2@gmail.com",
-                           "firstname": "Test",
-                           "lastname": "Test",
-                           "username": "TestUser",
-                           "phonenumber": "07088998845",
-                           "isadmin": "false"
-                        }
-                    }
-                ]
+                  "message": "Login successful!",
+                  "data": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImEwYzVlMTQ1LTI0ZWItNGFjMi04YjZkLWU4NWRmOGE1MzUwZiIsImVtYWlsIjoibWVldGRlc21vbmQuZWRlbUBnbWFpbC5jb20iLCJpc2FkbWluIjp0cnVlLCJzdGF0dXMiOiJ2ZXJpZmllZCIsImlhdCI6MTU1OTE4MDc2NCwiZXhwIjoxNTU5MjY3MTY0fQ.F0dVU1GRYQebOdDrIYSSvl9nSPuf9Mv4rJ0V9JPkTWs",
+                    "id": "a0c5e145-24eb-4ac2-8b6d-e85df8a5350f",
+                    "firstname": "Desmond",
+                    "lastname": "Edem",
+                    "email": "meetdesmond.edem@gmail.com",
+                    "isadmin": true
+                  }
             }
             
 + Request (application/json) 
 
         {
             "email": "",
-            "password": "1234567890"
+            "password": "secret"
         }
 
 + Response 400 (application/json)
@@ -334,13 +341,13 @@ A User object has the following attributes:
             
             {
                 "status": 400,
-                "error": "The email you provided is invalid"
+                "error": "Provide an email address to continue"
             }
             
 + Request (application/json) 
 
         {
-            "email": "testuser2@gmail.com",
+            "email": "meetdesmond.edem@gmail.com",
             "password": ""
         }
 
@@ -360,8 +367,8 @@ A User object has the following attributes:
 + Request (application/json) 
 
         {
-            "email": "testuser2%^&$*#$(gmail.com",
-            "password": "1234567890"
+            "email": "meetdesmond2%^&$*#$(gmail.com",
+            "password": "secret"
         }
 
 + Response 400 (application/json)
@@ -400,7 +407,7 @@ A User object has the following attributes:
 + Request (application/json) 
 
         {
-            "email": "testuser2@gmail.com",
+            "email": "meetdesmond.edem@gmail.com",
             "password": "123456"
         }
 
@@ -438,11 +445,12 @@ A User object has the following attributes:
             }            
 
 
+
 ## Loans Collection [/loans]
 
 A Loan object has the following attributes:
 
-+ id - The ID of the loan object represented as an integer
++ id - The ID of the loan object represented as a UUID
 + user - The `email` address of the User who created the resource represented as a string
 + createdOn - The date the loan record was created in UTC format represented as a string
 + status - A string representing the current status of the loan record. It could be _pending_, _approved_ or _rejected_.
@@ -453,7 +461,7 @@ A Loan object has the following attributes:
 + balance - A float value representing amount to be repaid
 + interest - A float value which 5% of the loan amount requested
 
-### List All Loan Records [GET /loans]
+### List All Loan Records [GET /api/v1/loans]
 
 + Request (application/json)
 
@@ -470,36 +478,73 @@ A Loan object has the following attributes:
     + Body
 
             {
-                    "status": 200,
-                    "data": [
-                        {
-                            "id": 1,
-                            "user": "uchiha.itachi@anbu.org",
-                            "createdOn": 1557574810240,
-                            "status": "approved",
-                            "repaid": false,
-                            "tenor": 3,
-                            "amount": 20000,
-                            "paymentInstallment": 7000,
-                            "balance": 21000,
-                            "interest": 1000
-                        },
-                        {
-                            "id": 2,
-                            "user": "uchiha.itachi@anbu.org",
-                            "createdOn": 1557574810240,
-                            "status": "approved",
-                            "repaid": false,
-                            "tenor": 3,
-                            "amount": 20000,
-                            "paymentInstallment": 7000,
-                            "balance": 21000,
-                            "interest": 1000
-                        }
+                  "data": [
+                    [
+                      {
+                        "id": "f69f12d3-25f0-4d88-8b9e-36765c1a8c86",
+                        "email": "uchiha.obito@akatsuki.org",
+                        "createdon": "2019-05-24T03:09:49.311Z",
+                        "status": "approved",
+                        "repaid": true,
+                        "tenor": 3,
+                        "amount": 20000,
+                        "paymentinstallment": 7000,
+                        "balance": 0,
+                        "interest": 1000
+                      },
+                      {
+                        "id": "97711a71-7d34-431b-95ea-031fcd2eaa83",
+                        "email": null,
+                        "createdon": "2019-05-24T08:53:01.585Z",
+                        "status": "pending",
+                        "repaid": false,
+                        "tenor": 3,
+                        "amount": 20000,
+                        "paymentinstallment": 7000,
+                        "balance": 21000,
+                        "interest": 1000
+                      },
+                      {
+                        "id": "18ca1051-26aa-4955-8d07-9a8a991939f8",
+                        "email": "uchiha.obito@aka.org",
+                        "createdon": "2019-05-24T08:54:21.478Z",
+                        "status": "approved",
+                        "repaid": true,
+                        "tenor": 3,
+                        "amount": 20000,
+                        "paymentinstallment": 7000,
+                        "balance": 0,
+                        "interest": 1000
+                      },
+                      {
+                        "id": "71d40c13-19f5-4f50-b834-6f2d4089cf9b",
+                        "email": "uchihan.obito@aka.org",
+                        "createdon": "2019-05-24T09:02:57.582Z",
+                        "status": "pending",
+                        "repaid": false,
+                        "tenor": 3,
+                        "amount": 20000,
+                        "paymentinstallment": 7000,
+                        "balance": 21000,
+                        "interest": 1000
+                      },
+                      {
+                        "id": "e2a19416-460d-4958-a601-cb45f8dcd9e2",
+                        "email": "meetdesmond.edem@gmail.com",
+                        "createdon": "2019-05-24T09:05:36.058Z",
+                        "status": "pending",
+                        "repaid": false,
+                        "tenor": 3,
+                        "amount": 20000,
+                        "paymentinstallment": 7000,
+                        "balance": 21000,
+                        "interest": 1000
+                      }
                     ]
+                  ]
             }
         
-### List All Current Loans (not fully repaid) [GET /loans?status=approved&repaid=false]
+### List All Current Loans (not fully repaid) [GET /api/v1/loans?status=approved&repaid=false]
 
 + Request
 
@@ -510,39 +555,76 @@ A Loan object has the following attributes:
 
     + Headers
         
-            Location: /loans/
+            Location: /loans?status=approved&repaid=false
         
     + Body
-
+    
             {
-                            "status": 200,
-                            "data": [
-                                {
-                                    "id": 1,
-                                    "user": "uchiha.itachi@anbu.org",
-                                    "createdOn": 1557574810240,
-                                    "status": "approved",
-                                    "repaid": false,
-                                    "tenor": 3,
-                                    "amount": 20000,
-                                    "paymentInstallment": 7000,
-                                    "balance": 21000,
-                                    "interest": 1000
-                                },
-                                {
-                                    "id": 2,
-                                    "user": "uchiha.itachi@anbu.org",
-                                    "createdOn": 1557574810240,
-                                    "status": "approved",
-                                    "repaid": false,
-                                    "tenor": 3,
-                                    "amount": 20000,
-                                    "paymentInstallment": 7000,
-                                    "balance": 21000,
-                                    "interest": 1000
-                                }
-                            ]
-                    }
+                  "data": [
+                    [
+                      {
+                        "id": "f69f12d3-25f0-4d88-8b9e-36765c1a8c86",
+                        "email": "uchiha.obito@akatsuki.org",
+                        "createdon": "2019-05-24T03:09:49.311Z",
+                        "status": "approved",
+                        "repaid": true,
+                        "tenor": 3,
+                        "amount": 20000,
+                        "paymentinstallment": 7000,
+                        "balance": 0,
+                        "interest": 1000
+                      },
+                      {
+                        "id": "97711a71-7d34-431b-95ea-031fcd2eaa83",
+                        "email": null,
+                        "createdon": "2019-05-24T08:53:01.585Z",
+                        "status": "pending",
+                        "repaid": false,
+                        "tenor": 3,
+                        "amount": 20000,
+                        "paymentinstallment": 7000,
+                        "balance": 21000,
+                        "interest": 1000
+                      },
+                      {
+                        "id": "18ca1051-26aa-4955-8d07-9a8a991939f8",
+                        "email": "uchiha.obito@aka.org",
+                        "createdon": "2019-05-24T08:54:21.478Z",
+                        "status": "approved",
+                        "repaid": true,
+                        "tenor": 3,
+                        "amount": 20000,
+                        "paymentinstallment": 7000,
+                        "balance": 0,
+                        "interest": 1000
+                      },
+                      {
+                        "id": "71d40c13-19f5-4f50-b834-6f2d4089cf9b",
+                        "email": "uchihan.obito@aka.org",
+                        "createdon": "2019-05-24T09:02:57.582Z",
+                        "status": "pending",
+                        "repaid": false,
+                        "tenor": 3,
+                        "amount": 20000,
+                        "paymentinstallment": 7000,
+                        "balance": 21000,
+                        "interest": 1000
+                      },
+                      {
+                        "id": "e2a19416-460d-4958-a601-cb45f8dcd9e2",
+                        "email": "meetdesmond.edem@gmail.com",
+                        "createdon": "2019-05-24T09:05:36.058Z",
+                        "status": "pending",
+                        "repaid": false,
+                        "tenor": 3,
+                        "amount": 20000,
+                        "paymentinstallment": 7000,
+                        "balance": 21000,
+                        "interest": 1000
+                      }
+                    ]
+                  ]
+            }
 
 ### List All Current Loans (fully repaid) [GET /loans?status=approved&repaid=true]
 
@@ -560,34 +642,34 @@ A Loan object has the following attributes:
     + Body
 
             {
-                            "status": 200,
-                            "data": [
-                                {
-                                    "id": 1,
-                                    "user": "uchiha.itachi@anbu.org",
-                                    "createdOn": 1557574810240,
-                                    "status": "approved",
-                                    "repaid": true,
-                                    "tenor": 3,
-                                    "amount": 20000,
-                                    "paymentInstallment": 7000,
-                                    "balance": 21000,
-                                    "interest": 1000
-                                },
-                                {
-                                    "id": 2,
-                                    "user": "uchiha.itachi@anbu.org",
-                                    "createdOn": 1557574810240,
-                                    "status": "approved",
-                                    "repaid": true,
-                                    "tenor": 3,
-                                    "amount": 20000,
-                                    "paymentInstallment": 7000,
-                                    "balance": 21000,
-                                    "interest": 1000
-                                }
-                            ]
+                "status": 200,
+                "data": [
+                    {
+                        "id": 1,
+                        "user": "uchiha.itachi@anbu.org",
+                        "createdOn": 1557574810240,
+                        "status": "approved",
+                        "repaid": true,
+                        "tenor": 3,
+                        "amount": 20000,
+                        "paymentInstallment": 7000,
+                        "balance": 21000,
+                        "interest": 1000
+                    },
+                    {
+                        "id": 2,
+                        "user": "uchiha.itachi@anbu.org",
+                        "createdOn": 1557574810240,
+                        "status": "approved",
+                        "repaid": true,
+                        "tenor": 3,
+                        "amount": 20000,
+                        "paymentInstallment": 7000,
+                        "balance": 21000,
+                        "interest": 1000
                     }
+                ]
+            }
 
 + Request
 
@@ -641,21 +723,21 @@ A Loan object has the following attributes:
     + Body
 
             {
-                    "status": 200,
-                    "data": [
-                        {
-                            "id": 1,
-                            "user": "uchiha.itachi@anbu.org",
-                            "createdOn": 1557574810240,
-                            "status": "approved",
-                            "repaid": false,
-                            "tenor": 3,
-                            "amount": 20000,
-                            "paymentInstallment": 7000,
-                            "balance": 21000,
-                            "interest": 1000
-                        }
-                    ]
+                "status": 200,
+                "data": [
+                    {
+                        "id": 1,
+                        "user": "uchiha.itachi@anbu.org",
+                        "createdOn": 1557574810240,
+                        "status": "approved",
+                        "repaid": false,
+                        "tenor": 3,
+                        "amount": 20000,
+                        "paymentInstallment": 7000,
+                        "balance": 21000,
+                        "interest": 1000
+                    }
+                ]
             }
             
 + Request
@@ -762,24 +844,24 @@ need to provide a valid Bearer token for authorization.
     + Body
 
             {
-                    "status": 200,
-                    "data": [
-                        {
-                            "id": 1,
-                            "loanId": 1,
-                            "user": "uchiha.itachi@anbu.org",
-                            "firstName": "Desmond",
-                            "lastName": "Edem",
-                            "createdOn": 1557574810240,
-                            "status": "approved",
-                            "repaid": false,
-                            "tenor": 3,
-                            "amount": 20000,
-                            "paymentInstallment": 7000,
-                            "balance": 21000,
-                            "interest": 1000
-                        }
-                    ]
+                "status": 200,
+                "data": [
+                    {
+                        "id": 1,
+                        "loanId": 1,
+                        "user": "uchiha.itachi@anbu.org",
+                        "firstName": "Desmond",
+                        "lastName": "Edem",
+                        "createdOn": 1557574810240,
+                        "status": "approved",
+                        "repaid": false,
+                        "tenor": 3,
+                        "amount": 20000,
+                        "paymentInstallment": 7000,
+                        "balance": 21000,
+                        "interest": 1000
+                    }
+                ]
             }
 
 + Request (application/json)
@@ -887,12 +969,12 @@ need to provide a valid Bearer token for authorization.
         Authorization: Bearer JWT
         
         {
-                    "firstName": "Itachi",
-                    "lastName": "Uchiha",
-                    "user": "",
-                    "amount": 20000,
-                    "tenor": 3
-                }
+            "firstName": "Itachi",
+            "lastName": "Uchiha",
+            "user": "",
+            "amount": 20000,
+            "tenor": 3
+        }
 
 + Response 400 (application/json)
 
@@ -912,12 +994,12 @@ need to provide a valid Bearer token for authorization.
         Authorization: Bearer JWT
         
         {
-                    "firstName": "Itachi",
-                    "lastName": "Uchiha",
-                    "user": "uchiha.itachi@anbu.org",
-                    "amount": ,
-                    "tenor": 3
-                }
+            "firstName": "Itachi",
+            "lastName": "Uchiha",
+            "user": "uchiha.itachi@anbu.org",
+            "amount": ,
+            "tenor": 4
+        }
 
 + Response 400 (application/json)
 
@@ -981,3 +1063,7 @@ need to provide a valid Bearer token for authorization.
             {
                 "status": 400,
                 "error": "Tenor must be between 1 and 12 months"
+
+     
+           
+## Repayments Collection [/repayments]
