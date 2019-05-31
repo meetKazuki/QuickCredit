@@ -1,6 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../src/app';
+import app from '../../src/app';
+import DB from '../../src/database/dbconnection';
 
 chai.use(chaiHttp);
 
@@ -10,26 +11,33 @@ const authURI = '/api/v1/auth';
 
 let adminToken;
 let userToken;
+let loanedId;
 
-describe.skip('routes: repayment', () => {
+describe('routes: repayment', () => {
+  before((done) => {
+    chai
+      .request(app)
+      .post(`${authURI}/signin`)
+      .send({ email: 'meetdesmond.edem@gmail.com', password: 'secret' })
+      .end((err, res) => {
+        adminToken = res.body.data.token;
+        done(err);
+      });
+  });
+
   context('POST /loans/:<loan-id>/repayment', () => {
-    before((done) => {
-      chai
-        .request(app)
-        .post(`${authURI}/signin`)
-        .send({ email: 'meetdesmond.edem@gmail.com', password: 'secret' })
-        .end((err, res) => {
-          adminToken = res.body.data.token;
-          done(err);
-        });
+    before(async () => {
+      const query = 'SELECT * FROM loans';
+      const { rows } = await DB.query(query);
+      loanedId = rows[0].id;
     });
 
     it('should post a loan repayment successfully', (done) => {
       chai
         .request(app)
-        .post(`${baseURI}/loans/1/repayment`)
+        .post(`${baseURI}/loans/${loanedId}/repayment`)
         .set('authorization', `Bearer ${adminToken}`)
-        .send({ loanId: 1, paidAmount: 7000 })
+        .send({ loanId: loanedId, paidAmount: 7000 })
         .end((err, res) => {
           expect(res).to.have.status(201);
           expect(res.body).to.have.property('id');
@@ -44,9 +52,9 @@ describe.skip('routes: repayment', () => {
     specify('error if token is not supplied', (done) => {
       chai
         .request(app)
-        .post(`${baseURI}/loans/1/repayment`)
+        .post(`${baseURI}/loans/${loanedId}/repayment`)
         .set('authorization', '')
-        .send({ loanId: 1, paidAmount: 7000 })
+        .send({ loanId: loanedId, paidAmount: 7000 })
         .end((err, res) => {
           expect(res).to.have.status(401);
           expect(res.body).to.have.property('error');
@@ -57,9 +65,9 @@ describe.skip('routes: repayment', () => {
     specify('error if an invalid token supplied', (done) => {
       chai
         .request(app)
-        .post(`${baseURI}/loans/1/repayment`)
+        .post(`${baseURI}/loans/${loanedId}/repayment`)
         .set('authorization', `Bearer ${userToken}`)
-        .send({ loanId: 1, paidAmount: 7000 })
+        .send({ loanId: loanedId, paidAmount: 7000 })
         .end((err, res) => {
           expect(res).to.have.status(401);
           expect(res.body).to.have.property('error');
@@ -70,9 +78,9 @@ describe.skip('routes: repayment', () => {
     specify('error if id parameter for loan does not exist', (done) => {
       chai
         .request(app)
-        .post(`${baseURI}/loans/8/repayment`)
+        .post(`${baseURI}/loans/50622358-a6d8-4659-9d90-706d7e074c09/repayment`)
         .set('authorization', `Bearer ${adminToken}`)
-        .send({ loanId: 8, paidAmount: 7000 })
+        .send({ loanId: '50622358-a6d8-4659-9d90-706d7e074c09', paidAmount: 7000 })
         .end((err, res) => {
           expect(res).to.have.status(404);
           expect(res.body).to.have.property('error');
@@ -83,9 +91,9 @@ describe.skip('routes: repayment', () => {
     specify('error if paidAmount is not specified', (done) => {
       chai
         .request(app)
-        .post(`${baseURI}/loans/1/repayment`)
+        .post(`${baseURI}/loans/${loanedId}/repayment`)
         .set('authorization', `Bearer ${adminToken}`)
-        .send({ loanID: 1, paidAmount: '' })
+        .send({ loanID: loanedId, paidAmount: '' })
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body).to.have.property('status');
@@ -111,7 +119,7 @@ describe.skip('routes: repayment', () => {
     it('should fetch a list of all repayment history for a loan ID', (done) => {
       chai
         .request(app)
-        .get(`${baseURI}/loans/1/repayments`)
+        .get(`${baseURI}/loans/${loanedId}/repayments`)
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           expect(res).to.have.status(200);
@@ -134,7 +142,7 @@ describe.skip('routes: repayment', () => {
     specify('error if loanID is not found', (done) => {
       chai
         .request(app)
-        .get(`${baseURI}/loans/9/repayments`)
+        .get(`${baseURI}/loans/50622358-a6d8-4659-9d90-706d7e074c09/repayments`)
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           expect(res).to.have.status(404);

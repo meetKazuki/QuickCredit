@@ -1,8 +1,6 @@
 import { Pool, types } from 'pg';
 import DBConfig from './config';
 
-console.log('dbconnection ->', process.env.NODE_ENV);
-
 const pool = new Pool(DBConfig);
 
 types.setTypeParser(1700, val => parseFloat(val));

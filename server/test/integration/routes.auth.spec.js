@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../src/app';
+import app from '../../src/app';
 
 chai.use(chaiHttp);
 
@@ -19,7 +19,6 @@ describe('routes: /auth', () => {
         address: '12 Iyana Ipaja, CMS',
         password: 'secret',
       };
-
       chai
         .request(app)
         .post(`${authURI}/signup`)
@@ -54,7 +53,6 @@ describe('routes: /auth', () => {
         address: '12 Iyana Ipaja, CMS',
         password: 'secret',
       };
-
       chai
         .request(app)
         .post(`${authURI}/signup`)

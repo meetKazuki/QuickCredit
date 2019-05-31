@@ -19,16 +19,15 @@
   <main>
     <h2 class="section-title">Continue to QuickCredit</h2>
     <section class="container">
-      <form class="form-container">
-        <label for="username">Email Address</label>
-        <input type="text" name="username" class="form-element" id="email-address" placeholder="Your Email Address">
+      <form class="form-container" method="POST">
+        <label for="email-address">Email Address</label>
+        <input type="text" name="email-address" class="form-element" id="email-address" placeholder="Your Email Address" required>
 
         <label for="password">Password</label>
-        <input type="password" name="password" class="form-element" id="password" placeholder="Your Password">
+        <input type="password" name="password" class="form-element" id="password" placeholder="Your Password" minlength="6" required>
 
-        <!-- <button class="btn btn-primary" type="submit">Sign In</button> -->
         <button class="btn btn-primary">
-          <a href="dashboard.html">Sign In</a>
+          <a href="user-dashboard.html">Sign In</a>
         </button>
       </form>
 
@@ -36,7 +35,6 @@
         New to QuickCredit? <span><a href="signup.html">Create an account</a></span>
       </p>
     </section>
-
   </main>
 </body>
 </html>

@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../src/app';
+import app from '../../src/app';
 
 chai.use(chaiHttp);
 
@@ -30,7 +30,7 @@ describe('routes /, /404, /api/v1', () => {
       });
   });
 
-  it('should return an error for any invalid route', (done) => {
+  specify('error for any invalid route', (done) => {
     chai
       .request(app)
       .get('/404')

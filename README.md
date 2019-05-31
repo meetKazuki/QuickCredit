@@ -15,6 +15,7 @@ financial inclusion as a way to alleviate poverty and empower low income earners
 
 
 ## Features
+
 1. User (client) can sign up.
 2. User (client) can login.
 3. User (client) can request for only one loan at a time.
@@ -29,18 +30,21 @@ responsibilities.
 11. Admin can view all repaid loans.
 
 ### Optional Features
+
 1. User can reset password.
 2. Integrate real time email notification upon approval or rejection of a loan request.
 
 
 ## Project Pipeline
+
 - [Pivotal Tracker stories](https://www.pivotaltracker.com/n/projects/2326809)
 - [UI Templates](https://meetkazuki.github.io/QuickCredit/ui)
 - [Hosted API](https://quickcredit-staging.herokuapp.com/)
-- [API Docs](https://quickcredit3.docs.apiary.io/#reference)
+- [API Docs](https://quickcredit3.docs.apiary.io/)
 
 
 ## Technologies Used
+
 - [NodeJS](https://nodejs.org/en/download/)
 - [ExpressJS](https://expressjs.com/)
 - [PostgreSQL](https://www.postgresql.org/download/)
@@ -55,6 +59,7 @@ Ensure you have the following installed on your local machine:
 
 ### Installing/Run locally
 - Make sure you have `nodejs`, `postgres` installed.
+
 - Clone or fork repo🤷‍♂
 
   ```bash
@@ -62,15 +67,33 @@ Ensure you have the following installed on your local machine:
     - cd QuickCredit
     - npm install
   ```
-- Create/configure `.env` environment with your credentials
+
+- Create a PostgreSQL database by running the command below in `psql`
+
+  ```bash
+    createdb -h localhost -p 5432 -U postgres quickdev
+  ```
+
+- Create/configure `.env` environment with your credentials. A sample `.env.example` file has been provided to get you started. Make a duplicate of `.env.example` and rename to `.env`, then configure your credentials.
+
 - Run `npm run start:dev` to start the server and watch for changes
 
 ### Testing
+Test specs are implemented using [*mocha*](https://mochajs.org) & [*chai*](https://chiajs.com).
+
 - To test or consume the API locally, you can make use of [*Postman*](https://www.getpostman.com) to simulate a front-end client.
-- There are also automated tests that you can fire up by running `npm test`.
+
+- If you want to take the step below, first create a PostgreSQL database by running the command below in `psql`.
+
+   ```bash
+    createdb -h localhost -p 5432 -U postgres quicktest
+  ```
+
+- There is also a test script that you can fire up by running `npm test`. `npm test` performs a single full test suite run, including code coverage reporting.
 
 
 ## HTTP Requests
+
 All API requests are made by sending a secure HTTPS request using one of the following methods, depending on the action being taken:
 
 - `POST` Create a resource
@@ -103,20 +126,21 @@ Each response will be returned with one of the following HTTP status codes:
 
 | URI                                                         | HTTP Method            | Description                                  |
 |-----                                                        |-------------           |-------------                                 |
-| <code>/api/v1/users</code>                                  | `GET`                  | Fetch all Users                              |
-| <code>/api/v1/users/{email}</code>                          | `GET`                  | Fetch a single user by email                 |
-| <code>/api/v1/user/loans</code>                             | `GET`                  | Fetch all loans by a user                    |
-| <code>/api/v1/loans/</code>                                 | `GET`                  | Fetch all loans                              |
-| <code>/api/v1/loans/{id}</code>                             | `GET`                  | Fetch a single loan by id                    |
-| <code>/api/v1/loans?status=approved&repaid=false</code>     | `GET`                  | Fetch all loans that are not fully repaid    |
-| <code>/api/v1/loans?status=approved&repaid=true</code>      | `GET`                  | Fetch all loans that are fully repaid        |
-| <code>/api/v1/loans/{id}/repayments</code>                  | `GET`                  | Fetch all repayments for a loan              |
-| <code>/api/v1/loans</code>                                  | `POST`                 | Create a loan request                        |
-| <code>/api/v1/loans/{id}/repayment</code>                   | `POST`                 | Create a loan repayment record               |
-| <code>/api/v1/loans/{id}</code>                             | `PATCH`                | Update a loan record status                  |
-| <code>/api/v1/users/{email}/verify</code>                   | `PATCH`                | Update a loan user's status                  |
+| <code>/api/v1/users</code>                                  |     `GET`              | Fetch all Users                              |
+| <code>/api/v1/users/{email}</code>                          |     `GET`              | Fetch a single user by email                 |
+| <code>/api/v1/user/loans</code>                             |     `GET`              | Fetch all loans by a user                    |
+| <code>/api/v1/loans/</code>                                 |     `GET`              | Fetch all loans                              |
+| <code>/api/v1/loans/{id}</code>                             |     `GET`              | Fetch a single loan by id                    |
+| <code>/api/v1/loans?status=approved&repaid=false</code>     |     `GET`              | Fetch all loans that are not fully repaid    |
+| <code>/api/v1/loans?status=approved&repaid=true</code>      |     `GET`              | Fetch all loans that are fully repaid        |
+| <code>/api/v1/loans/{id}/repayments</code>                  |     `GET`              | Fetch all repayments for a loan              |
+| <code>/api/v1/loans</code>                                  |     `POST`             | Create a loan request                        |
+| <code>/api/v1/loans/{id}/repayment</code>                   |     `POST`             | Create a loan repayment record               |
+| <code>/api/v1/loans/{id}</code>                             |     `PATCH`            | Update a loan record status                  |
+| <code>/api/v1/users/{email}/verify</code>                   |     `PATCH`            | Update a loan user's status                  |
 
 ## Inspiration/Resources
+
 - [Design for Developers](https://frontendmasters.com/courses/design-for-developers/) by Sarah Drasner
 - [Github Sign In/Sign Up page](https://github.com/login?return_to=%2Fjoin)
 - [A quick guide to styling buttons using CSS](https://medium.freecodecamp.org/a-quick-guide-to-styling-buttons-using-css-f64d4f96337f) by Ashwini Sheshagiri
@@ -127,7 +151,9 @@ Each response will be returned with one of the following HTTP status codes:
 - [Node-postgres Docs](https://node-postgres.com/)
 
 ## License
+
 The QuickCredit API is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 ## Misc😏
+
 If for some reason you find this repo useful, please give me a star🙏

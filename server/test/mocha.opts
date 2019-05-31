@@ -1,0 +1,4 @@
+-r @babel/polyfill
+-r @babel/register
+--recursive
+--exit
