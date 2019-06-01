@@ -124,20 +124,20 @@ Each response will be returned with one of the following HTTP status codes:
 
 #### API Routes
 
-| URI                                                         | HTTP Method            | Description                                  |
+|         URI                                                 |  HTTP Method           |        Description                           |
 |-----                                                        |-------------           |-------------                                 |
-| <code>/api/v1/users</code>                                  |     `GET`              | Fetch all Users                              |
-| <code>/api/v1/users/{email}</code>                          |     `GET`              | Fetch a single user by email                 |
-| <code>/api/v1/user/loans</code>                             |     `GET`              | Fetch all loans by a user                    |
-| <code>/api/v1/loans/</code>                                 |     `GET`              | Fetch all loans                              |
-| <code>/api/v1/loans/{id}</code>                             |     `GET`              | Fetch a single loan by id                    |
-| <code>/api/v1/loans?status=approved&repaid=false</code>     |     `GET`              | Fetch all loans that are not fully repaid    |
-| <code>/api/v1/loans?status=approved&repaid=true</code>      |     `GET`              | Fetch all loans that are fully repaid        |
-| <code>/api/v1/loans/{id}/repayments</code>                  |     `GET`              | Fetch all repayments for a loan              |
-| <code>/api/v1/loans</code>                                  |     `POST`             | Create a loan request                        |
-| <code>/api/v1/loans/{id}/repayment</code>                   |     `POST`             | Create a loan repayment record               |
-| <code>/api/v1/loans/{id}</code>                             |     `PATCH`            | Update a loan record status                  |
-| <code>/api/v1/users/{email}/verify</code>                   |     `PATCH`            | Update a loan user's status                  |
+| <code>/api/v1/users</code>                                  |       `GET`            | Fetch all Users                              |
+| <code>/api/v1/users/{email}</code>                          |       `GET`            | Fetch a single user by email                 |
+| <code>/api/v1/user/loans</code>                             |       `GET`            | Fetch all loans by a user                    |
+| <code>/api/v1/loans/</code>                                 |       `GET`            | Fetch all loans                              |
+| <code>/api/v1/loans/{id}</code>                             |       `GET`            | Fetch a single loan by id                    |
+| <code>/api/v1/loans?status=approved&repaid=false</code>     |       `GET`            | Fetch all loans that are not fully repaid    |
+| <code>/api/v1/loans?status=approved&repaid=true</code>      |       `GET`            | Fetch all loans that are fully repaid        |
+| <code>/api/v1/loans/{id}/repayments</code>                  |       `GET`            | Fetch all repayments for a loan              |
+| <code>/api/v1/loans</code>                                  |       `POST`           | Create a loan request                        |
+| <code>/api/v1/loans/{id}/repayment</code>                   |       `POST`           | Create a loan repayment record               |
+| <code>/api/v1/loans/{id}</code>                             |       `PATCH`          | Update a loan record status                  |
+| <code>/api/v1/users/{email}/verify</code>                   |       `PATCH`          | Update a loan user's status                  |
 
 ## Inspiration/Resources
 

@@ -14,7 +14,6 @@ describe('routes /, /404, /api/v1', () => {
       .get('/')
       .end((err, res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.have.property('message');
         done(err);
       });
   });
@@ -25,7 +24,6 @@ describe('routes /, /404, /api/v1', () => {
       .get(baseURI)
       .end((err, res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.have.property('message');
         done(err);
       });
   });

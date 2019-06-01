@@ -3,7 +3,7 @@ HOST: https://quickcredit-staging.herokuapp.com
 
 # QuickCredit
 
-An online lending platform that provides short term soft loans to individuals 
+An online lending platform that provides short term soft loans to individuals
 as a way to solve problems of financial inclusion, alleviate poverty and empower
 low income earners.
 
@@ -41,29 +41,29 @@ A User object has the following attributes:
             "password": "secret"
         }
 
-+ Response 201 (application/json) 
-    
++ Response 201 (application/json)
+
     + Headers
-    
+
             Location: /api/v1/auth/signup
 
 
     + Body
 
             {
-                  "message": "Registration successful",
-                  "data": {
-                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NTkxNzk0ODUsImV4cCI6MTU1OTI2NTg4NX0.NM9fjLGz3zpWSlpxk6bDihtuFEvUMHQcwzMDX63annw",
-                    "id": "606fca52-9477-4242-8598-1c0d90feb19f",
-                    "firstname": "Madara",
-                    "lastname": "Uchiha",
-                    "address": "Akatsuki HQ, Amegakure",
-                    "email": "uchiha.madara@akatsuki.org",
-                    "status": "unverified",
-                    "isadmin": false
-                  }
+                "message": "Registration successful",
+                "data": {
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NTkxNzk0ODUsImV4cCI6MTU1OTI2NTg4NX0.NM9fjLGz3zpWSlpxk6bDihtuFEvUMHQcwzMDX63annw",
+                  "id": "606fca52-9477-4242-8598-1c0d90feb19f",
+                  "firstname": "Madara",
+                  "lastname": "Uchiha",
+                  "address": "Akatsuki HQ, Amegakure",
+                  "email": "uchiha.madara@akatsuki.org",
+                  "status": "unverified",
+                  "isadmin": false
+                }
             }
-        
+
 + Request (application/json)
 
         {
@@ -74,14 +74,14 @@ A User object has the following attributes:
             "password": "secret"
         }
 
-+ Response 400 (application/json) 
-    
++ Response 400 (application/json)
+
     + Headers
-    
+
             Location: /api/v1/auth/signup
 
     + Body
-    
+
             {
                 "status": 400,
                 "error": "You need to include a valid first name"
@@ -97,19 +97,19 @@ A User object has the following attributes:
             "password": "secret"
         }
 
-+ Response 400 (application/json) 
-    
++ Response 400 (application/json)
+
     + Headers
-    
+
             Location: /api/v1/auth/signup
 
     + Body
-    
+
             {
                 "status": 400,
                 "error": "You need to include a valid last name"
             }
-            
+
 + Request (application/json)
 
         {
@@ -120,14 +120,14 @@ A User object has the following attributes:
             "password": "secret"
         }
 
-+ Response 400 (application/json) 
-    
++ Response 400 (application/json)
+
     + Headers
-    
+
             Location: /api/v1/auth/signup
 
     + Body
-    
+
             {
                 "status": 400,
                 "error": "Provide email address to continue"
@@ -143,19 +143,19 @@ A User object has the following attributes:
             "password": "secret"
         }
 
-+ Response 400 (application/json) 
-    
++ Response 400 (application/json)
+
     + Headers
-    
+
             Location: /api/v1/auth/signup
 
     + Body
-    
+
             {
                 "status": 400,
                 "error": "You need to include a valid address"
             }
-       
+
 + Request (application/json)
 
         {
@@ -166,14 +166,14 @@ A User object has the following attributes:
             "password": ""
         }
 
-+ Response 400 (application/json) 
-    
++ Response 400 (application/json)
+
     + Headers
-    
+
             Location: /api/v1/auth/signup
 
     + Body
-    
+
             {
                 "status": 400,
                 "error": "You need to provide a password"
@@ -189,14 +189,14 @@ A User object has the following attributes:
             "password": "secr"
         }
 
-+ Response 400 (application/json) 
-    
++ Response 400 (application/json)
+
     + Headers
-    
+
             Location: /api/v1/auth/signup
 
     + Body
-    
+
             {
                 "status": 400,
                 "error": "Password length must be 6 characters and above"
@@ -212,14 +212,14 @@ A User object has the following attributes:
             "password": "secret"
         }
 
-+ Response 400 (application/json) 
-    
++ Response 400 (application/json)
+
     + Headers
-    
+
             Location: /api/v1/auth/signup
 
     + Body
-    
+
             {
                 "status": 400,
                 "error": "You need to include a valid first name"
@@ -235,19 +235,19 @@ A User object has the following attributes:
             "password": "secret"
         }
 
-+ Response 400 (application/json) 
-    
++ Response 400 (application/json)
+
     + Headers
-    
+
             Location: /api/v1/auth/signup
 
     + Body
-    
+
             {
                 "status": 400,
                 "error": "You need to include a valid last name"
             }
-            
+
 + Request (application/json)
 
         {
@@ -258,14 +258,14 @@ A User object has the following attributes:
             "password": "secret"
         }
 
-+ Response 400 (application/json) 
-    
++ Response 400 (application/json)
+
     + Headers
-    
+
             Location: /api/v1/auth/signup
 
     + Body
-    
+
             {
                 "status": 400,
                 "error": "The email you provided is invalid"
@@ -282,14 +282,14 @@ A User object has the following attributes:
         }
 
 
-+ Response 409 (application/json) 
-    
++ Response 409 (application/json)
+
     + Headers
-    
+
             Location: /api/v1/auth/signup
 
     + Body
-    
+
             {
                 "status": 409,
                 "error": "A user with the given email or username or phonenumber already exists"
@@ -297,7 +297,7 @@ A User object has the following attributes:
 
 ### User Login [POST /api/v1/auth/signin]
 
-+ Request (application/json) 
++ Request (application/json)
 
         {
             "email": "meetdesmond.edem@gmail.com",
@@ -307,11 +307,11 @@ A User object has the following attributes:
 + Response 200 (application/json)
 
     + Headers
-        
+
             Location: /api/v1/auth/signin
-        
+
     + Body
-    
+
             {
                   "message": "Login successful!",
                   "data": {
@@ -323,8 +323,8 @@ A User object has the following attributes:
                     "isadmin": true
                   }
             }
-            
-+ Request (application/json) 
+
++ Request (application/json)
 
         {
             "email": "",
@@ -334,17 +334,17 @@ A User object has the following attributes:
 + Response 400 (application/json)
 
     + Headers
-        
+
             Location: /api/v1/auth/signin
-        
+
     + Body
-            
+
             {
                 "status": 400,
                 "error": "Provide an email address to continue"
             }
-            
-+ Request (application/json) 
+
++ Request (application/json)
 
         {
             "email": "meetdesmond.edem@gmail.com",
@@ -354,17 +354,17 @@ A User object has the following attributes:
 + Response 400 (application/json)
 
     + Headers
-        
+
             Location: /api/v1/auth/signin
-        
+
     + Body
-            
+
             {
                 "status": 400,
                 "error": "You need to provide a password"
             }
-            
-+ Request (application/json) 
+
++ Request (application/json)
 
         {
             "email": "meetdesmond2%^&$*#$(gmail.com",
@@ -374,17 +374,17 @@ A User object has the following attributes:
 + Response 400 (application/json)
 
     + Headers
-        
+
             Location: /api/v1/auth/signin
-        
+
     + Body
-            
+
             {
                 "status": 400,
                 "error": "The email you provided is invalid"
             }
-            
-+ Request (application/json) 
+
++ Request (application/json)
 
         {
             "email": "randomuser@gmail.com",
@@ -394,17 +394,17 @@ A User object has the following attributes:
 + Response 404 (application/json)
 
     + Headers
-        
+
             Location: /api/v1/auth/signin
-        
+
     + Body
-            
+
             {
                 "status": 404,
                 "error": "Sorry, the email account you provided does not exist"
             }
-            
-+ Request (application/json) 
+
++ Request (application/json)
 
         {
             "email": "meetdesmond.edem@gmail.com",
@@ -414,17 +414,17 @@ A User object has the following attributes:
 + Response 400 (application/json)
 
     + Headers
-        
+
             Location: /api/v1/auth/signin
-        
+
     + Body
-            
+
             {
                 "status": 400,
                 "error": "Password length must be 8 characters and above"
             }
-            
-+ Request (application/json) 
+
++ Request (application/json)
 
         {
             "email": "testuser2@gmail.com",
@@ -434,15 +434,15 @@ A User object has the following attributes:
 + Response 400 (application/json)
 
     + Headers
-        
+
             Location: /api/v1/auth/signin
-        
+
     + Body
-            
+
             {
                 "status": 400,
                 "error": "Sorry, the provided email/password is incorrect"
-            }            
+            }
 
 
 
@@ -466,84 +466,84 @@ A Loan object has the following attributes:
 + Request (application/json)
 
     + Headers
-    
+
             Authentication: Bearer JWT
 
 + Response 200 (application/json)
 
     + Headers
-            
-            Location: /loans
-    
+
+            Location: /api/v1/loans
+
     + Body
 
             {
-                  "data": [
-                    [
-                      {
-                        "id": "f69f12d3-25f0-4d88-8b9e-36765c1a8c86",
-                        "email": "uchiha.obito@akatsuki.org",
-                        "createdon": "2019-05-24T03:09:49.311Z",
-                        "status": "approved",
-                        "repaid": true,
-                        "tenor": 3,
-                        "amount": 20000,
-                        "paymentinstallment": 7000,
-                        "balance": 0,
-                        "interest": 1000
-                      },
-                      {
-                        "id": "97711a71-7d34-431b-95ea-031fcd2eaa83",
-                        "email": null,
-                        "createdon": "2019-05-24T08:53:01.585Z",
-                        "status": "pending",
-                        "repaid": false,
-                        "tenor": 3,
-                        "amount": 20000,
-                        "paymentinstallment": 7000,
-                        "balance": 21000,
-                        "interest": 1000
-                      },
-                      {
-                        "id": "18ca1051-26aa-4955-8d07-9a8a991939f8",
-                        "email": "uchiha.obito@aka.org",
-                        "createdon": "2019-05-24T08:54:21.478Z",
-                        "status": "approved",
-                        "repaid": true,
-                        "tenor": 3,
-                        "amount": 20000,
-                        "paymentinstallment": 7000,
-                        "balance": 0,
-                        "interest": 1000
-                      },
-                      {
-                        "id": "71d40c13-19f5-4f50-b834-6f2d4089cf9b",
-                        "email": "uchihan.obito@aka.org",
-                        "createdon": "2019-05-24T09:02:57.582Z",
-                        "status": "pending",
-                        "repaid": false,
-                        "tenor": 3,
-                        "amount": 20000,
-                        "paymentinstallment": 7000,
-                        "balance": 21000,
-                        "interest": 1000
-                      },
-                      {
-                        "id": "e2a19416-460d-4958-a601-cb45f8dcd9e2",
-                        "email": "meetdesmond.edem@gmail.com",
-                        "createdon": "2019-05-24T09:05:36.058Z",
-                        "status": "pending",
-                        "repaid": false,
-                        "tenor": 3,
-                        "amount": 20000,
-                        "paymentinstallment": 7000,
-                        "balance": 21000,
-                        "interest": 1000
-                      }
-                    ]
+                "data": [
+                  [
+                    {
+                      "id": "f69f12d3-25f0-4d88-8b9e-36765c1a8c86",
+                      "email": "uchiha.obito@akatsuki.org",
+                      "createdon": "2019-05-24T03:09:49.311Z",
+                      "status": "approved",
+                      "repaid": true,
+                      "tenor": 3,
+                      "amount": 20000,
+                      "paymentinstallment": 7000,
+                      "balance": 0,
+                      "interest": 1000
+                    },
+                    {
+                      "id": "97711a71-7d34-431b-95ea-031fcd2eaa83",
+                      "email": null,
+                      "createdon": "2019-05-24T08:53:01.585Z",
+                      "status": "pending",
+                      "repaid": false,
+                      "tenor": 3,
+                      "amount": 20000,
+                      "paymentinstallment": 7000,
+                      "balance": 21000,
+                      "interest": 1000
+                    },
+                    {
+                      "id": "18ca1051-26aa-4955-8d07-9a8a991939f8",
+                      "email": "uchiha.obito@aka.org",
+                      "createdon": "2019-05-24T08:54:21.478Z",
+                      "status": "approved",
+                      "repaid": true,
+                      "tenor": 3,
+                      "amount": 20000,
+                      "paymentinstallment": 7000,
+                      "balance": 0,
+                      "interest": 1000
+                    },
+                    {
+                      "id": "71d40c13-19f5-4f50-b834-6f2d4089cf9b",
+                      "email": "uchihan.obito@aka.org",
+                      "createdon": "2019-05-24T09:02:57.582Z",
+                      "status": "pending",
+                      "repaid": false,
+                      "tenor": 3,
+                      "amount": 20000,
+                      "paymentinstallment": 7000,
+                      "balance": 21000,
+                      "interest": 1000
+                    },
+                    {
+                      "id": "e2a19416-460d-4958-a601-cb45f8dcd9e2",
+                      "email": "meetdesmond.edem@gmail.com",
+                      "createdon": "2019-05-24T09:05:36.058Z",
+                      "status": "pending",
+                      "repaid": false,
+                      "tenor": 3,
+                      "amount": 20000,
+                      "paymentinstallment": 7000,
+                      "balance": 21000,
+                      "interest": 1000
+                    }
                   ]
+                ]
             }
-        
+
 ### List All Current Loans (not fully repaid) [GET /api/v1/loans?status=approved&repaid=false]
 
 + Request
@@ -554,79 +554,79 @@ A Loan object has the following attributes:
 
 
     + Headers
-        
-            Location: /loans?status=approved&repaid=false
-        
+
+            Location: /api/v1/loans?status=approved&repaid=false
+
     + Body
-    
+
             {
-                  "data": [
-                    [
-                      {
-                        "id": "f69f12d3-25f0-4d88-8b9e-36765c1a8c86",
-                        "email": "uchiha.obito@akatsuki.org",
-                        "createdon": "2019-05-24T03:09:49.311Z",
-                        "status": "approved",
-                        "repaid": true,
-                        "tenor": 3,
-                        "amount": 20000,
-                        "paymentinstallment": 7000,
-                        "balance": 0,
-                        "interest": 1000
-                      },
-                      {
-                        "id": "97711a71-7d34-431b-95ea-031fcd2eaa83",
-                        "email": null,
-                        "createdon": "2019-05-24T08:53:01.585Z",
-                        "status": "pending",
-                        "repaid": false,
-                        "tenor": 3,
-                        "amount": 20000,
-                        "paymentinstallment": 7000,
-                        "balance": 21000,
-                        "interest": 1000
-                      },
-                      {
-                        "id": "18ca1051-26aa-4955-8d07-9a8a991939f8",
-                        "email": "uchiha.obito@aka.org",
-                        "createdon": "2019-05-24T08:54:21.478Z",
-                        "status": "approved",
-                        "repaid": true,
-                        "tenor": 3,
-                        "amount": 20000,
-                        "paymentinstallment": 7000,
-                        "balance": 0,
-                        "interest": 1000
-                      },
-                      {
-                        "id": "71d40c13-19f5-4f50-b834-6f2d4089cf9b",
-                        "email": "uchihan.obito@aka.org",
-                        "createdon": "2019-05-24T09:02:57.582Z",
-                        "status": "pending",
-                        "repaid": false,
-                        "tenor": 3,
-                        "amount": 20000,
-                        "paymentinstallment": 7000,
-                        "balance": 21000,
-                        "interest": 1000
-                      },
-                      {
-                        "id": "e2a19416-460d-4958-a601-cb45f8dcd9e2",
-                        "email": "meetdesmond.edem@gmail.com",
-                        "createdon": "2019-05-24T09:05:36.058Z",
-                        "status": "pending",
-                        "repaid": false,
-                        "tenor": 3,
-                        "amount": 20000,
-                        "paymentinstallment": 7000,
-                        "balance": 21000,
-                        "interest": 1000
-                      }
-                    ]
+                "data": [
+                  [
+                    {
+                      "id": "f69f12d3-25f0-4d88-8b9e-36765c1a8c86",
+                      "email": "uchiha.obito@akatsuki.org",
+                      "createdon": "2019-05-24T03:09:49.311Z",
+                      "status": "approved",
+                      "repaid": true,
+                      "tenor": 3,
+                      "amount": 20000,
+                      "paymentinstallment": 7000,
+                      "balance": 0,
+                      "interest": 1000
+                    },
+                    {
+                      "id": "97711a71-7d34-431b-95ea-031fcd2eaa83",
+                      "email": null,
+                      "createdon": "2019-05-24T08:53:01.585Z",
+                      "status": "pending",
+                      "repaid": false,
+                      "tenor": 3,
+                      "amount": 20000,
+                      "paymentinstallment": 7000,
+                      "balance": 21000,
+                      "interest": 1000
+                    },
+                    {
+                      "id": "18ca1051-26aa-4955-8d07-9a8a991939f8",
+                      "email": "uchiha.obito@aka.org",
+                      "createdon": "2019-05-24T08:54:21.478Z",
+                      "status": "approved",
+                      "repaid": true,
+                      "tenor": 3,
+                      "amount": 20000,
+                      "paymentinstallment": 7000,
+                      "balance": 0,
+                      "interest": 1000
+                    },
+                    {
+                      "id": "71d40c13-19f5-4f50-b834-6f2d4089cf9b",
+                      "email": "uchihan.obito@aka.org",
+                      "createdon": "2019-05-24T09:02:57.582Z",
+                      "status": "pending",
+                      "repaid": false,
+                      "tenor": 3,
+                      "amount": 20000,
+                      "paymentinstallment": 7000,
+                      "balance": 21000,
+                      "interest": 1000
+                    },
+                    {
+                      "id": "e2a19416-460d-4958-a601-cb45f8dcd9e2",
+                      "email": "meetdesmond.edem@gmail.com",
+                      "createdon": "2019-05-24T09:05:36.058Z",
+                      "status": "pending",
+                      "repaid": false,
+                      "tenor": 3,
+                      "amount": 20000,
+                      "paymentinstallment": 7000,
+                      "balance": 21000,
+                      "interest": 1000
+                    }
                   ]
+                ]
             }
 
-### List All Current Loans (fully repaid) [GET /loans?status=approved&repaid=true]
+### List All Current Loans (fully repaid) [GET /api/v1/loans?status=approved&repaid=true]
 
 + Request
 
@@ -636,9 +636,9 @@ A Loan object has the following attributes:
 
 
     + Headers
-        
-            Location: /loans/
-        
+
+            Location: /api/v1/loans?status=approved&repaid=true
+
     + Body
 
             {
@@ -674,15 +674,15 @@ A Loan object has the following attributes:
 + Request
 
     + Headers
-    
+
             Authorization: No Auth
-            Location: /loans/
-            
+            Location: /api/v1/loans?status=approved&repaid=true
+
 + Response 401 (application/json)
 
     + Headers
 
-            Location: /loans/
+            Location: /api/v1/loans?status=approved&repaid=true
 
     + Body
 
@@ -699,10 +699,10 @@ A Loan object has the following attributes:
 
     + Headers
 
-            Location: /loans/
+            Location: /api/v1/loans?status=approved&repaid=true
 
     + Body
-    
+
             {
                 "status": 401,
                 "error": "The provided token cannot be authenticated."
@@ -717,9 +717,9 @@ A Loan object has the following attributes:
 + Response 200 (application/json)
 
     + Headers
-        
-            Location: /loans/1
-        
+
+            Location: /api/v1/loans/1
+
     + Body
 
             {
@@ -739,27 +739,27 @@ A Loan object has the following attributes:
                     }
                 ]
             }
-            
+
 + Request
-    
+
     + Headers
-        
+
             Authorization: No Auth
-            Location: /loans/1
-            
+            Location: /api/v1/loans/1
+
 + Response 401 (application/json)
 
     + Headers
 
-            Location: /loans/dh$47
+            Location: /api/v1/loans/dh$47
 
     + Body
-    
+
             {
                 "status": 401,
                 "error": "No authorization header was specified"
             }
-            
+
 + Request (application/json)
 
         Authorization: Invalid/Expired Token
@@ -768,50 +768,50 @@ A Loan object has the following attributes:
 
     + Headers
 
-            Location: /loans/3
+            Location: /api/v1/loans/3
 
     + Body
-    
+
             {
                 "status": 401,
                 "error": "The provided token cannot be authenticated."
             }
-            
+
 + Request
-    
+
     + Headers
-        
+
             Authorization: Bearer JWT
-            Location: /loans/0
-            
+            Location: /api/v1/loans/0
+
 + Response 404 (application/json)
 
     + Headers
 
-            Location: /loans/0
+            Location: /api/v1/loans/0
 
     + Body
-    
+
             {
                 "status": 404,
                 "error": "Sorry, no record with such id exists"
             }
-            
+
 + Request
-    
+
     + Headers
-        
+
             Authorization: Bearer JWT
-            Location: /loans/dh$47
-            
+            Location: /api/v1/loans/dh$47
+
 + Response 400 (application/json)
 
     + Headers
 
-            Location: /loans/dh$47
+            Location: /api/v1/loans/dh$47
 
     + Body
-    
+
             {
                 "status": 400,
                 "error": "The id parameter must be a number"
@@ -819,14 +819,14 @@ A Loan object has the following attributes:
 
 ### Create a new Loan Request [POST /loans]
 
-As an authenticated user, you can create a new loan request. 
+As an authenticated user, you can create a new loan request.
 It takes a JSON object containing the applicant's firstname, lastname, email and tenor. You also
-need to provide a valid Bearer token for authorization. 
+need to provide a valid Bearer token for authorization.
 
 + Request (application/json)
 
         Authorization: Bearer JWT
-        
+
         {
             "firstName": "Itachi",
             "lastName": "Uchiha",
@@ -839,7 +839,7 @@ need to provide a valid Bearer token for authorization.
 
     + Headers
 
-            Location: /loans
+            Location: /api/v1/loans
 
     + Body
 
@@ -867,7 +867,7 @@ need to provide a valid Bearer token for authorization.
 + Request (application/json)
 
         Authorization: No Auth
-        
+
         {
             "firstName": "Itachi",
             "lastName": "Uchiha",
@@ -880,19 +880,19 @@ need to provide a valid Bearer token for authorization.
 
     + Headers
 
-            Location: /loans
+            Location: /api/v1/loans
 
     + Body
-    
+
             {
                 "status": 401,
                 "error": "No authorization header was specified"
             }
-            
+
 + Request (application/json)
 
         Authorization: Invalid/Expired Token
-        
+
         {
             "firstName": "Itachi",
             "lastName": "Uchiha",
@@ -905,19 +905,19 @@ need to provide a valid Bearer token for authorization.
 
     + Headers
 
-            Location: /loans
+            Location: /api/v1/loans
 
     + Body
-    
+
             {
                 "status": 401,
                 "error": "The provided token cannot be authenticated."
             }
-            
+
 + Request (application/json)
 
         Authorization: Bearer JWT
-        
+
         {
             "firstName": "",
             "lastName": "Uchiha",
@@ -930,32 +930,32 @@ need to provide a valid Bearer token for authorization.
 
     + Headers
 
-            Location: /loans
+            Location: /api/v1/loans
 
     + Body
-    
+
             {
                 "status": 400,
                 "error": "Your firstname  must be specified"
             }
-            
+
 + Request (application/json)
 
         Authorization: Bearer JWT
-        
-           {
-                "firstName": "Itachi",
-                "lastName": "",
-                "user": "uchiha.itachi@anbu.org",
-                "amount": 20000,
-                "tenor": 3
-            }
+
+          {
+              "firstName": "Itachi",
+              "lastName": "",
+              "user": "uchiha.itachi@anbu.org",
+              "amount": 20000,
+              "tenor": 3
+          }
 
 + Response 400 (application/json)
 
     + Headers
 
-            Location: /loans
+            Location: /api/v1/loans
 
     + Body
 
@@ -963,11 +963,11 @@ need to provide a valid Bearer token for authorization.
                 "status": 400,
                 "error": "Your lastname must be specified"
             }
-            
+
 + Request (application/json)
 
         Authorization: Bearer JWT
-        
+
         {
             "firstName": "Itachi",
             "lastName": "Uchiha",
@@ -980,19 +980,19 @@ need to provide a valid Bearer token for authorization.
 
     + Headers
 
-            Location: /loans
+            Location: /api/v1/loans
 
     + Body
-    
+
             {
                 "status": 400,
                 "error": "Enter your email address"
             }
-            
+
 + Request (application/json)
 
         Authorization: Bearer JWT
-        
+
         {
             "firstName": "Itachi",
             "lastName": "Uchiha",
@@ -1005,65 +1005,65 @@ need to provide a valid Bearer token for authorization.
 
     + Headers
 
-            Location: /loans
+            Location: /api/v1/loans
 
     + Body
-    
+
             {
                 "status": 400,
                 "error": "Loan amount must be specified"
             }
-            
+
 + Request (application/json)
 
         Authorization: Bearer JWT
-        
-        
-           {
-                "firstName": "Itachi",
-                "lastName": "",
-                "user": "uchiha.itachi@anbu.org",
-                "amount": 20000,
-                "tenor": 
-            }
+
+
+          {
+              "firstName": "Itachi",
+              "lastName": "",
+              "user": "uchiha.itachi@anbu.org",
+              "amount": 20000,
+              "tenor":
+          }
 
 + Response 400 (application/json)
 
     + Headers
 
-            Location: /loans
+            Location: /api/v1/loans
 
     + Body
-    
+
             {
                 "status": 400,
                 "error": "tenor must be specified"
             }
-            
+
 + Request (application/json)
 
         Authorization: Bearer JWT
-        
-           {
-                "firstName": "Itachi",
-                "lastName": "",
-                "user": "uchiha.itachi@anbu.org",
-                "amount": 20000,
-                "tenor": 0
-            }
+
+          {
+              "firstName": "Itachi",
+              "lastName": "",
+              "user": "uchiha.itachi@anbu.org",
+              "amount": 20000,
+              "tenor": 0
+          }
 
 + Response 400 (application/json)
 
     + Headers
 
-            Location: /loans
+            Location: /api/v1/loans
 
     + Body
-    
+
             {
                 "status": 400,
                 "error": "Tenor must be between 1 and 12 months"
+            }
 
-     
-           
+
 ## Repayments Collection [/repayments]
