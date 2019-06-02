@@ -40,7 +40,8 @@ responsibilities.
 - [Pivotal Tracker stories](https://www.pivotaltracker.com/n/projects/2326809)
 - [UI Templates](https://meetkazuki.github.io/QuickCredit/ui)
 - [Hosted API](https://quickcredit-staging.herokuapp.com/)
-- [API Docs](https://quickcredit3.docs.apiary.io/)
+- [API Docs](https://quickcredit-staging.herokuapp.com/docs)
+<!-- - [API Docs](https://quickcredit3.docs.apiary.io/) -->
 
 
 ## Technologies Used

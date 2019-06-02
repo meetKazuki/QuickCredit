@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "build": "npm run clean && npm run build-babel",
-    "build-babel": "babel src -d build",
+    "build-babel": "babel ./server/src -d build",
     "clean": "rm -rf build .nyc_output coverage && mkdir build",
     "coverage": "nyc report --reporter=text-lcov | coveralls && nyc report --reporter=lcov",
     "db:migrate": "set DEBUG=DB_MIGRATE && babel-node ./server/src/database/migrations",
