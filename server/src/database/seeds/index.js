@@ -12,8 +12,8 @@ const hashedPassword = HelperUtils.hashPassword('secret');
 
 const createUsers = `
   INSERT INTO users(id, firstname, lastname, address, email, password, isadmin, status)
-  VALUES('${uuidv4()}','Desmond', 'Edem', 'Sabo', 'meetdesmond.edem@gmail.com', '${hashedPassword}', 'true', 'verified'),
-  ('${uuidv4()}', 'Obito', 'Uchiha', 'Akatsuki Cavern', 'uchiha.obito@akatsuki.org', '${hashedPassword}', 'false', 'unverified');`;
+  VALUES('${uuidv4()}','Desmond', 'Edem', '12 McNeil Street, Sabo-Yaba, Lagos', 'meetdesmond.edem@gmail.com', '${hashedPassword}', 'true', 'verified'),
+  ('${uuidv4()}', 'Obito', 'Uchiha', 'Akatsuki Cavern, Amegakure', 'uchiha.obito@akatsuki.org', '${hashedPassword}', 'false', 'unverified');`;
 
 const createRecord = `
   INSERT INTO loans(id, email,status,repaid,tenor,amount,paymentInstallment,balance, interest)

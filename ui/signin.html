@@ -19,16 +19,14 @@
   <main>
     <h2 class="section-title">Continue to QuickCredit</h2>
     <section class="container">
-      <form class="form-container" method="POST">
-        <label for="email-address">Email Address</label>
-        <input type="text" name="email-address" class="form-element" id="email-address" placeholder="Your Email Address" required>
+      <form class="form-container" method="POST" id="form">
+        <label for="email">Email Address</label>
+        <input type="email" name="email" class="form-element" id="email" placeholder="Your Email Address" required>
 
         <label for="password">Password</label>
         <input type="password" name="password" class="form-element" id="password" placeholder="Your Password" minlength="6" required>
 
-        <button class="btn btn-primary">
-          <a href="user-dashboard.html">Sign In</a>
-        </button>
+        <button type="submit" class="btn btn-primary">Sign In</button>
       </form>
 
       <p>
@@ -37,4 +35,6 @@
     </section>
   </main>
 </body>
+<script src="assets/js/script.js"></script>
+<script src="assets/js/authentication.js"></script>
 </html>

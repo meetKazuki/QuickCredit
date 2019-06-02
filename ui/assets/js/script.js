@@ -39,3 +39,29 @@ openBtn.addEventListener('click', () => {
   modal.classList.toggle('closed');
   modalToggle.classList.toggle('closed');
 });
+
+/**
+ * Handles which page to display to user
+ */
+const isHomePage = window.location.pathname === '/'
+                || window.location.href.includes('index');
+const noAuthPages = ['', 'index.html', 'signin.html', 'signup.html'];
+
+// Check if page is served locally or from gh-pages
+const baseUrlLength = window.location.pathname.includes('QuickCredit') ? 14 : 1;
+const pageName = window.location.pathname.substr(baseUrlLength);
+
+if (!localStorage.getItem('token') && !noAuthPages.includes(pageName)) {
+  window.location.href = './login.html';
+}
+
+/**
+ * Handle logout event
+ */
+if (localStorage.getItem('token')) {
+  document.getElementById('').addEventListener('click', (e) => {
+    e.preventDefault();
+    localStorage.clear();
+    window.location.href = './';
+  });
+}

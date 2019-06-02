@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../../src/app';
-import DB from '../../src/database/dbconnection';
+import app from '../src/app';
+import DB from '../src/database/dbconnection';
 
 chai.use(chaiHttp);
 
@@ -9,7 +9,7 @@ const { expect } = chai;
 const baseURI = '/api/v1';
 const authURI = '/api/v1/auth';
 
-let userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5NDM1Y2RiLTNhYjUtNGJhNS1hZjQzLTBlYjdlMTVlNGRmMSIsImVtYWlsIjoidWNoaWhhLm9iaXRvQGFrYXRzdWtpLm9yZyIsImlzYWRtaW4iOmZhbHNlLCJzdGF0dXMiOiJ2ZXJpZmllZCIsImlhdCI6MTU1OTI2OTc3MiwiZXhwIjoxNTU5MzU2MTcyfQ.9bd5dGlCYlTAQWtwM7TsQh1r0UPD6rFQeeUOBEQ_t-c';
+let userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNhOWJkZThkLTYwZTctNDQwMS1iY2E1LWFhYTdlNzY2MWY4OCIsImVtYWlsIjoidWNoaWhhLm9iaXRvQGFrYXRzdWtpLm9yZyIsImlzYWRtaW4iOmZhbHNlLCJzdGF0dXMiOiJ1bnZlcmlmaWVkIiwiaWF0IjoxNTU5NDMyMDA3LCJleHAiOjE1NTk1MTg0MDd9.R4PHOg3DOli12JjaGL8yaWnFx77JAVbLdF5IpMB_9U8';
 let adminToken;
 
 describe('routes: loan', () => {
