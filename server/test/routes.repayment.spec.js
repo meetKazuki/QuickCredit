@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../../src/app';
-import DB from '../../src/database/dbconnection';
+import app from '../src/app';
+import DB from '../src/database/dbconnection';
 
 chai.use(chaiHttp);
 
