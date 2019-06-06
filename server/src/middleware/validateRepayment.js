@@ -15,18 +15,15 @@ export default class ValidateRepayment {
    */
   static async validateRepayBody(req, res, next) {
     req
-      .checkParams('id')
-      .isUUID()
+      .checkParams('id').isUUID()
       .withMessage('Id should be a valid UUID');
     req
-      .checkBody('loanId')
-      .notEmpty()
+      .checkBody('loanId').notEmpty()
       .withMessage('Specify LoanId for this transaction')
       .isUUID()
       .withMessage('LoanId should be a valid UUID');
     req
-      .checkBody('paidAmount')
-      .notEmpty()
+      .checkBody('paidAmount').notEmpty()
       .withMessage('Enter amount to be repaid')
       .isNumeric()
       .withMessage('paidAmount should be an integer');

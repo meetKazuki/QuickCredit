@@ -52,14 +52,14 @@ class UserController {
 
   /**
    * @method login
-   * @description logs in user
+   * @description Logs in a registered user
    * @param {object} req - The Request Object
    * @param {object} res - The Response Object
    * @returns {void}
    */
   static login(req, res) {
     const {
-      id, firstname, lastname, email, isadmin, status,
+      id, firstname, lastname, address, email, isadmin, status,
     } = req.user;
     const token = HelperUtils.generateToken({
       id, email, isadmin, status,
@@ -74,6 +74,7 @@ class UserController {
         firstname,
         lastname,
         email,
+        address,
         status,
         isadmin,
       },

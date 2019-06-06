@@ -18,7 +18,7 @@ describe('routes: repayment', () => {
     chai
       .request(app)
       .post(`${authURI}/signin`)
-      .send({ email: 'meetdesmond.edem@gmail.com', password: 'secret' })
+      .send({ email: 'admin@admin.com', password: 'admin' })
       .end((err, res) => {
         adminToken = res.body.data.token;
         done(err);
@@ -29,7 +29,7 @@ describe('routes: repayment', () => {
     before(async () => {
       const query = 'SELECT * FROM loans';
       const { rows } = await DB.query(query);
-      loanedId = rows[0].id;
+      loanedId = rows[2].id;
     });
 
     it('should post a loan repayment successfully', (done) => {
@@ -40,11 +40,13 @@ describe('routes: repayment', () => {
         .send({ loanId: loanedId, paidAmount: 7000 })
         .end((err, res) => {
           expect(res).to.have.status(201);
-          expect(res.body).to.have.property('id');
-          expect(res.body).to.have.property('createdOn');
-          expect(res.body).to.have.property('paidAmount');
-          expect(res.body).to.have.property('monthlyInstallment');
-          expect(res.body).to.have.property('balance');
+          expect(res.body).to.have.property('data');
+          expect(res.body.data).to.have.property('id');
+          expect(res.body.data).to.have.property('createdon');
+          expect(res.body.data).to.have.property('amount');
+          expect(res.body.data).to.have.property('monthlyinstallment');
+          expect(res.body.data).to.have.property('paidamount');
+          expect(res.body.data).to.have.property('balance');
           done(err);
         });
     });
@@ -93,7 +95,7 @@ describe('routes: repayment', () => {
         .request(app)
         .post(`${baseURI}/loans/${loanedId}/repayment`)
         .set('authorization', `Bearer ${adminToken}`)
-        .send({ loanID: loanedId, paidAmount: '' })
+        .send({ loanId: loanedId, paidAmount: '' })
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body).to.have.property('status');
@@ -109,7 +111,7 @@ describe('routes: repayment', () => {
       chai
         .request(app)
         .post(`${authURI}/signin`)
-        .send({ email: 'uchiha.obito@akatsuki.org', password: 'secret' })
+        .send({ email: 'uchiha.obito@akatsuki.org', password: 'user' })
         .end((err, res) => {
           userToken = res.body.data.token;
           done(err);

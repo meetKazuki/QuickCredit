@@ -8,6 +8,7 @@
   <title>QuickCredit &mdash; Quick & Easy Loans</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   <link rel="stylesheet" href="assets/css/index.css">
+  <script src="assets/js/utils/utils.js"></script>
 </head>
 <body>
   <header>
@@ -20,17 +21,11 @@
       </div>
 
       <button class="hamburger-menu"><a class="hamburger"></a></button>
+
       <ul class="navbar-menu">
+        <li class="navbar-link"><a href="signin.html" id="signin">Sign In</a></li>
         <li class="navbar-link">
-          <a href="./">Home</a>
-        </li>
-
-        <li class="navbar-link">
-          <a href="signin.html">Sign In</a>
-        </li>
-
-        <li class="navbar-link">
-          <a href="signup.html" class="btn-transparent">Register</a>
+          <a href="signup.html" class="btn-transparent" id="signup">Register</a>
         </li>
       </ul>
     </nav>
@@ -44,7 +39,7 @@
       </p>
 
       <div class="hero-callout">
-        <a href="signup.html" class="btn btn-home">
+        <a href="signup.html" class="btn btn-home" id="hero-text">
           <span>Get Started &#8594;</span>
         </a>
       </div>
@@ -118,7 +113,6 @@
     </nav>
     <p>&COPY; 2019 QuickCredit with ❤️ Kazuk1</p>
   </footer>
-
   <script src="assets/js/script.js"></script>
 </body>
 </html>

@@ -16,7 +16,7 @@ describe('routes: /auth', () => {
         firstname: 'John',
         lastname: 'Doe',
         email: 'john.doe@email.com',
-        address: '12 Iyana Ipaja, CMS',
+        address: '12 Iyana Ipaja, CMS, Lagos',
         password: 'secret',
       };
       chai
@@ -29,6 +29,7 @@ describe('routes: /auth', () => {
           expect(res.body.data).to.have.property('id');
           expect(res.body.data).to.have.property('firstname');
           expect(res.body.data).to.have.property('lastname');
+          expect(res.body.data).to.have.property('address');
           expect(res.body.data).to.have.property('email');
           done(err);
         });
@@ -41,6 +42,7 @@ describe('routes: /auth', () => {
         .send(userData)
         .end((err, res) => {
           expect(res).to.have.status(409);
+          expect(res.body).to.have.property('error');
           done(err);
         });
     });
@@ -50,7 +52,7 @@ describe('routes: /auth', () => {
         firstname: '',
         lastname: 'Doe',
         email: 'john.doe@email.com',
-        address: '12 Iyana Ipaja, CMS',
+        address: '12 Iyana Ipaja, CMS, Lagos',
         password: 'secret',
       };
       chai
@@ -58,8 +60,8 @@ describe('routes: /auth', () => {
         .post(`${authURI}/signup`)
         .send(userData)
         .end((err, res) => {
-          expect(res).to.have.status(422);
-          expect(res.body.status).to.be.equal(422);
+          expect(res).to.have.status(400);
+          expect(res.body.status).to.be.equal(400);
           expect(res.body).to.have.property('error');
           done(err);
         });
@@ -70,7 +72,7 @@ describe('routes: /auth', () => {
         firstname: 'John',
         lastname: '',
         email: 'john.doe@email.com',
-        address: '12 Iyana Ipaja, CMS',
+        address: '12 Iyana Ipaja, CMS, Lagos',
         password: 'secret',
       };
       chai
@@ -78,8 +80,8 @@ describe('routes: /auth', () => {
         .post(`${authURI}/signup`)
         .send(userData)
         .end((err, res) => {
-          expect(res).to.have.status(422);
-          expect(res.body.status).to.be.equal(422);
+          expect(res).to.have.status(400);
+          expect(res.body.status).to.be.equal(400);
           expect(res.body).to.have.property('error');
           done(err);
         });
@@ -88,9 +90,9 @@ describe('routes: /auth', () => {
     specify('error when user signs up with empty address', (done) => {
       userData = {
         firstname: 'John',
-        lastname: '',
+        lastname: 'Doe',
         email: 'john.doe@email.com',
-        address: '12 Iyana Ipaja, CMS',
+        address: '',
         password: 'secret',
       };
       chai
@@ -98,8 +100,8 @@ describe('routes: /auth', () => {
         .post(`${authURI}/signup`)
         .send(userData)
         .end((err, res) => {
-          expect(res).to.have.status(422);
-          expect(res.body.status).to.be.equal(422);
+          expect(res).to.have.status(400);
+          expect(res.body.status).to.be.equal(400);
           expect(res.body).to.have.property('error');
           done(err);
         });
@@ -110,7 +112,7 @@ describe('routes: /auth', () => {
         firstname: 'John',
         lastname: 'Doe',
         email: '',
-        address: '12 Iyana Ipaja, CMS',
+        address: '12 Iyana Ipaja, CMS, Lagos',
         password: 'secret',
       };
       chai
@@ -118,8 +120,8 @@ describe('routes: /auth', () => {
         .post(`${authURI}/signup`)
         .send(userData)
         .end((err, res) => {
-          expect(res).to.have.status(422);
-          expect(res.body.status).to.be.equal(422);
+          expect(res).to.have.status(400);
+          expect(res.body.status).to.be.equal(400);
           expect(res.body).to.have.property('error');
           done(err);
         });
@@ -135,17 +137,6 @@ describe('routes: /auth', () => {
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body.data).to.have.property('token');
-          done(err);
-        });
-    });
-
-    specify('error if password provided is incorrect', (done) => {
-      chai
-        .request(app)
-        .post(`${authURI}/signin`)
-        .send({ email: 'john.doe@email.com', password: 'secr' })
-        .end((err, res) => {
-          expect(res).to.have.status(401);
           done(err);
         });
     });
@@ -181,6 +172,18 @@ describe('routes: /auth', () => {
         .send({ email: 'john.doe@email.com', password: '' })
         .end((err, res) => {
           expect(res).to.have.status(400);
+          expect(res.body).to.have.property('error');
+          done(err);
+        });
+    });
+
+    specify('error if password provided is incorrect', (done) => {
+      chai
+        .request(app)
+        .post(`${authURI}/signin`)
+        .send({ email: 'john.doe@email.com', password: 'secr' })
+        .end((err, res) => {
+          expect(res).to.have.status(401);
           expect(res.body).to.have.property('error');
           done(err);
         });

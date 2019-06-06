@@ -9,7 +9,7 @@ const baseURI = '/api/v1';
 const authURI = '/api/v1/auth';
 
 let adminToken;
-const userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNhOWJkZThkLTYwZTctNDQwMS1iY2E1LWFhYTdlNzY2MWY4OCIsImVtYWlsIjoidWNoaWhhLm9iaXRvQGFrYXRzdWtpLm9yZyIsImlzYWRtaW4iOmZhbHNlLCJzdGF0dXMiOiJ1bnZlcmlmaWVkIiwiaWF0IjoxNTU5NDMyMDA3LCJleHAiOjE1NTk1MTg0MDd9.R4PHOg3DOli12JjaGL8yaWnFx77JAVbLdF5IpMB_9U8';
+const userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2OWUyNzVmLWJmYWUtNDA0Yy05MzU5LTIwMjcyZjRmNmM1YSIsImVtYWlsIjoidWNoaWhhLm9iaXRvQGFrYXRzdWtpLm9yZyIsImlzYWRtaW4iOmZhbHNlLCJzdGF0dXMiOiJ1bnZlcmlmaWVkIiwiaWF0IjoxNTU5NzQ2OTMzfQ.ZMTQ5QGTg1_1xozyUHpEPsfo8LCJSbgqWxyGRHussjk';
 
 describe('routes: /users', () => {
   context('GET /users', () => {
@@ -17,7 +17,7 @@ describe('routes: /users', () => {
       chai
         .request(app)
         .post(`${authURI}/signin`)
-        .send({ email: 'meetdesmond.edem@gmail.com', password: 'secret' })
+        .send({ email: 'admin@admin.com', password: 'admin' })
         .end((err, res) => {
           adminToken = res.body.data.token;
           done(err);

@@ -9,7 +9,7 @@ const { expect } = chai;
 const baseURI = '/api/v1';
 const authURI = '/api/v1/auth';
 
-let userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNhOWJkZThkLTYwZTctNDQwMS1iY2E1LWFhYTdlNzY2MWY4OCIsImVtYWlsIjoidWNoaWhhLm9iaXRvQGFrYXRzdWtpLm9yZyIsImlzYWRtaW4iOmZhbHNlLCJzdGF0dXMiOiJ1bnZlcmlmaWVkIiwiaWF0IjoxNTU5NDMyMDA3LCJleHAiOjE1NTk1MTg0MDd9.R4PHOg3DOli12JjaGL8yaWnFx77JAVbLdF5IpMB_9U8';
+let userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg2OWUyNzVmLWJmYWUtNDA0Yy05MzU5LTIwMjcyZjRmNmM1YSIsImVtYWlsIjoidWNoaWhhLm9iaXRvQGFrYXRzdWtpLm9yZyIsImlzYWRtaW4iOmZhbHNlLCJzdGF0dXMiOiJ1bnZlcmlmaWVkIiwiaWF0IjoxNTU5NzQ2OTMzfQ.ZMTQ5QGTg1_1xozyUHpEPsfo8LCJSbgqWxyGRHussjk';
 let adminToken;
 
 describe('routes: loan', () => {
@@ -18,7 +18,7 @@ describe('routes: loan', () => {
       chai
         .request(app)
         .post(`${authURI}/signin`)
-        .send({ email: 'meetdesmond.edem@gmail.com', password: 'secret' })
+        .send({ email: 'admin@admin.com', password: 'admin' })
         .end((err, res) => {
           adminToken = res.body.data.token;
           done(err);
@@ -63,47 +63,52 @@ describe('routes: loan', () => {
       });
     });
 
-    context('GET /loans/?status&repaid', () => {
-      it('should return all loans that are approved and fully repaid', (done) => {
+    context('GET /loans/?status', () => {
+      it('should return records specified in the status query (approved)', (done) => {
         chai
           .request(app)
-          .get(`${baseURI}/loans?status=approved&repaid=true`)
+          .get(`${baseURI}/loans/?status=approved`)
           .set('authorization', `Bearer ${adminToken}`)
           .end((err, res) => {
             expect(res).to.have.status(200);
-            done(err);
-          });
-      });
-
-      it('should return all loans that are approved and not fully repaid', (done) => {
-        chai
-          .request(app)
-          .get(`${baseURI}/loans?status=approved&repaid=false`)
-          .set('authorization', `Bearer ${adminToken}`)
-          .end((err, res) => {
-            expect(res).to.have.status(200);
+            expect(res.body).to.have.property('status');
             expect(res.body).to.have.property('data');
+            expect(res.body.data[0].status).to.equal('approved');
             done(err);
           });
       });
 
-      specify('error for invalid status value entered', (done) => {
+      it('should return records specified in the status query (rejected)', (done) => {
         chai
           .request(app)
-          .get(`${baseURI}/loans?status=rejected&repaid=true`)
+          .get(`${baseURI}/loans/?status=rejected`)
+          .set('authorization', `Bearer ${adminToken}`)
+          .end((err, res) => {
+            expect(res).to.have.status(200);
+            expect(res.body).to.have.property('status');
+            expect(res.body).to.have.property('data');
+            expect(res.body.data[0].status).to.equal('rejected');
+            done(err);
+          });
+      });
+
+      specify("error if status option provided is not 'approved'", (done) => {
+        chai
+          .request(app)
+          .get(`${baseURI}/loans/?status=approve`)
+          .set('authorization', `Bearer ${adminToken}`)
           .end((err, res) => {
             expect(res).to.have.status(400);
-            expect(res.body).to.have.property('status');
-            expect(res.body.status).to.eql(400);
             expect(res.body).to.have.property('error');
             done(err);
           });
       });
 
-      specify('error for invalid repaid value entered', (done) => {
+      specify("error if status option provided is not 'rejected'", (done) => {
         chai
           .request(app)
-          .get(`${baseURI}/loans?status=rejected&repaid=anytime`)
+          .get(`${baseURI}/loans/?status=reject`)
+          .set('authorization', `Bearer ${adminToken}`)
           .end((err, res) => {
             expect(res).to.have.status(400);
             expect(res.body).to.have.property('error');
@@ -114,7 +119,175 @@ describe('routes: loan', () => {
       specify('error if token is not provided', (done) => {
         chai
           .request(app)
-          .get(`${baseURI}/users`)
+          .get(`${baseURI}/loans/?status=approved`)
+          .set('authorization', '')
+          .end((err, res) => {
+            expect(res).to.have.status(401);
+            expect(res.body).to.have.property('error');
+            done(err);
+          });
+      });
+
+      specify('error if token provided is invalid', (done) => {
+        chai
+          .request(app)
+          .get(`${baseURI}/loans/?status=approved`)
+          .set('authorization', 'Bearer ')
+          .end((err, res) => {
+            expect(res).to.have.status(401);
+            expect(res.body).to.have.property('error');
+            done(err);
+          });
+      });
+
+      specify('error if an unauthorised request is made', (done) => {
+        chai
+          .request(app)
+          .get(`${baseURI}/loans/?status=approved`)
+          .set('authorization', `Bearer ${userToken}`)
+          .end((err, res) => {
+            expect(res).to.have.status(403);
+            expect(res.body).to.have.property('error');
+            done(err);
+          });
+      });
+    });
+
+    context('GET /loans/?repaid', () => {
+      it('should return records specified in the repaid (true) query', (done) => {
+        chai
+          .request(app)
+          .get(`${baseURI}/loans/?repaid=true`)
+          .set('authorization', `Bearer ${adminToken}`)
+          .end((err, res) => {
+            expect(res).to.have.status(200);
+            expect(res.body).to.have.property('status');
+            expect(res.body).to.have.property('data');
+            expect(res.body.data[0].repaid).to.equal(true);
+            done(err);
+          });
+      });
+
+      it('should return records specified in the repaid (false) query', (done) => {
+        chai
+          .request(app)
+          .get(`${baseURI}/loans/?repaid=false`)
+          .set('authorization', `Bearer ${adminToken}`)
+          .end((err, res) => {
+            expect(res).to.have.status(200);
+            expect(res.body).to.have.property('status');
+            expect(res.body).to.have.property('data');
+            expect(res.body.data[0].repaid).to.equal(false);
+            done(err);
+          });
+      });
+
+      specify("error if repaid option provided is not 'true'", (done) => {
+        chai
+          .request(app)
+          .get(`${baseURI}/loans/?repaid=trua`)
+          .set('authorization', `Bearer ${adminToken}`)
+          .end((err, res) => {
+            expect(res).to.have.status(400);
+            expect(res.body).to.have.property('error');
+            done(err);
+          });
+      });
+
+      specify('error if token is not provided', (done) => {
+        chai
+          .request(app)
+          .get(`${baseURI}/loans/?repaid=true`)
+          .set('authorization', '')
+          .end((err, res) => {
+            expect(res).to.have.status(401);
+            expect(res.body).to.have.property('error');
+            done(err);
+          });
+      });
+
+      specify('error if token provided is invalid', (done) => {
+        chai
+          .request(app)
+          .get(`${baseURI}/loans/?repaid=true`)
+          .set('authorization', 'Bearer ')
+          .end((err, res) => {
+            expect(res).to.have.status(401);
+            expect(res.body).to.have.property('error');
+            done(err);
+          });
+      });
+
+      specify('error if an unauthorised request is made', (done) => {
+        chai
+          .request(app)
+          .get(`${baseURI}/loans/?repaid=true`)
+          .set('authorization', `Bearer ${userToken}`)
+          .end((err, res) => {
+            expect(res).to.have.status(403);
+            expect(res.body).to.have.property('error');
+            done(err);
+          });
+      });
+    });
+
+    context('GET /loans/?status&repaid', () => {
+      it('should return all loans that are approved and fully repaid', (done) => {
+        chai
+          .request(app)
+          .get(`${baseURI}/loans?status=approved&repaid=true`)
+          .set('authorization', `Bearer ${adminToken}`)
+          .end((err, res) => {
+            expect(res).to.have.status(200);
+            expect(res.body).to.have.property('data');
+            expect(res.body.data[0].status).to.equal('approved');
+            expect(res.body.data[0].repaid).to.equal(true);
+            done(err);
+          });
+      });
+
+      it.skip('should return all loans that are approved and not fully repaid', (done) => {
+        chai
+          .request(app)
+          .get(`${baseURI}/loans?status=approved&repaid=false`)
+          .set('authorization', `Bearer ${adminToken}`)
+          .end((err, res) => {
+            expect(res).to.have.status(200);
+            expect(res.body).to.have.property('data');
+            expect(res.body.data[0].status).to.equal('approved');
+            expect(res.body.data[0].repaid).to.equal(false);
+            done(err);
+          });
+      });
+
+      specify('error for invalid status option entered', (done) => {
+        chai
+          .request(app)
+          .get(`${baseURI}/loans?status=approve&repaid=true`)
+          .end((err, res) => {
+            expect(res).to.have.status(400);
+            expect(res.body).to.have.property('status');
+            expect(res.body.status).to.eql(400);
+            expect(res.body).to.have.property('error');
+            done(err);
+          });
+      });
+
+      specify('error for invalid repaid option entered', (done) => {
+        chai
+          .request(app)
+          .get(`${baseURI}/loans?status=approve&repaid=anytime`)
+          .end((err, res) => {
+            expect(res).to.have.status(400);
+            expect(res.body).to.have.property('error');
+            done(err);
+          });
+      });
+
+      specify('error if token is not provided', (done) => {
+        chai
+          .request(app)
+          .get(`${baseURI}/loans?status=approved&repaid=false`)
           .set('authorization', '')
           .end((err, res) => {
             expect(res).to.have.status(401);
@@ -126,7 +299,7 @@ describe('routes: loan', () => {
       specify('error if an unauthorized request is made', (done) => {
         chai
           .request(app)
-          .get(`${baseURI}/users`)
+          .get(`${baseURI}/loans?status=approved&repaid=false`)
           .set('authorization', `Bearer ${userToken}`)
           .end((err, res) => {
             expect(res).to.have.status(403);
@@ -285,7 +458,7 @@ describe('routes: loan', () => {
     });
   });
 
-  describe('routes: User /loans', () => {
+  describe('routes: User POST/loans', () => {
     let loanData;
 
     context('POST /loans', () => {
@@ -293,7 +466,7 @@ describe('routes: loan', () => {
         chai
           .request(app)
           .post(`${authURI}/signin`)
-          .send({ email: 'meetdesmond.edem@gmail.com', password: 'secret' })
+          .send({ email: 'admin@admin.com', password: 'admin' })
           .end((err, res) => {
             adminToken = res.body.data.token;
             done(err);
@@ -309,19 +482,18 @@ describe('routes: loan', () => {
           .send(loanData)
           .end((err, res) => {
             expect(res).to.have.status(201);
-            done(err);
-          });
-      });
-
-      specify('error if token is not provided', (done) => {
-        loanData = { amount: 20000, tenor: 3 };
-        chai
-          .request(app)
-          .post(`${baseURI}/loans`)
-          .set('authorization', '')
-          .send(loanData)
-          .end((err, res) => {
-            expect(res).to.have.status(401);
+            expect(res.body).to.have.property('status');
+            expect(res.body.status).to.equal(201);
+            expect(res.body.data).to.have.property('id');
+            expect(res.body.data).to.have.property('email');
+            expect(res.body.data).to.have.property('createdon');
+            expect(res.body.data).to.have.property('status');
+            expect(res.body.data).to.have.property('repaid');
+            expect(res.body.data).to.have.property('tenor');
+            expect(res.body.data).to.have.property('amount');
+            expect(res.body.data).to.have.property('paymentinstallment');
+            expect(res.body.data).to.have.property('balance');
+            expect(res.body.data).to.have.property('interest');
             done(err);
           });
       });
@@ -382,6 +554,19 @@ describe('routes: loan', () => {
           });
       });
 
+      specify('error if token is not provided', (done) => {
+        loanData = { amount: 20000, tenor: 3 };
+        chai
+          .request(app)
+          .post(`${baseURI}/loans`)
+          .set('authorization', '')
+          .send(loanData)
+          .end((err, res) => {
+            expect(res).to.have.status(401);
+            done(err);
+          });
+      });
+
       specify('error if an unverified user tries to make a loan request', (done) => {
         loanData = { amount: 20000, tenor: 3 };
         chai
@@ -412,12 +597,12 @@ describe('routes: loan', () => {
     });
   });
 
-  describe('routes: /User /Loans', () => {
+  describe('routes: User GET/Loans', () => {
     before((done) => {
       chai
         .request(app)
         .post(`${authURI}/signin`)
-        .send({ email: 'uchiha.obito@akatsuki.org', password: 'secret' })
+        .send({ email: 'uchiha.obito@akatsuki.org', password: 'user' })
         .end((err, res) => {
           userToken = res.body.data.token;
           done(err);
@@ -431,6 +616,10 @@ describe('routes: loan', () => {
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           expect(res).to.have.status(200);
+          expect(res.body).to.have.property('status');
+          expect(res.body.status).to.equal(200);
+          expect(res.body).to.have.property('data');
+          expect(res.body.data).to.be.an('array');
           done(err);
         });
     });
@@ -442,6 +631,9 @@ describe('routes: loan', () => {
         .set('authorization', '')
         .end((err, res) => {
           expect(res).to.have.status(401);
+          expect(res.body).to.have.property('status');
+          expect(res.body.status).to.equal(401);
+          expect(res.body).to.have.property('error');
           done(err);
         });
     });

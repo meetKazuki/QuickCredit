@@ -22,30 +22,32 @@ export default class RepaymentController {
 
     const check = await DB.query(query);
     const newBalance = check.rows[0].balance - paidAmount;
-    const loanQuery = `UPDATE loans SET repaid=$1,balance=$2
-      WHERE id=$3 RETURNING *`;
+    const loanQuery = `UPDATE loans SET repaid=$1, balance=$2
+                      WHERE id=$3 RETURNING *`;
 
     if (newBalance <= 0) {
       repaid = true;
     } else check.rows[0].balance -= paidAmount;
 
-    const values = [repaid, newBalance, id];
-    const updateQuery = await DB.query(loanQuery, values);
-
+    const repayValues = [repaid, newBalance, id];
+    const updateQuery = await DB.query(loanQuery, repayValues);
     const insert = `INSERT into repayments(id, loanId, amount)
       VALUES($1, $2, $3) RETURNING *`;
-    const value = [uuidv4(), id, paidAmount];
-    const repayment = await DB.query(insert, value);
+    const paymentValues = [uuidv4(), id, paidAmount];
+    const repayment = await DB.query(insert, paymentValues);
 
     res.status(201).json({
-      message: 'Payment successful',
-      id: repayment.rows[0].id,
-      loandId: repayment.rows[0].loanid,
-      createdOn: repayment.rows[0].createdon,
-      paidAmount,
-      amount: updateQuery.rows[0].amount,
-      monthlyInstallment: updateQuery.rows[0].paymentinstallment,
-      balance: updateQuery.rows[0].balance,
+      status: 201,
+      message: 'Payment successfully made',
+      data: {
+        id: repayment.rows[0].id,
+        loanid: repayment.rows[0].loanid,
+        createdon: repayment.rows[0].createdon,
+        amount: updateQuery.rows[0].amount,
+        monthlyinstallment: updateQuery.rows[0].paymentinstallment,
+        paidamount: repayment.rows[0].amount,
+        balance: updateQuery.rows[0].balance,
+      },
     });
   }
 
@@ -71,11 +73,11 @@ export default class RepaymentController {
       return;
     }
 
-    const records = await DB.query(query);
-    if (!records.rows.length) {
+    const { rows, rowCount } = await DB.query(query);
+    if (rowCount < 1) {
       res.status(404).json({
         status: 404,
-        error: 'Loan record not found',
+        error: 'No repayment history for loan',
       });
       return;
     }
@@ -83,7 +85,7 @@ export default class RepaymentController {
     res.status(200).json({
       status: 200,
       message: 'Success',
-      data: records.rows,
+      data: [...rows],
     });
   }
 }
