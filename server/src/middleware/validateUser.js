@@ -16,28 +16,23 @@ export default class ValidateUser {
    */
   static validateProfileDetails(req, res, next) {
     req
-      .checkBody('firstname')
-      .notEmpty()
+      .checkBody('firstname').notEmpty()
       .withMessage('First name is required')
       .trim()
       .isLength({ min: 3, max: 15 })
       .withMessage('First name should be between 3 to 15 charcters')
       .isAlpha()
       .withMessage('First name should only contain alphabets');
-
     req
-      .checkBody('lastname')
-      .notEmpty()
+      .checkBody('lastname').notEmpty()
       .withMessage('Last name is required')
       .trim()
       .isLength({ min: 3, max: 15 })
       .withMessage('Last name should be between 3 to 15 charcters')
       .isAlpha()
       .withMessage('Last name should only contain alphabets');
-
     req
-      .checkBody('address')
-      .notEmpty()
+      .checkBody('address').notEmpty()
       .withMessage('Address field is required')
       .trim()
       .isLength({ min: 10, max: 50 })
@@ -45,26 +40,22 @@ export default class ValidateUser {
       // eslint-disable-next-line no-useless-escape
       .matches(/^[A-Za-z0-9\.\-\s\,]*$/)
       .withMessage('Invalid address format entered');
-
     req
-      .checkBody('email')
-      .notEmpty()
+      .checkBody('email').notEmpty()
       .withMessage('Email field is required')
       .trim()
       .isEmail()
       .withMessage('Invalid email address entered')
       .customSanitizer(email => email.toLowerCase());
-
     req
-      .checkBody('password')
-      .notEmpty()
+      .checkBody('password').notEmpty()
       .withMessage('Password is required')
       .trim()
       .isLength({ min: 6, max: 15 })
       .withMessage('Password must be between 6 to 15 characters');
     const errors = req.validationErrors();
     if (errors) {
-      res.status(422).json({ status: 422, error: errors[0].msg });
+      res.status(400).json({ status: 400, error: errors[0].msg });
       return;
     }
     next();
@@ -79,16 +70,14 @@ export default class ValidateUser {
    */
   static async validateLoginDetails(req, res, next) {
     req
-      .checkBody('email')
-      .notEmpty()
+      .checkBody('email').notEmpty()
       .withMessage('Email field is required')
       .trim()
       .isEmail()
       .withMessage('Invalid email address entered')
       .customSanitizer(email => email.toLowerCase());
     req
-      .checkBody('password')
-      .notEmpty()
+      .checkBody('password').notEmpty()
       .withMessage('Password field is required');
     const errors = req.validationErrors();
     if (errors) {
@@ -97,8 +86,8 @@ export default class ValidateUser {
     }
 
     const query = `SELECT * from users WHERE email='${req.body.email}'`;
-    const { rows } = await DB.query(query);
-    if (rows.length < 1) {
+    const { rows, rowCount } = await DB.query(query);
+    if (rowCount < 1) {
       res.status(401).json({ error: 'Email/Password is incorrect' });
       return;
     }

@@ -1,9 +1,9 @@
+import '@babel/polyfill';
 import path from 'path';
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import debug from 'debug';
-import '@babel/polyfill';
 import router from './routes';
 
 const app = express();

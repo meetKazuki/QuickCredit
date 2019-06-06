@@ -8,6 +8,8 @@
   <title>QuickCredit &mdash; User Dashboard</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   <link rel="stylesheet" href="assets/css/user-dashboard.css">
+  <script src="assets/js/utils/utils.js"></script>
+  <script>if (!isAuth()) window.location = 'signin.html';</script>
 </head>
 <body>
   <aside>
@@ -28,7 +30,7 @@
   <header>
   <nav>
     <a href="#"><i class="fas fa-bell"></i></a>
-    <a href="signin.html"><i class="fas fa-sign-out-alt"></i></a>
+    <a href="signin.html" id="signout"><i class="fas fa-sign-out-alt"></i></a>
   </nav>
   </header>
 
@@ -38,9 +40,9 @@
       <div class="profile">
         <div class="profile-card">
           <img src="https://user-images.githubusercontent.com/12225152/56541500-c868f480-6563-11e9-8e8b-4887a8f3727f.jpg" alt="profile-image" class="profile-image">
-          <p style="font-weight: bold"><strong>NAGATO PAIN</strong></p>
-          <p>Village Hidden by Rain, Amegakure</p>
-          <p style="text-transform: lowercase">nagato.pain@akatsuki.org</p>
+          <p style="font-weight: bold" id="fullname"></p>
+          <p id="address"></p>
+          <p style="text-transform: lowercase" id="email"></p>
         </div>
       </div>
 
@@ -48,54 +50,23 @@
         <table>
           <thead>
             <tr>
-              <th>Loan ID</th>
               <th>Date Created</th>
-              <th>Date Due</th>
-              <th>Payment</th>
+              <th>Amount</th>
+              <th>Interest</th>
+              <th>Tenor</th>
+              <th>Installment</th>
               <th>Balance</th>
               <th>Status</th>
+              <th>Repaid</th>
             </tr>
           </thead>
 
-          <tbody>
-            <tr>
-              <td>noarco5b1x</td>
-              <td>Thu May 23 2019</td>
-              <td>Thu May 23 2019</td>
-              <td>N25,000</td>
-              <td>N250,000</td>
-              <td>Ongoing</td>
-            </tr>
-            <tr>
-              <td>noarco5b1x</td>
-              <td>Thu May 23 2019</td>
-              <td>Thu May 23 2019</td>
-              <td>N25,000</td>
-              <td>N250,000</td>
-              <td>Ongoing</td>
-            </tr>
-            <tr>
-              <td>noarco5b1x</td>
-              <td>Thu May 23 2019</td>
-              <td>Thu May 23 2019</td>
-              <td>N25,000</td>
-              <td>N250,000</td>
-              <td>Ongoing</td>
-            </tr>
-            <tr>
-              <td>noarco5b1x</td>
-              <td>Thu May 23 2019</td>
-              <td>Thu May 23 2019</td>
-              <td>N25,000</td>
-              <td>N250,000</td>
-              <td>Ongoing</td>
-            </tr>
-          </tbody>
+          <tbody id="record-list"></tbody>
         </table>
       </div>
     </section>
   </main>
-
   <script src="assets/js/script.js"></script>
+  <script src="assets/js/userDashboard.js"></script>
 </body>
 </html>

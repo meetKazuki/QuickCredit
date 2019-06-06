@@ -13,6 +13,13 @@
 Quick Credit is an online lending platform that provides short term soft loans to individuals. It seeks to solve problems of
 financial inclusion as a way to alleviate poverty and empower low income earners.
 
+> Demo Users
+>
+> | Email Address               | Password  | Access        |
+> |-----------------------------|---------- |----------     |
+> | `admin@admin.com`           | admin     | Admin access  |
+> | `uchiha.obito@akatsuki.org` | user      | User access   |
+
 
 ## Features
 
@@ -118,15 +125,15 @@ Each response will be returned with one of the following HTTP status codes:
 
 #### Authentication
 
-| URI                       | HTTP Method | Description       |
-|-----                      |-------------|-------------      |
-| <code>/auth/signup</code> | `POST`      | Create an account |
-| <code>/auth/signin</code> | `POST`      | Log in to account |
+| URI                              | HTTP Method | Description       |
+|----------------------------------|-------------|-------------------|
+| <code>/api/v1/auth/signup</code> | `POST`      | Create an account |
+| <code>/api/v1/auth/signin</code> | `POST`      | Log-in to account |
 
 #### API Routes
 
 |         URI                                                 |  HTTP Method           |        Description                           |
-|-----                                                        |-------------           |-------------                                 |
+|-------------------------------------------------------------|------------------------|----------------------------------------------|
 | <code>/api/v1/users</code>                                  |       `GET`            | Fetch all Users                              |
 | <code>/api/v1/users/{email}</code>                          |       `GET`            | Fetch a single user by email                 |
 | <code>/api/v1/user/loans</code>                             |       `GET`            | Fetch all loans by a user                    |

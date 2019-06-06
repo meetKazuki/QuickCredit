@@ -13,18 +13,15 @@ export default class ValidateLoan {
    */
   static validateLoanApply(req, res, next) {
     req
-      .checkBody('amount')
-      .notEmpty()
+      .checkBody('amount').notEmpty()
       .withMessage('Enter amount')
       .trim()
       .isNumeric()
       .withMessage('Amount should be an integer')
       .isLength({ min: 5, max: 7 })
       .withMessage('Amount should not be less than 10,000');
-
     req
-      .checkBody('tenor')
-      .notEmpty()
+      .checkBody('tenor').notEmpty()
       .withMessage('Tenor is required')
       .trim()
       .isNumeric()
@@ -48,18 +45,14 @@ export default class ValidateLoan {
    * @returns
    */
   static validateQueryOptions(req, res, next) {
-    req.checkQuery('status')
-      .optional()
-      .isAlpha()
+    req.checkQuery('status').optional().isAlpha()
       .withMessage('Invalid status entered!')
-      .equals('approved')
-      .withMessage('Invalid status specified!');
-    req.checkQuery('repaid')
-      .optional()
-      .isAlpha()
-      .withMessage('Invalid repaid type entered!')
-      .matches(/^(true|false)$/)
-      .withMessage('Invalid repaid entered');
+      .matches(/^(approved|rejected|pending)$/)
+      .withMessage('Invalid status option specified!');
+    req.checkQuery('repaid').optional().isAlpha()
+      .withMessage('Invalid repaid entered!')
+      .matches(/^(true|t|false|f)$/)
+      .withMessage('Invalid repaid option specified');
 
     const errors = req.validationErrors();
     if (errors) {

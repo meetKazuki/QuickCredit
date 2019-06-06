@@ -21,10 +21,10 @@ export default class LoanController {
       email,
       interest: 0.05 * parseInt(amount, 10),
       get paymentInstallment() {
-        return ((parseInt(amount, 10) + this.interest) / parseInt(tenor, 10));
+        return (parseInt(amount, 10) + this.interest) / parseInt(tenor, 10);
       },
       get balance() {
-        return (parseInt(this.paymentInstallment, 10) * parseInt(tenor, 10));
+        return parseInt(this.paymentInstallment, 10) * parseInt(tenor, 10);
       },
       status: 'pending',
       repaid: false,
@@ -62,11 +62,11 @@ export default class LoanController {
           loan.balance,
         ];
 
-        const create = await DB.query(insertQuery, values);
+        const { rows } = await DB.query(insertQuery, values);
         res.status(201).json({
           status: 201,
           message: 'Loan request created successfully',
-          data: create.rows,
+          data: rows[0],
         });
         return;
       }
@@ -90,26 +90,46 @@ export default class LoanController {
    * @returns {object} JSON API Response
    */
   static async getAllLoans(req, res) {
-    const statusQuery = 'SELECT * FROM loans WHERE status=$1 AND repaid=$2';
-    const loansQuery = 'SELECT * FROM loans';
-
     const { status, repaid } = req.query;
-    if (status && JSON.parse(repaid)) {
-      const values = [status, repaid];
-      const record = await DB.query(statusQuery, values);
+    let query;
+
+    if (status && repaid) {
+      query = `SELECT * FROM loans WHERE status='${status}' AND repaid='${repaid}'`;
+      const { rows } = await DB.query(query);
       res.status(200).json({
         status: 200,
         message: 'Success',
-        data: [record.rows[0]],
+        data: [...rows],
+      });
+      return;
+    }
+    if (status) {
+      query = `SELECT * FROM loans WHERE status='${status}'`;
+      const { rows } = await DB.query(query);
+      res.status(200).json({
+        status: 200,
+        message: 'Success',
+        data: [...rows],
+      });
+      return;
+    }
+    if (repaid) {
+      query = `SELECT * FROM loans WHERE repaid='${repaid}'`;
+      const { rows } = await DB.query(query);
+      res.status(200).json({
+        status: 200,
+        message: 'Success',
+        data: [...rows],
       });
       return;
     }
 
-    const records = await DB.query(loansQuery);
+    query = 'SELECT * FROM loans';
+    const { rows } = await DB.query(query);
     res.status(200).json({
       status: 200,
       message: 'Success',
-      data: records.rows,
+      data: [...rows],
     });
   }
 
@@ -124,8 +144,8 @@ export default class LoanController {
     const { id } = req.params;
     const query = `SELECT * FROM loans WHERE id='${id}'`;
 
-    const record = await DB.query(query);
-    if (record.rowCount <= 0) {
+    const { rows, rowCount } = await DB.query(query);
+    if (rowCount < 1) {
       res.status(404).json({
         status: 404,
         error: 'Loan record not found',
@@ -135,7 +155,7 @@ export default class LoanController {
     res.status(200).json({
       status: 200,
       message: 'Success',
-      data: record.rows[0],
+      data: rows[0],
     });
   }
 
@@ -181,7 +201,7 @@ export default class LoanController {
 
   /**
    * @method viewUserLoans
-   * @description Fetches all loan applications for a particular user
+   * @description Fetches all loan requests for a particular user
    * @param {object} req Request object
    * @param {object} res Response object
    * @returns {object} JSON API Response
@@ -190,11 +210,11 @@ export default class LoanController {
     const { email } = req.user;
     const query = `SELECT * FROM loans WHERE email='${email}'`;
 
-    const loanRecords = await DB.query(query);
+    const { rows } = await DB.query(query);
     res.status(200).json({
       status: 200,
       message: 'Success',
-      data: loanRecords.rows,
+      data: [...rows],
     });
   }
 }

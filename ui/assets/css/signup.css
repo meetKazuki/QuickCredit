@@ -32,7 +32,7 @@ label {
 }
 label span {
   color: #f06543;
-  font-size: 18px;
+  font-size: 16px;
 }
 input,
 button {
@@ -101,6 +101,7 @@ section > p a:hover {
 }
 .container {
   align-self: center;
+  margin-bottom: 1rem;
   width: 45%;
 }
 .form-container {
@@ -146,6 +147,97 @@ section > p a:hover {
   outline-color: rgba(255, 255, 255, 0);
   outline-offset: 15px;
   text-shadow: 1px 1px 2px #427388;
+}
+
+/** Loader Styles **/
+.spinner-dots {
+  height: 0;
+  margin: auto;
+  opacity: 0;
+  position: fixed;
+  z-index: -1;
+  width: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.spinner-dot {
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.spinner-dot:before,
+.spinner-dot:after {
+  content: "";
+  width: 22px;
+  height: 22px;
+  border-radius: 50px;
+  background: #C5EFF7;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-14px);
+  margin-left: -11px;
+  margin-top: -11px;
+}
+.spinner-dot:after {
+  transform: translateX(14px);
+}
+@keyframes spinner-dots-move-0 {
+  0% {
+    transform: translateX(-14px) rotate(0deg);
+  }
+  50%, 100% {
+    transform: translateX(-14px) rotate(180deg);
+  }
+}
+@keyframes spinner-dots-visibility-0 {
+  0% {
+    visibility: visible;
+  }
+  50%, 100% {
+    visibility: hidden;
+  }
+}
+.spinner-dot:nth-child(1) {
+  transform: translateX(-14px) rotate(0deg);
+  animation: spinner-dots-move-0 0.7s -0s ease-in infinite;
+}
+.spinner-dot:nth-child(1):before {
+  animation: spinner-dots-visibility-0 0.7s -0s infinite;
+}
+@keyframes spinner-dots-move-1 {
+  0% {
+    transform: translateX(14px) rotate(180deg);
+  }
+  50%, 100% {
+    transform: translateX(14px) rotate(0deg);
+  }
+}
+@keyframes spinner-dots-visibility-1 {
+  0% {
+    visibility: visible;
+  }
+  50%, 100% {
+    visibility: hidden;
+  }
+}
+.spinner-dot:nth-child(2) {
+  transform: translateX(14px) rotate(0deg);
+  animation: spinner-dots-move-1 0.7s -0.35s ease-in infinite;
+}
+.spinner-dot:nth-child(2):before {
+  animation: spinner-dots-visibility-1 0.7s -0.35s infinite;
+}
+.spinner-hide {
+  visibility: hidden;
+}
+.spinner-show {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+  z-index: 1000;
 }
 
 /*** --- Media Queries --- ***/

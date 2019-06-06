@@ -313,15 +313,15 @@ A User object has the following attributes:
     + Body
 
             {
-                  "message": "Login successful!",
-                  "data": {
-                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImEwYzVlMTQ1LTI0ZWItNGFjMi04YjZkLWU4NWRmOGE1MzUwZiIsImVtYWlsIjoibWVldGRlc21vbmQuZWRlbUBnbWFpbC5jb20iLCJpc2FkbWluIjp0cnVlLCJzdGF0dXMiOiJ2ZXJpZmllZCIsImlhdCI6MTU1OTE4MDc2NCwiZXhwIjoxNTU5MjY3MTY0fQ.F0dVU1GRYQebOdDrIYSSvl9nSPuf9Mv4rJ0V9JPkTWs",
-                    "id": "a0c5e145-24eb-4ac2-8b6d-e85df8a5350f",
-                    "firstname": "Desmond",
-                    "lastname": "Edem",
-                    "email": "meetdesmond.edem@gmail.com",
-                    "isadmin": true
-                  }
+                "message": "Login successful!",
+                "data": {
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImEwYzVlMTQ1LTI0ZWItNGFjMi04YjZkLWU4NWRmOGE1MzUwZiIsImVtYWlsIjoibWVldGRlc21vbmQuZWRlbUBnbWFpbC5jb20iLCJpc2FkbWluIjp0cnVlLCJzdGF0dXMiOiJ2ZXJpZmllZCIsImlhdCI6MTU1OTE4MDc2NCwiZXhwIjoxNTU5MjY3MTY0fQ.F0dVU1GRYQebOdDrIYSSvl9nSPuf9Mv4rJ0V9JPkTWs",
+                  "id": "a0c5e145-24eb-4ac2-8b6d-e85df8a5350f",
+                  "firstname": "Desmond",
+                  "lastname": "Edem",
+                  "email": "meetdesmond.edem@gmail.com",
+                  "isadmin": true
+                }
             }
 
 + Request (application/json)
@@ -817,7 +817,7 @@ A Loan object has the following attributes:
                 "error": "The id parameter must be a number"
             }
 
-### Create a new Loan Request [POST /loans]
+### Create a new Loan Request [POST /api/v1/loans]
 
 As an authenticated user, you can create a new loan request.
 It takes a JSON object containing the applicant's firstname, lastname, email and tenor. You also
