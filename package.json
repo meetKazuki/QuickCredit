@@ -15,7 +15,7 @@
     "start:dev": "set DEBUG=http && cross-env NODE_ENV=dev babel-watch ./server/src/app.js",
     "start:migrate": "cross-env NODE_ENV=dev npm run db:migrate",
     "start:seed": "cross-env NODE_ENV=dev npm run db:seed",
-    "test": "cross-env NODE_ENV=test \"npm run db:seed && nyc mocha ./server/test/* -r @babel/register -r @babel/polyfill --exit\""
+    "test": "cross-env-shell NODE_ENV=test \"npm run db:seed && nyc mocha ./server/test/* -r @babel/register -r @babel/polyfill --exit\""
   },
   "repository": {
     "type": "git",
@@ -59,6 +59,6 @@
     "uuid": "^3.3.2"
   },
   "engines": {
-    "node": "10.15.1"
+    "node": "10.x"
   }
 }
