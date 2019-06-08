@@ -31,9 +31,7 @@ export default class LoanController {
     };
 
     try {
-      const loanQuery = `SELECT * FROM loans WHERE email='${email}'`;
       const userQuery = `SELECT * FROM users WHERE email='${email}'`;
-
       const userStatus = await DB.query(userQuery);
       if (userStatus.rows[0].status !== 'verified') {
         res.status(401).json({
@@ -43,6 +41,7 @@ export default class LoanController {
         return;
       }
 
+      const loanQuery = `SELECT * FROM loans WHERE email='${email}'`;
       const verify = await DB.query(loanQuery);
       if (
         !verify.rows.length || verify.rows[verify.rows.length - 1].repaid === true
