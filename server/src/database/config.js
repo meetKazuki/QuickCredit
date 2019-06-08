@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 const env = process.env.ENV || process.env.NODE_ENV;
-console.log('environment ->', env);
 
 const DBConfig = {
   test: {

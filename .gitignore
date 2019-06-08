@@ -61,12 +61,11 @@ typings/
 .next
 
 # others
+build/
+.vscode/
 *.png
 *.jpg
-.vscode/
-build/
 apiary.apib
-
-todo.md
 dump.js
 OOP-Demo.js
+todo.md

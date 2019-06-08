@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
     <link rel="stylesheet" href="assets/css/admin-users.css"/>
     <script src="assets/js/utils/utils.js"></script>
-    <script>if (!isAuth()) window.location = 'signin.html'</script>
+    <script>if (!isAuth()) window.location = 'signin.html';</script>
   </head>
   <body>
     <aside>
@@ -50,13 +50,13 @@
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Home Address</th>
-                <th>Registered</th>
+                <th>Status</th>
                 <th></th>
               </tr>
             </thead>
 
             <tbody id="user-list">
-              <tr>
+            <!-- <tr>
                 <td>Desmond</td>
                 <td>Edem</td>
                 <td>12 McNeil Street, Sabo-Yaba, Lagos</td>
@@ -67,85 +67,13 @@
                     <button class="btn-action btn-verified"><i class="fas fa-user-check"></i> <span>verified</span></button>
                   </div>
                 </td>
-              </tr>
-              <tr>
-                <td>Kakuzu</td>
-                <td>Takigakure</td>
-                <td>494-6867 Aliquet Av.</td>
-                <td>Thu May 23 2019</td>
-                <td>
-                    <div class="wrapper">
-                      <button class="btn-action btn-info"><i class="fas fa-eye"></i> <span><a href="user-dashboard.html">view</a></span></button>
-                      <button class="btn-action btn-verify"><i class="fas fa-user-check"></i> <span>verify</span></button>
-                    </div>
-                  </td>
-              </tr>
-              <tr>
-                <td>Kisame</td>
-                <td>Hoshigaki</td>
-                <td>1757 Nibh. Ave</td>
-                <td>Thu May 23 2019</td>
-                <td>
-                  <div class="wrapper">
-                    <button class="btn-action btn-info"><i class="fas fa-eye"></i> <span><a href="user-dashboard.html">view</a></span></button>
-                    <button class="btn-action btn-verified"><i class="fas fa-user-check"></i> <span>verified</span></button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Hashirama</td>
-                <td>Senju</td>
-                <td>133-7275 A, Avenue</td>
-                <td>Thu May 23 2019</td>
-                <td>
-                  <div class="wrapper">
-                    <button class="btn-action btn-info"><i class="fas fa-eye"></i> <span><a href="user-dashboard.html">view</a></span></button>
-                    <button class="btn-action btn-verified"><i class="fas fa-user-check"></i> <span>verified</span></button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Itachi</td>
-                <td>Uchiha</td>
-                <td>4410 Molestie Road</td>
-                <td>Thu May 23 2019</td>
-                <td>
-                  <div class="wrapper">
-                    <button class="btn-action btn-info"><i class="fas fa-eye"></i> <span>view</span></button>
-                    <button class="btn-action btn-verify"><i class="fas fa-user-check"></i> <span>verify</span></button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Madara</td>
-                <td>Uchiha</td>
-                <td>3058 Cubilia Road</td>
-                <td>Thu May 23 2019</td>
-                <td>
-                  <div class="wrapper">
-                    <button class="btn-action btn-info"><i class="fas fa-eye"></i> <span>view</span></button>
-                    <button class="btn-action btn-verify"><i class="fas fa-user-check"></i> <span>verify</span></button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>Kabuto</td>
-                <td>Yakushi</td>
-                <td>Ap #354-4520 Cras Rd.</td>
-                <td>Thu May 23 2019</td>
-                <td>
-                  <div class="wrapper">
-                    <button class="btn-action btn-info"><i class="fas fa-eye"></i> <span>view</span></button>
-                    <button class="btn-action btn-verify"><i class="fas fa-user-check"></i> <span>verify</span></button>
-                  </div>
-                </td>
-              </tr>
+              </tr> -->
             </tbody>
           </table>
         </div>
       </section>
     </main>
-
-    <script src="assets/js/script.js"></script>
   </body>
+  <script src="assets/js/script.js"></script>
+  <script src="assets/js/getUsers.js"></script>
 </html>
