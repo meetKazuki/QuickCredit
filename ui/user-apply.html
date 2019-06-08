@@ -8,6 +8,8 @@
   <title>QuickCredit &mdash; Apply for Loan</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   <link rel="stylesheet" href="assets/css/user-apply.css">
+  <script src="assets/js/utils/utils.js"></script>
+  <script>if (!isAuth()) window.location = 'signin.html';</script>
 </head>
 <body>
   <aside>
@@ -15,8 +17,7 @@
     <button class="hamburger-menu"><a class="hamburger"></a></button>
     <div class="asidebar-logo">
       <a href="./">
-        <img src="https://user-images.githubusercontent.com/12225152/57765850-2bcaea00-76fe-11e9-8d2a-0871c4a5980c.png"
-          alt="logo" class="logo">
+        <img src="https://user-images.githubusercontent.com/12225152/57765850-2bcaea00-76fe-11e9-8d2a-0871c4a5980c.png" alt="logo" class="logo">
       </a>
     </div>
     <nav class="navbar-menu">
@@ -29,54 +30,39 @@
   <header>
     <nav>
       <a href="#"><i class="fas fa-bell"></i></a>
-      <a href="signin.html"><i class="fas fa-sign-out-alt"></i></a>
+      <a href="signin.html" id="signout"<i class="fas fa-sign-out-alt"></i></a>
     </nav>
   </header>
 
   <main>
     <h2 class="section-title">Loan Request</h2>
-    <form action="#" class="form-container">
-      <!-- <div class="form-element-wrapper"></div> -->
-      <label for="firstName">Enter Full Name <span>*</span></label>
-      <input type="text" name="fullname" class="form-element" id="fullName" placeholder="Your Full Name" required>
-
-      <label for="work-address">Enter Work Address <span>*</span></label>
-      <input type="text" name="work-address" class="form-element" id="work-address" placeholder="Your Work Address" required>
-
-      <label for="address">Enter Home Address <span>*</span></label>
-      <input type="text" name="home-address" class="form-element" id="home-address" placeholder="Your Home Address" required>
-
-      <label for="email">Enter Email <span>*</span></label>
-      <input type="text" name="email" class="form-element" id="email" placeholder="Your email Address">
-
-      <div class="form-element-wrapper">
+    <form method="POST" class="form-container" id="form">
         <label for="amount">Enter Amount <span>*</span></label>
-        <input type="number" name="amount" class="form-element" id="amount" placeholder="Enter Amount">
+        <input type="number" name="amount" class="form-element" id="amount" placeholder="Enter Amount" required>
 
-        <select name="tenor" id="tenor" class="form-element" required>
+        <label for="tenor">Specify Loan Tenor <span>*</span></label>
+        <input type="number" name="tenor" class="form-element" id="tenor" placeholder="Specify loan tenor" required>
+      <!-- <select name="tenor" id="tenor" class="form-element" required>
           <option default disabled>-- Select loan duration --</option>
           <option value="3-months">3 months</option>
           <option value="6-months">6 months</option>
           <option value="12-months">12 months</option>
-        </select>
-      </div>
+        </select> -->
 
-      <div class="form-element-wrapper">
+        <!-- <label for="tenor">Enter Account Number <span>*</span></label>
         <input type="number" class="form-element" id="accountNumber" placeholder="Your Account Number" required>
 
+        <label for="tenor">Specify Account Type <span>*</span></label>
         <select name="accountType" id="accountType" class="form-element" required>
           <option default disabled>-- Select account type --</option>
           <option value="current">Current</option>
           <option value="savings">Savings</option>
-        </select>
-      </div>
+        </select> -->
 
-      <button class="btn btn-secondary">Request For Loan</button>
+      <button class="btn btn-secondary" type="submit">Request For Loan</button>
     </form>
   </main>
-
   <script src="assets/js/script.js"></script>
+  <script src="assets/js/createLoan.js"></script>
 </body>
 </html>
-
-<!--<div class="form-element-wrapper"></div> -->

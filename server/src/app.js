@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// app.use(morgan(':method :url :status :response-time ms'));
+app.use(morgan(':method :url :status :response-time ms'));
 
 app.use(cors());
 app.options('*', cors());

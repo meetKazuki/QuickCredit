@@ -42,9 +42,9 @@ button {
   text-align: left;
   text-decoration: none;
 }
-/* button {
+button {
   cursor: pointer;
-} */
+}
 label {
   color: #1667A0;
   font-weight: 500;
@@ -158,7 +158,7 @@ main {
   display: flex;
   flex-direction: column;
   margin-top: 1rem;
-  padding: 10px 5px;
+  padding: 0px 10px 20px;
   width: 55%;
 }
 .form-element-wrapper {
@@ -169,7 +169,7 @@ main {
 }
 .form-element {
   margin-bottom: 0.7rem;
-  padding-left: 0.2rem;
+  padding: 0.2rem;
 }
 .btn {
   border-radius: 4px;
