@@ -333,6 +333,7 @@ td .wrapper {
     padding-left: 50%;
   }
   td:before {
+    font-weight: bolder;
     position: absolute;
     left: 6px;
     width: 45%;
@@ -343,6 +344,5 @@ td .wrapper {
   td:nth-of-type(1):before { content: "First Name"; }
   td:nth-of-type(2):before { content: "Last Name"; }
   td:nth-of-type(3):before { content: "Home Address"; }
-  td:nth-of-type(4):before { content: "Registered"; }
-  td:nth-of-type(7):before { content: "Status"; }
+  td:nth-of-type(4):before { content: "Status"; }
 }
