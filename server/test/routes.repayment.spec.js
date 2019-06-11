@@ -37,7 +37,7 @@ describe('routes: repayment', () => {
         .request(app)
         .post(`${baseURI}/loans/${loanedId}/repayment`)
         .set('authorization', `Bearer ${adminToken}`)
-        .send({ loanId: loanedId, paidAmount: 7000 })
+        .send({ loanId: loanedId, paidAmount: 10500 })
         .end((err, res) => {
           expect(res).to.have.status(201);
           expect(res.body).to.have.property('data');
@@ -56,7 +56,7 @@ describe('routes: repayment', () => {
         .request(app)
         .post(`${baseURI}/loans/${loanedId}/repayment`)
         .set('authorization', '')
-        .send({ loanId: loanedId, paidAmount: 7000 })
+        .send({ loanId: loanedId, paidAmount: 10500 })
         .end((err, res) => {
           expect(res).to.have.status(401);
           expect(res.body).to.have.property('error');
@@ -69,7 +69,7 @@ describe('routes: repayment', () => {
         .request(app)
         .post(`${baseURI}/loans/${loanedId}/repayment`)
         .set('authorization', `Bearer ${userToken}`)
-        .send({ loanId: loanedId, paidAmount: 7000 })
+        .send({ loanId: loanedId, paidAmount: 10500 })
         .end((err, res) => {
           expect(res).to.have.status(401);
           expect(res.body).to.have.property('error');
@@ -77,12 +77,12 @@ describe('routes: repayment', () => {
         });
     });
 
-    specify('error if id parameter for loan does not exist', (done) => {
+    specify('error if id for loan does not exist', (done) => {
       chai
         .request(app)
         .post(`${baseURI}/loans/50622358-a6d8-4659-9d90-706d7e074c09/repayment`)
         .set('authorization', `Bearer ${adminToken}`)
-        .send({ loanId: '50622358-a6d8-4659-9d90-706d7e074c09', paidAmount: 7000 })
+        .send({ loanId: '50622358-a6d8-4659-9d90-706d7e074c09', paidAmount: 10500 })
         .end((err, res) => {
           expect(res).to.have.status(404);
           expect(res.body).to.have.property('error');

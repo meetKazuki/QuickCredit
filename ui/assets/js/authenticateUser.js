@@ -1,17 +1,6 @@
-/**
- * Hide/Show Spinner
- */
-const spinner = document.querySelector('.spinner-dots');
-function showSpinner() {
-  spinner.className = 'spinner-show';
-  setTimeout(() => {
-    spinner.className = spinner.className.replace('spinner-show', 'spinner-hide');
-  }, 15000);
-}
-
 function displayProgress(selector, text) {
-  // eslint-disable-next-line no-param-reassign
-  selector.innerHTML = text;
+  const target = selector;
+  target.innerHTML = text;
 }
 
 function authenticateUser(userObj, endpoint) {
@@ -45,7 +34,7 @@ function authenticateUser(userObj, endpoint) {
         localStorage.setItem('role', defaultRole);
         window.location.href = defaultPage;
       } else {
-        displayProgress(element, defaultText);
+        displayProgress(element, 'Request Failed!');
       }
     })
     .catch((error) => {

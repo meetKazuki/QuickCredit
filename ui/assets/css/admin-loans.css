@@ -142,4 +142,36 @@ a {
   .btn-repay {
     margin-top: 15px;
   }
+
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  tr {
+    border: 1px solid #ccc;
+    padding: 0;
+  }
+  td {
+    border: none;
+    border-bottom: 1px solid #eeeeee;
+    position: relative;
+    padding-left: 40%;
+  }
+  td:before {
+    font-weight: bolder;
+    position: absolute;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+  td:nth-of-type(1):before { content: "User"; }
+  td:nth-of-type(2):before { content: "Date Created"; }
+  td:nth-of-type(3):before { content: "Amount"; }
+  td:nth-of-type(4):before { content: "Status"; }
+  td:nth-of-type(5):before { content: "Repaid"; }
 }
