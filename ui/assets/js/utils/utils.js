@@ -1,4 +1,21 @@
 /**
+ * Set environment configuration
+ */
+window.env = {
+  APP_ENV: 'production',
+  API_URI: '',
+};
+
+if (
+  window.location.hostname === '127.0.0.1'
+  || window.location.hostname === 'localhost'
+  || window.location.protocol === 'file:'
+) {
+  window.env.APP_ENV = 'develop';
+  window.env.API_URI = 'http://localhost:4500';
+}
+
+/**
  * Check if user credentials is in the system
  */
 function isAuth() {
@@ -6,16 +23,19 @@ function isAuth() {
 }
 
 /**
- * Get user homepage
+ * Returns homepage
  */
-const isHomePage = window.location.pathname === '/'
-                || window.location.pathname === '/ui/'
-                || window.location.href.includes('index');
+function isHome() {
+  const homePage = window.location.pathname === '/'
+            || window.location.pathname === '/ui/'
+            || window.location.href.includes('index');
+  return homePage;
+}
 
 /**
  * Change landing page for authenticated user
  */
-if (localStorage.getItem('token') && isHomePage) {
+if (isAuth() && isHome()) {
   document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('signin').remove();
     document.getElementById('signup').textContent = 'Continue';
@@ -33,7 +53,7 @@ if (localStorage.getItem('token') && isHomePage) {
 /**
  * Handle logout event
  */
-if (localStorage.getItem('token')) {
+if (isAuth()) {
   document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('signout').addEventListener('click', (e) => {
       e.preventDefault();

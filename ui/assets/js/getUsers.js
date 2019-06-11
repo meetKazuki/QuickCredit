@@ -1,4 +1,18 @@
 /**
+ * Return Local Date/Time
+ */
+function convertUTCToLocalTime(timeString) {
+  const dateObj = new Date(timeString);
+  const formatDate = new Intl.DateTimeFormat('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  }).format(dateObj);
+
+  return formatDate;
+}
+
+/**
  * Render User List
  */
 function renderUserRecords(recordObj) {
@@ -42,11 +56,9 @@ function getUsers() {
   })
     .then(response => response.json())
     .then((responseObj) => {
-      console.log(responseObj);
       const userRecords = responseObj.data;
       return userRecords.map(user => renderUserRecords(user));
     })
     .catch(error => alert(error));
 }
-
 getUsers();

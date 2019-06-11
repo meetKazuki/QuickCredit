@@ -246,7 +246,7 @@ describe('routes: loan', () => {
           });
       });
 
-      it.skip('should return all loans that are approved and not fully repaid', (done) => {
+      it('should return all loans that are approved and not fully repaid', (done) => {
         chai
           .request(app)
           .get(`${baseURI}/loans?status=approved&repaid=false`)
