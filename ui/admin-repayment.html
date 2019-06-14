@@ -6,51 +6,60 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>QuickCredit &mdash; Admin</title>
+
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"/>
   <link rel="stylesheet" href="assets/css/admin-repayment.css">
+
+  <script src="assets/js/utils/utils.js"></script>
+  <script>if (!isAuth()) window.location = 'signin.html';</script>
 </head>
 <body>
   <aside>
-      <div class="modal-toggle"></div>
-      <button class="hamburger-menu"><a class="hamburger"></a></button>
-      <div class="asidebar-logo">
-        <a href="./">
-          <img src="https://user-images.githubusercontent.com/12225152/57765850-2bcaea00-76fe-11e9-8d2a-0871c4a5980c.png"alt="logo" class="logo">
-        </a>
-      </div>
-      <nav class="navbar-menu">
-        <a href="admin-users.html"><i class="fas fa-users-cog"></i> Manage Users
-        </a>
-        <a href="admin-loans.html"><i class="fas fa-money-check"></i> Manage Loans</a>
-        <a href="admin-repayment.html" class="active"><i class="fas fa-landmark"></i> Loan Repayments</a>
-      </nav>
-    </aside>
+    <div class="modal-toggle"></div>
+    <button class="hamburger-menu"><a class="hamburger"></a></button>
+    <div class="asidebar-logo">
+      <a href="./">
+        <img src="https://user-images.githubusercontent.com/12225152/57765850-2bcaea00-76fe-11e9-8d2a-0871c4a5980c.png" alt="logo" class="logo">
+      </a>
+    </div>
+    <nav class="navbar-menu">
+      <a href="admin-users.html">
+        <i class="fas fa-users-cog"></i>Manage Users
+      </a>
+      <a href="admin-loans.html">
+        <i class="fas fa-money-check"></i>Manage Loans
+      </a>
+      <a href="admin-repayment.html" class="active">
+        <i class="fas fa-landmark"></i>Manage Repayments
+      </a>
+    </nav>
+  </aside>
 
   <header>
     <nav>
       <a href="#"><i class="fas fa-bell"></i></a>
-      <a href="signin.html"><i class="fas fa-sign-out-alt"></i></a>
+      <a href="signin.html" id="signout"><i class="fas fa-sign-out-alt"></i></a>
     </nav>
   </header>
 
   <main>
     <h2 class="section-title">Post Loan Repayment</h2>
     <section class="container">
-      <form action="#" class="form-container">
-        <label for="loanID">Enter Loan ID<span>*</span></label>
-        <input type="text" name="loanID" class="form-element" placeholder="Loan ID" required>
+      <form method="POST" class="form-container" id="form">
+        <label for="loanId">Enter Loan ID<span>*</span></label>
+        <input type="text" name="loanId" id="loanId" class="form-element" placeholder="Loan ID" required>
 
-        <label for="dateCreated">Enter Date of Payment<span>*</span></label>
-        <input type="datetime" name="dateCreated" class="form-element" placeholder="Date of Payment" required>
+        <!-- <label for="dateCreated">Enter Date of Payment<span>*</span></label>
+        <input type="datetime" name="dateCreated" class="form-element" placeholder="Date of Payment" required> -->
 
         <label for="amount">Enter amount<span>*</span></label>
-        <input type="text" name="amount" class="form-element" placeholder="Amount paid" required>
+        <input type="number" name="amount" id="amount" class="form-element" placeholder="Amount paid" required>
 
-        <button class="btn btn-secondary">Post Repayment</button>
+        <button class="btn btn-secondary" type="submit">Post Repayment</button>
       </form>
     </section>
   </main>
-
-  <script src="assets/js/script.js"></script>
 </body>
+<script src="assets/js/script.js"></script>
+<script src="assets/js/createRepayment.js"></script>
 </html>
