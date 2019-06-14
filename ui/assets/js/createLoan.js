@@ -7,7 +7,7 @@ function createLoan(body) {
   const url = 'http://localhost:4500/api/v1/loans';
   const token = window.localStorage.getItem('token');
   const element = document.querySelector('button[type=submit]');
-  const defaultText = element.textContent;
+  // const defaultText = element.textContent;
 
   displayProgress(element, 'Processing request...');
 
