@@ -33,7 +33,15 @@ function renderLoanRecords(recordObj) {
   const list = document.getElementById('record-list');
   const row = document.createElement('tr');
   const {
-    createdon, amount, interest, tenor, paymentinstallment, balance, status, repaid,
+    id,
+    createdon,
+    amount,
+    interest,
+    tenor,
+    paymentinstallment,
+    balance,
+    status,
+    repaid,
   } = recordObj;
 
   row.innerHTML = `
@@ -47,6 +55,9 @@ function renderLoanRecords(recordObj) {
     <td>${repaid}</td>
   `;
   row.setAttribute('data-record', JSON.stringify(recordObj));
+  row.setAttribute('onclick', `getRepayments('${id}')`);
+  row.style.cursor = 'pointer';
+
   return list.appendChild(row);
 }
 
@@ -71,5 +82,20 @@ function getUserLoans() {
     })
     .catch(error => alert(error));
 }
-
 getUserLoans();
+
+function getRepayments(id) {
+  const url = `http://localhost:4500/api/v1/loans/${id}/repayments`;
+  const token = window.localStorage.getItem('token');
+
+  return fetch(url, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => response.json())
+    .then(responseObj => console.log(responseObj))
+    .catch(error => alert(error));
+}
