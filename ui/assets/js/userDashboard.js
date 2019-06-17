@@ -54,9 +54,9 @@ function renderLoanRecords(recordObj) {
     <td>${status}</td>
     <td>${repaid}</td>
   `;
+  row.style.cursor = 'pointer';
   row.setAttribute('data-record', JSON.stringify(recordObj));
   row.setAttribute('onclick', `getRepayments('${id}')`);
-  row.style.cursor = 'pointer';
 
   return list.appendChild(row);
 }
