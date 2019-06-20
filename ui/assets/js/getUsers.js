@@ -19,7 +19,7 @@ function renderUserRecords(recordObj) {
   const list = document.getElementById('user-list');
   const row = document.createElement('tr');
   const {
-    firstname, lastname, address, status,
+    firstname, lastname, address, email, status,
   } = recordObj;
 
   row.innerHTML = `
@@ -29,7 +29,9 @@ function renderUserRecords(recordObj) {
     <td>${status}</td>
     <td>
       <div class="wrapper">
-        <button class="btn-action btn-info"><i class="fas fa-eye"></i></button>
+        <button class="btn-action btn-info" onclick="getUser('${email}')">
+          <i class="fas fa-eye"></i>
+        </button>
         <button class="btn-action btn-verified">
           <i class="fas fa-user-check"></i> <span>verified</span>
         </button>
@@ -62,3 +64,19 @@ function getUsers() {
     .catch(error => alert(error));
 }
 getUsers();
+
+function getUser(email) {
+  const url = `http://localhost:4500/api/v1/users/${email}`;
+  const token = window.localStorage.getItem('token');
+
+  return fetch(url, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => response.json())
+    .then(responseObj => console.log(responseObj))
+    .catch(error => alert(error));
+}
