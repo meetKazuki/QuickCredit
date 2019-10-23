@@ -68,4 +68,5 @@ build/
 apiary.apib
 dump.js
 OOP-Demo.js
+package-lock.json
 todo.md
